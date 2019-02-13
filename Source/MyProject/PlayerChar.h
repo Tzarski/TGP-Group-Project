@@ -9,7 +9,7 @@
 #include "../Plugins/2D/Paper2D/Source/Paper2D/Classes/PaperSpriteComponent.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
-
+#include "Globals.h"
 #include "DrawDebugHelpers.h"
 #include "PlayerChar.generated.h"
 
@@ -31,9 +31,12 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
+	FTimerHandle    handle;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	class UPaperSpriteComponent* defaultsprite;
-
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Spawn Points")
+	AGlobals* GlobalVars;
+	void TakeDamage();
 	void moveupdown(float dir);
 	void moveleftright(float dir);
 };

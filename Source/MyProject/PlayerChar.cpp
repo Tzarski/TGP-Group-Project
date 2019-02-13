@@ -5,6 +5,7 @@
 #include "Runtime/Core/Public/Containers/UnrealString.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "SpawnRoom.h"
+#include "Runtime/Engine/Classes/GameFramework/Actor.h"
 // Sets default values
 APlayerChar::APlayerChar(const FObjectInitializer& PCIP) : Super(PCIP)
 {
@@ -13,6 +14,7 @@ APlayerChar::APlayerChar(const FObjectInitializer& PCIP) : Super(PCIP)
 	defaultsprite = PCIP.CreateDefaultSubobject<UPaperSpriteComponent>(this, TEXT("default sprite"));
 	defaultsprite->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Art/Gen/player_Sprite.player_Sprite'")).Object);
 	defaultsprite->SetupAttachment(RootComponent);
+	defaultsprite->SetSpriteColor(FLinearColor(255, 255, 255, 1));
 	GetCharacterMovement()->GravityScale = 0;
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 }
@@ -21,14 +23,34 @@ APlayerChar::APlayerChar(const FObjectInitializer& PCIP) : Super(PCIP)
 void APlayerChar::BeginPlay()
 {
 	Super::BeginPlay();
-	GEngine->AddOnScreenDebugMessage(10, 5.f, FColor::Red, FString::Printf(TEXT("char ")));
+
+	TArray<AActor*> foundCharacter;
+
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AGlobals::StaticClass(), foundCharacter);
+	for (AActor* protag : foundCharacter)
+	{
+		GlobalVars = Cast<AGlobals>(protag);
+	}
+	
 }
 
+
+void APlayerChar::TakeDamage()
+{
+	defaultsprite->SetSpriteColor(FLinearColor(255, 0, 0, 1));
+//	GetWorldTimerManager().SetTimer(this, &defaultsprite->SetSpriteColor(FLinearColor(255, 255, 255, 1)), 5.0f, false);
+
+	GetWorld()->GetTimerManager().SetTimer(handle, [this]() {	defaultsprite->SetSpriteColor(FLinearColor(255, 255, 255, 1));}, 3, false);
+	
+	
+
+}
 // Called every frame
 void APlayerChar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	if(GetWorld()->GetTimerManager().GetTimerElapsed(handle) > 3)
+	GetWorld()->GetTimerManager().ClearTimer(handle);
 }
 
 void APlayerChar::moveupdown(float dir)
@@ -42,7 +64,7 @@ void APlayerChar::moveupdown(float dir)
 	FCollisionShape MyColSphere = FCollisionShape::MakeSphere(5.0f);
 	bool isHit = GetWorld()->SweepMultiByChannel(OutHits, SweepStart + FVector(0, 0, 60 * dir), SweepEnd + FVector(0, 0, 60 * dir), FQuat::Identity, ECC_WorldStatic, MyColSphere);
 	bool cantmove = false;
-	
+	TakeDamage();
 	if (isHit)
 	{
 		for (auto& Hit : OutHits)
@@ -72,8 +94,14 @@ void APlayerChar::moveupdown(float dir)
 }
 void APlayerChar::moveleftright(float dir)
 {
+
 	if (dir == 0)
+	{
+		GlobalVars->CanPlayerUseDoor = true;
 		return;
+
+	}
+	
 	TArray<FHitResult> OutHits;
 	FVector SweepStart = GetActorLocation();
 	FVector SweepEnd = GetActorLocation();
@@ -94,9 +122,19 @@ void APlayerChar::moveleftright(float dir)
 				}
 				if (Hit.Actor->GetName().Contains("door", ESearchCase::IgnoreCase, ESearchDir::FromStart))
 				{
+					if (!GlobalVars->CanPlayerUseDoor)
+					{
+						cantmove = true;
+						continue;
+					}
+						
+					GlobalVars->CanPlayerUseDoor = false;
 					TArray<AActor*> FoundActors;
 					UGameplayStatics::GetAllActorsOfClass(GetWorld(), ASpawnRoom::StaticClass(), FoundActors);
-					Cast<ASpawnRoom>(FoundActors[0])->SpawnRoom(2);
+					if(dir == 1)
+						Cast<ASpawnRoom>(FoundActors[0])->SpawnRoom(-1);
+					else
+						Cast<ASpawnRoom>(FoundActors[0])->SpawnRoom(1);
 					cantmove = true;
 					return;
 				}

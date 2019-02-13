@@ -36,32 +36,36 @@ void AEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-
+	if (player == NULL)
+	{
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerChar::StaticClass(), foundCharacter);
+		for (AActor* protag : foundCharacter)
+		{
+			player = Cast<APlayerChar>(protag);
+		}
+		return;
+	}
+		
 	FVector location = player->GetActorLocation();
 	
-	if (location.X > this->GetActorLocation().X + 5)
+	if (location.X > this->GetActorLocation().X + 3)
 	{
-		defaultsprite->AddLocalOffset(FVector(5, 0, 0), true, NULL, ETeleportType::None);
-	//	RootComponent->AddLocalOffset()
-		//this->SetActorLocation(FVector(this->GetActorLocation().X + 5, this->GetActorLocation().Y, this->GetActorLocation().Z ));
+		defaultsprite->AddLocalOffset(FVector(3, 0, 0), true, NULL, ETeleportType::None);
 	}
 
-	if (location.X < this->GetActorLocation().X - 5)
+	if (location.X < this->GetActorLocation().X - 3)
 	{
-		defaultsprite->AddLocalOffset(FVector(-5, 0, 0), true, NULL, ETeleportType::None);
-		//this->SetActorLocation(FVector(this->GetActorLocation().X - 5, this->GetActorLocation().Y, this->GetActorLocation().Z));
+		defaultsprite->AddLocalOffset(FVector(-3, 0, 0), true, NULL, ETeleportType::None);
 	}
 
-	if (location.Z > this->GetActorLocation().Z + 5)
+	if (location.Z > this->GetActorLocation().Z + 3)
 	{
-		defaultsprite->AddLocalOffset(FVector(0, 0, 5), true, NULL, ETeleportType::None);
-		//this->SetActorLocation(FVector(this->GetActorLocation().X, this->GetActorLocation().Y, this->GetActorLocation().Z + 5));
+		defaultsprite->AddLocalOffset(FVector(0, 0, 3), true, NULL, ETeleportType::None);
 	}
 
-	if (location.Z < this->GetActorLocation().Z - 5)
+	if (location.Z < this->GetActorLocation().Z - 3)
 	{
-		defaultsprite->AddLocalOffset(FVector(0, 0, -5), true, NULL, ETeleportType::None);
-		//this->SetActorLocation(FVector(this->GetActorLocation().X, this->GetActorLocation().Y, this->GetActorLocation().Z - 5));
+		defaultsprite->AddLocalOffset(FVector(0, 0, -3), true, NULL, ETeleportType::None);
 	}
 
 
