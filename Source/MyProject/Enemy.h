@@ -24,10 +24,12 @@ protected:
 	virtual void BeginPlay() override;
 	TArray<AActor*> foundCharacter;
 	class APlayerChar * player;
+	bool dead = false;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
+	void Hit();
 	
 	class UPaperSpriteComponent* defaultsprite;
 };

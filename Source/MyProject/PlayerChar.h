@@ -5,6 +5,8 @@
 
 #include <EngineGlobals.h>
 #include <Runtime/Engine/Classes/Engine/Engine.h>
+#include "../Plugins/2D/Paper2D/Source/Paper2D/Classes/PaperFlipbook.h"
+#include "../Plugins/2D/Paper2D/Source/Paper2D/Classes/PaperFlipbookComponent.h"
 #include "../Plugins/2D/Paper2D/Source/Paper2D/Classes/PaperSprite.h"
 #include "../Plugins/2D/Paper2D/Source/Paper2D/Classes/PaperSpriteComponent.h"
 #include "GameFramework/Character.h"
@@ -31,12 +33,16 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
+	int direction;//1 = left// 2 = right//3 = up// 4 = down
 	FTimerHandle    handle;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	class UPaperSpriteComponent* defaultsprite;
+	class UPaperFlipbookComponent* defaultflipbook;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Spawn Points")
 	AGlobals* GlobalVars;
 	void TakeDamage();
 	void moveupdown(float dir);
 	void moveleftright(float dir);
+	void Attack(float dir);
+	bool attacking;
 };

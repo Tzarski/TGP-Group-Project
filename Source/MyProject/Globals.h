@@ -24,6 +24,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Spawn Points")
 	int health = 2;
-	bool CanPlayerUseDoor = false;
+	
 	
 };

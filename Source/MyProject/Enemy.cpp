@@ -31,11 +31,20 @@ void AEnemy::BeginPlay()
 	}
 }
 
+void AEnemy::Hit()
+{
+	dead = true;
+	FTimerHandle    handle;
+	defaultsprite->SetSpriteColor(FLinearColor(1, 0.1, 0.1, 1));
+	GetWorld()->GetTimerManager().SetTimer(handle, [this]() {	this->Destroy(); }, 1, false);
+}
+
 // Called every frame
 void AEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	if (dead)
+		return;
 	if (player == NULL)
 	{
 		UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerChar::StaticClass(), foundCharacter);
