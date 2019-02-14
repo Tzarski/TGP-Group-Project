@@ -47,10 +47,15 @@ void APlayerChar::BeginPlay()
 
 void APlayerChar::TakeDamage()
 {
+	if (dead)
+		return;
+	if (defaultsprite->GetSpriteColor() == FLinearColor(255, 0, 0, 1))
+		return;
+
 	defaultsprite->SetSpriteColor(FLinearColor(255, 0, 0, 1));
-//	GetWorldTimerManager().SetTimer(this, &defaultsprite->SetSpriteColor(FLinearColor(255, 255, 255, 1)), 5.0f, false);
+
 	GlobalVars->health--;
-	GetWorld()->GetTimerManager().SetTimer(handle, [this]() {	defaultsprite->SetSpriteColor(FLinearColor(255, 255, 255, 1));}, 3, false);
+	GetWorld()->GetTimerManager().SetTimer(handle1, [this]() {	defaultsprite->SetSpriteColor(FLinearColor(255, 255, 255, 1));}, 2, false);
 	
 	
 
@@ -59,8 +64,12 @@ void APlayerChar::TakeDamage()
 void APlayerChar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if(GetWorld()->GetTimerManager().GetTimerElapsed(handle1) > 2)
+		GetWorld()->GetTimerManager().ClearTimer(handle1);
 	if(GetWorld()->GetTimerManager().GetTimerElapsed(handle) > 3)
 		GetWorld()->GetTimerManager().ClearTimer(handle);
+	if (dead)
+		return;
 	if (!attacking)
 		return;
 	TArray<FHitResult> OutHits;
@@ -90,6 +99,8 @@ void APlayerChar::Tick(float DeltaTime)
 
 void APlayerChar::moveupdown(float dir)
 {
+	if (dead)
+		return;
 	if (attacking)
 		return;
 	if (dir == 0)
@@ -141,7 +152,8 @@ void APlayerChar::moveupdown(float dir)
 }
 void APlayerChar::moveleftright(float dir)
 {
-
+	if (dead)
+		return;
 	if (attacking)
 		return;
 	if (dir == 0)		
@@ -202,9 +214,11 @@ void APlayerChar::moveleftright(float dir)
 
 void APlayerChar::Attack(float dir)
 {
+
 	if (dir != 1)
 		return;
-
+	if (dead)
+		return;
 	if (!attacking)
 	{
 		attacking = true;

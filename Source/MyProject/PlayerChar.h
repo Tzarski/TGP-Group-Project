@@ -35,14 +35,17 @@ public:
 	// Called to bind functionality to input
 	int direction;//1 = left// 2 = right//3 = up// 4 = down
 	FTimerHandle    handle;
+	FTimerHandle    handle1;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	class UPaperSpriteComponent* defaultsprite;
 	class UPaperFlipbookComponent* defaultflipbook;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Spawn Points")
-	AGlobals* GlobalVars;
+		AGlobals* GlobalVars;
 	void TakeDamage();
 	void moveupdown(float dir);
 	void moveleftright(float dir);
 	void Attack(float dir);
 	bool attacking;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Spawn Points")
+		bool dead;
 };

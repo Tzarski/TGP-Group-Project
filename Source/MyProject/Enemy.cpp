@@ -54,28 +54,54 @@ void AEnemy::Tick(float DeltaTime)
 		}
 		return;
 	}
-		
+	if (player->dead)
+		return;
+	//DrawDebugSphere(GetWorld(), this->GetActorLocation(), 70, 70, FColor::Red, true, 2, 0, 10);
+
+	TArray<FHitResult> OutHits;
+	FVector SweepStart = this->GetActorLocation();
+	FVector SweepEnd = this->GetActorLocation();
+	FCollisionShape MyColSphere = FCollisionShape::MakeSphere(70.0f);
+
+	bool isHit = GetWorld()->SweepMultiByChannel(OutHits, SweepStart, SweepEnd, FQuat::Identity, ECC_WorldStatic, MyColSphere);
+	bool cantmove = false;
+
+	if (isHit)
+	{
+		for (auto& Hit : OutHits)
+		{
+			if (GEngine)
+			{
+				if (Hit.Actor->GetName().Contains("player", ESearchCase::IgnoreCase, ESearchDir::FromStart))
+				{
+					Cast<APlayerChar>(Hit.Actor)->TakeDamage();
+					
+					return;
+				}
+			}
+		}
+	}
 	FVector location = player->GetActorLocation();
-	
-	if (location.X > this->GetActorLocation().X + 3)
+	if (location.X > this->GetActorLocation().X + 4)
 	{
 		defaultsprite->AddLocalOffset(FVector(3, 0, 0), true, NULL, ETeleportType::None);
 	}
 
-	if (location.X < this->GetActorLocation().X - 3)
+	if (location.X < this->GetActorLocation().X - 4)
 	{
 		defaultsprite->AddLocalOffset(FVector(-3, 0, 0), true, NULL, ETeleportType::None);
 	}
 
-	if (location.Z > this->GetActorLocation().Z + 3)
+	if (location.Z > this->GetActorLocation().Z + 4)
 	{
 		defaultsprite->AddLocalOffset(FVector(0, 0, 3), true, NULL, ETeleportType::None);
 	}
 
-	if (location.Z < this->GetActorLocation().Z - 3)
+	if (location.Z < this->GetActorLocation().Z - 4)
 	{
 		defaultsprite->AddLocalOffset(FVector(0, 0, -3), true, NULL, ETeleportType::None);
 	}
+
 
 
 }

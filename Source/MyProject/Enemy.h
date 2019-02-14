@@ -30,6 +30,6 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	void Hit();
-	
+	bool moved;
 	class UPaperSpriteComponent* defaultsprite;
 };
