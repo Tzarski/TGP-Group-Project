@@ -10,6 +10,7 @@
 #include "PlayerChar.h"
 #include "Enemy.generated.h"
 
+
 UCLASS()
 class MYPROJECT_API AEnemy : public AActor
 {
