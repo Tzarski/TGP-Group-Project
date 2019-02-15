@@ -9,7 +9,7 @@ AAStar::AAStar()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	size = 50;
 }
 
 // Called when the game starts or when spawned
@@ -18,14 +18,18 @@ void AAStar::BeginPlay()
 	Super::BeginPlay();
 	
 	int f = 0;
-	while (f < 30)
+	int loop = 0;
+	while (f < 15)
 	{
-		for (int i = 0; i < 100; i++)
+		for (int i = 0; i < 50; i++)
 		{
-			TestSquare(i * 25, 1, -f * 25);
+			
+			if( TestSquare(i * size, 1, -f * size, loop))
+				loop++;
 		}
 		f++;
 	}
+	
 	TArray<AActor*> foundCharacter;
 
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerChar::StaticClass(), foundCharacter);
@@ -40,54 +44,56 @@ void AAStar::BeginPlay()
 	{
 		enemy = Cast<AEnemy>(protag);
 	}
+	
 	int FDistance = 99999;
-	FVector start = FVector(1,1,1);
-	for (FVector position : CanWalkList)
+	FNodes start = FNodes();
+	for (FNodes node : CanWalkList)
 	{
-		if (FVector::Distance(position, player->GetActorLocation()) < FDistance)
+		if (FVector::Distance(node.position, player->GetActorLocation()) < FDistance)
 		{
-			start = position;
-			FDistance = FVector::Distance(position, player->GetActorLocation());
+			start = node;
+			FDistance = FVector::Distance(node.position, player->GetActorLocation());
 		}
 	}
 
 	int EDistance = 99999;
-	FVector end = FVector(1, 1, 1);
-	for (FVector position : CanWalkList)
+	FNodes end = FNodes();
+	for (FNodes node : CanWalkList)
 	{
-		if (FVector::Distance(position, enemy->GetActorLocation()) < EDistance)
+		if (FVector::Distance(node.position, enemy->GetActorLocation()) < EDistance)
 		{
-			end = position;
-			EDistance = FVector::Distance(position, enemy->GetActorLocation());
+			end = node;
+			EDistance = FVector::Distance(node.position, enemy->GetActorLocation());
 		}
 	}
-	CanWalkList.Remove(start);
-	//CanWalkList.Remove(end);
+	basiclist = CanWalkList;
+	GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::Green, FString::Printf(TEXT("looping %i, %i"), basiclist.Num(), CanWalkList.Num()));
 	int distancesofar = 1;
-	DrawDebugBox(GetWorld(), start, FVector(25, 25, 25), FColor::Purple, false, 100, 0, 10);
-	DrawDebugBox(GetWorld(), end, FVector(25, 25, 25), FColor::Orange, false, 100, 0, 10);
-	FVector current = start;
-	if (CanWalkList.Contains(current + FVector(25, 0, 0)))
-		neighbours.Add(current + FVector(25, 0, 0));
-	if (CanWalkList.Contains(current + FVector(-25, 0, 0)))
-		neighbours.Add(current + FVector(-25, 0, 0));
-	if (CanWalkList.Contains(current + FVector(0, 0, 25)))
-		neighbours.Add(current + FVector(0, 0, 25));
-	if (CanWalkList.Contains(current + FVector(0, 0, -25)))
-		neighbours.Add(current + FVector(0, 0, -25));
+	//DrawDebugBox(GetWorld(), start.position, FVector(size, size, size), FColor::Purple, false, 100, 0, 10);
+	//DrawDebugBox(GetWorld(), end.position, FVector(size, size, size), FColor::Orange, false, 100, 0, 10);
+	FNodes current = start;
+	
+	if (CanWalkList.Contains(current.position + FVector(size, 0, 0)))
+		neighbours.Add(FNodes(current.position + FVector(size, 0, 0), current.position + FVector(0, 0, -size), current.myNumber, CanWalkList.Find(FNodes(current.position + FVector(size, 0, 0)))));
+	if (CanWalkList.Contains(current.position + FVector(-size, 0, 0)))
+		neighbours.Add(FNodes(current.position + FVector(-size, 0, 0), current.position + FVector(0, 0, -size), current.myNumber, CanWalkList.Find(FNodes(current.position + FVector(-size, 0, 0)))));
+	if (CanWalkList.Contains(current.position + FVector(0, 0, size)))
+		neighbours.Add(FNodes(current.position + FVector(0, 0, size), current.position + FVector(0, 0, -size), current.myNumber, CanWalkList.Find(FNodes(current.position + FVector(0, 0, size)))));
+	if (CanWalkList.Contains(current.position + FVector(0, 0, -size)))
+		neighbours.Add(FNodes(current.position + FVector(0, 0, -size), current.position + FVector(0, 0, -size), current.myNumber, CanWalkList.Find(FNodes(current.position + FVector(0, 0, -size)))));
 	bool pathfound = false;
 	int loops = 0;
-	FVector bestneighbour = current;
-
+	FNodes bestneighbour = current;
+	
 	while (!pathfound)
 	{
 		loops++;
-		if (loops > 1000)
+		if (loops > 3)
 			break;
 		int FDistance = 99999;
-		for (FVector currents : neighbours)
+		for (FNodes currents : neighbours)
 		{
-			int CDistance = FVector::Distance(currents, end) + FVector::Distance(currents, start) + distancesofar;
+			int CDistance = FVector::Distance(currents.position, end.position) + FVector::Distance(currents.position, start.position) + (distancesofar * 5);
 			if (CDistance < FDistance)
 			{
 				bestneighbour = currents;
@@ -95,52 +101,69 @@ void AAStar::BeginPlay()
 			}
 		}
 		distancesofar++;
-		allpossible.Add(FNodes(bestneighbour,current, allpossible.Num() - 1));
-		neighbours.Remove(bestneighbour);
+		basiclist[basiclist.Find(FNodes(bestneighbour.position))].lastpos = current.myNumber;
+		end.lastpos = current.myNumber;
+		//neighbours.Remove(bestneighbour);
 	
 		current = bestneighbour;
-		if (current == end)
+		if (current.position == end.position)
 		{
 			pathfound = true;
+			break;
 		}
 		CanWalkList.Remove(current);
+		if (CanWalkList.Contains(current.position + FVector(size, 0, 0)) && !neighbours.Contains(current.position + FVector(size, 0, 0)))
+			neighbours.Add(basiclist[basiclist.Find(FNodes(current.position + FVector(size, 0, 0)))] );
+		if (CanWalkList.Contains(current.position + FVector(-size, 0, 0)) && !neighbours.Contains(current.position + FVector(size, 0, 0)))
+			neighbours.Add(basiclist[basiclist.Find(FNodes(current.position + FVector(-size, 0, 0)))]);
+		if (CanWalkList.Contains(current.position + FVector(0, 0, size)) && !neighbours.Contains(current.position + FVector(size, 0, 0)))
+			neighbours.Add(basiclist[basiclist.Find(FNodes(current.position + FVector(0, 0, size)))]);
+		if (CanWalkList.Contains(current.position + FVector(0, 0, -size)) && !neighbours.Contains(current.position + FVector(size, 0, 0)))
+			neighbours.Add(basiclist[basiclist.Find(FNodes(current.position + FVector(0, 0, -size)))]);
 
-	if(CanWalkList.Contains(current + FVector(25, 0, 0)) && !neighbours.Contains(current + FVector(25, 0, 0)) )
-		neighbours.Add( current + FVector(25, 0, 0));
-	if (CanWalkList.Contains(current + FVector(-25, 0, 0)) && !neighbours.Contains(current + FVector(25, 0, 0)))
-		neighbours.Add( current + FVector(-25, 0, 0));
-	if (CanWalkList.Contains(current + FVector(0, 0, 25)) && !neighbours.Contains(current + FVector(25, 0, 0)))
-		neighbours.Add( current + FVector(0, 0, 25));
-	if (CanWalkList.Contains(current + FVector(0, 0, -25)) && !neighbours.Contains(current + FVector(25, 0, 0)))
-		neighbours.Add( current + FVector(0, 0, -25));
+
+
+
+
 	}
-
-	FVector posA = FVector(1, 1, 1);
-	posA = allpossible[allpossible.Num() - 1].position;
+	//
+	//return;
+	FNodes posA = FNodes();
+	posA = end;
 	int next;
-	next = allpossible[allpossible.Num() - 1].lastpos;
+	next = end.lastpos;
 	loops = 0;
-	while (posA != start)
+	/*for (FNodes node : allpossible)
 	{
+		DrawDebugBox(GetWorld(), node.position, FVector(size, size, size), FColor(loops, 0, 0, 1), false, 100, 0, 10);
+	}*/
+	//GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::Red, FString::Printf(TEXT("looping %i, %i, %i"), posA.lastpos, posA.myNumber, start.myNumber));
+	while (posA.myNumber != start.myNumber)
+	{
+	
 		loops++;
-		if (loops > 20)
-			break;
-		posA = allpossible[next].position;
-		next = allpossible[next].lastpos;
-		DrawDebugBox(GetWorld(), posA, FVector(25, 25, 25), FColor::Green, false, 100, 0, 10);
+		if (loops > 100)
+			return;
+		DrawDebugBox(GetWorld(), posA.position, FVector(50, 50, 50), FColor(loops * 10, 0, 0, 1), false, 100, 0, 10);
+		GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::Red, FString::Printf(TEXT("looping %i, %i, %i, %i, %i"), pathfound ? 1 : 2, loop, posA.lastpos, posA.myNumber, start.myNumber));
+
+		posA = basiclist[next];
+		next = basiclist[next].lastpos;
+		
+		
 	}
 	
 	
-
+	
 
 
 }
 
-void AAStar::TestSquare(float x, float y, float z)
+bool AAStar::TestSquare(float x, float y, float z, int loop)
 {
 	TArray<FHitResult> OutHits;
 	FVector SweepStart = FVector(x,y,z);
-	FCollisionShape MyColCube = FCollisionShape::MakeBox(FVector(25, 25, 25));
+	FCollisionShape MyColCube = FCollisionShape::MakeBox(FVector(size, size, size));
 	bool isHit = GetWorld()->SweepMultiByChannel(OutHits, SweepStart, SweepStart, FQuat::Identity, ECC_WorldStatic, MyColCube);
 	bool gothit = false;
 	bool gothit2 = false;
@@ -164,8 +187,11 @@ void AAStar::TestSquare(float x, float y, float z)
 		}
 	}
 	if (gothit && !gothit2)
-		CanWalkList.Add(SweepStart);
-
+	{
+		CanWalkList.Add(FNodes(SweepStart, loop));
+		return true;
+	}
+	return false;
 }
 // Called every frame
 void AAStar::Tick(float DeltaTime)
