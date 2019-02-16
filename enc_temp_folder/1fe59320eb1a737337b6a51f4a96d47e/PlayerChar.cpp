@@ -47,7 +47,7 @@ void APlayerChar::BeginPlay()
 
 void APlayerChar::TakeDamage()
 {
-	if (dead || GlobalVars->paused)
+	if (dead)
 		return;
 	if (defaultsprite->GetSpriteColor() == FLinearColor(255, 0, 0, 1))
 		return;
@@ -68,7 +68,7 @@ void APlayerChar::Tick(float DeltaTime)
 		GetWorld()->GetTimerManager().ClearTimer(handle1);
 	if(GetWorld()->GetTimerManager().GetTimerElapsed(handle) > 3)
 		GetWorld()->GetTimerManager().ClearTimer(handle);
-	if (dead || GlobalVars->paused)
+	if (dead)
 		return;
 	if (!attacking)
 		return;
@@ -99,7 +99,7 @@ void APlayerChar::Tick(float DeltaTime)
 
 void APlayerChar::moveupdown(float dir)
 {
-	if (dead || GlobalVars->paused)
+	if (dead)
 		return;
 	if (attacking)
 		return;
@@ -152,7 +152,7 @@ void APlayerChar::moveupdown(float dir)
 }
 void APlayerChar::moveleftright(float dir)
 {
-	if (dead || GlobalVars->paused)
+	if (dead)
 		return;
 	if (attacking)
 		return;
@@ -214,14 +214,10 @@ void APlayerChar::moveleftright(float dir)
 
 void APlayerChar::Attack(float dir)
 {
-	if (dir == -1)
-	{
-		GlobalVars->paused = !GlobalVars->paused;
-	}
+
 	if (dir != 1)
 		return;
-	
-	if (dead || GlobalVars->paused)
+	if (dead)
 		return;
 	if (!attacking)
 	{

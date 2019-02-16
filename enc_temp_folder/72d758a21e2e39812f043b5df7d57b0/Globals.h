@@ -24,7 +24,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Spawn Points")
 	int health = 2;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Spawn Points")
-	bool paused;
+	
 	
 };

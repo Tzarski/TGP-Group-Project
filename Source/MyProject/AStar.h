@@ -23,6 +23,8 @@ struct FNodes
 	FVector lastposition;
 	int lastpos;
 	int myNumber;
+	bool checked = false;
+	bool walkable = false;
 	struct FNodes()
 	{
 		position = FVector(1, 1, 1);
@@ -93,8 +95,10 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	bool TestSquare(float x, float y, float z,int loop);
-	TArray<FNodes> neighbours;
+	TArray<int> neighbours;
 	TArray<FNodes> allpossible;
+	TArray<FNodes> closed;
+	TArray<int> searched;
 	TArray<FNodes> basiclist;
 	TArray<FNodes> CanWalkList;
 	class APlayerChar * player;

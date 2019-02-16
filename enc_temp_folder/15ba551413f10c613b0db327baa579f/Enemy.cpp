@@ -43,7 +43,7 @@ void AEnemy::Hit()
 void AEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (dead )
+	if (dead)
 		return;
 	if (player == NULL)
 	{

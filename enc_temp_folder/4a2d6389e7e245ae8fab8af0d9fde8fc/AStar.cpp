@@ -16,7 +16,7 @@ AAStar::AAStar()
 void AAStar::BeginPlay()
 {
 	Super::BeginPlay();
-	return;
+	
 	int f = 0;
 	int loop = 0;
 	while (f < 30)
@@ -46,24 +46,23 @@ void AAStar::BeginPlay()
 	}
 	
 	int FDistance = 99999;
-	FNodes end = FNodes();
 	FNodes start = FNodes();
 	for (FNodes node : CanWalkList)
 	{
 		if (FVector::Distance(node.position, player->GetActorLocation()) < FDistance)
 		{
-			end = node;
+			start = node;
 			FDistance = FVector::Distance(node.position, player->GetActorLocation());
 		}
 	}
 
 	int EDistance = 99999;
-	
+	FNodes end = FNodes();
 	for (FNodes node : CanWalkList)
 	{
 		if (FVector::Distance(node.position, enemy->GetActorLocation()) < EDistance)
 		{
-			start = node;
+			end = node;
 			EDistance = FVector::Distance(node.position, enemy->GetActorLocation());
 		}
 	}
@@ -138,7 +137,7 @@ void AAStar::BeginPlay()
 		for (int currents : neighbours)
 		{
 			loopes++;
-			int CDistance = FVector::Distance(basiclist[currents].position, end.position) + FVector::Distance(basiclist[currents].position, start.position) + distancesofar;
+			int CDistance = FVector::Distance(basiclist[currents].position, end.position) + FVector::Distance(basiclist[currents].position, start.position);
 			if (CDistance <= FDistance)
 			{
 				
@@ -172,46 +171,46 @@ void AAStar::BeginPlay()
 			if (basiclist[current + 1].walkable && !searched.Contains(basiclist[current + 1].myNumber))
 			{
 				searched.Add(basiclist[current + 1].myNumber);
-				//DrawDebugBox(GetWorld(), basiclist[current + 1].position, FVector(50, 50, 50), FColor::Green, false, 100, 0, 10);
+				DrawDebugBox(GetWorld(), basiclist[current + 1].position, FVector(50, 50, 50), FColor::Green, false, 100, 0, 10);
 				neighbours.Add(basiclist[current + 1].myNumber);
 				CanWalkList.Remove(basiclist[current + 1]);
-			}//else
-				//DrawDebugBox(GetWorld(), basiclist[current + 1].position, FVector(50, 50, 50), FColor::Red, false, 100, 0, 10);
+			}else
+				DrawDebugBox(GetWorld(), basiclist[current + 1].position, FVector(50, 50, 50), FColor::Red, false, 100, 0, 10);
 		}
 		if ((current - 1) >= 0 && CanWalkList.Contains(basiclist[current - 1].position))
 		{
 			if (basiclist[current - 1].walkable && !searched.Contains(basiclist[current - 1].myNumber))
 			{
 				searched.Add(basiclist[current - 1].myNumber);
-				//DrawDebugBox(GetWorld(), basiclist[current - 1].position, FVector(50, 50, 50), FColor::Green , false, 100, 0, 10);
+				DrawDebugBox(GetWorld(), basiclist[current - 1].position, FVector(50, 50, 50), FColor::Green , false, 100, 0, 10);
 				neighbours.Add(basiclist[current - 1].myNumber);
 				CanWalkList.Remove(basiclist[current - 1]);
-			}//else
-				//DrawDebugBox(GetWorld(), basiclist[current - 1].position, FVector(50, 50, 50), FColor::Red, false, 100, 0, 10);
+			}else
+				DrawDebugBox(GetWorld(), basiclist[current - 1].position, FVector(50, 50, 50), FColor::Red, false, 100, 0, 10);
 		}
 		if ((current + dumb) < (basiclist.Num() - 1) && CanWalkList.Contains(basiclist[current + dumb].position))
 		{
 			if (basiclist[current + dumb].walkable && !searched.Contains(basiclist[current + dumb].myNumber))
 			{
 				searched.Add(basiclist[current + dumb].myNumber);
-				//DrawDebugBox(GetWorld(), basiclist[current + dumb].position, FVector(25, 25, 25), FColor::Green, false, 100, 0, 5);
+				DrawDebugBox(GetWorld(), basiclist[current + dumb].position, FVector(25, 25, 25), FColor::Green, false, 100, 0, 5);
 				neighbours.Add(basiclist[current + dumb].myNumber);
 				CanWalkList.Remove(basiclist[current + dumb]);
 			}
-			//else
-			//	DrawDebugBox(GetWorld(), basiclist[current + dumb].position, FVector(25, 25, 25), FColor::Red, false, 100, 0, 5);
+			else
+				DrawDebugBox(GetWorld(), basiclist[current + dumb].position, FVector(25, 25, 25), FColor::Red, false, 100, 0, 5);
 		}
 		if ((current - dumb) >= 0 && CanWalkList.Contains(basiclist[current - dumb].position))
 		{
 			if (basiclist[current - dumb].walkable && !searched.Contains(basiclist[current - dumb].myNumber))
 			{
 				searched.Add(basiclist[current - dumb].myNumber);
-			//	DrawDebugBox(GetWorld(), basiclist[current - dumb].position, FVector(25, 25, 25), FColor::Green, false, 100, 0, 5);
+				DrawDebugBox(GetWorld(), basiclist[current - dumb].position, FVector(25, 25, 25), FColor::Green, false, 100, 0, 5);
 				neighbours.Add(basiclist[current - dumb].myNumber);
 				CanWalkList.Remove(basiclist[current - dumb]);
 			}
-			//else
-			//	DrawDebugBox(GetWorld(), basiclist[current - dumb].position, FVector(25, 25, 25), FColor::Red, false, 100, 0, 5);
+			else
+				DrawDebugBox(GetWorld(), basiclist[current - dumb].position, FVector(25, 25, 25), FColor::Red, false, 100, 0, 5);
 		}
 
 
@@ -230,9 +229,9 @@ void AAStar::BeginPlay()
 	{
 	
 		loops++;
-		if (loops > 200)
+		if (loops > 20)
 			return;
-	DrawDebugBox(GetWorld(), posA.position, FVector(50, 50, 50), FColor(loops * 10, 0, 0, 1), false, 100, 0, 10);
+	//	DrawDebugBox(GetWorld(), posA.position, FVector(50, 50, 50), FColor(loops * 10, 0, 0, 1), false, 100, 0, 10);
 		
 		GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::Red, FString::Printf(TEXT("sas %i, %i, %i, %i, %i"), next, loops, posA.lastpos, posA.myNumber, end.lastpos));
 		
