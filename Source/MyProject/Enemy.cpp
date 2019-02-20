@@ -45,6 +45,7 @@ void AEnemy::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	if (dead )
 		return;
+	return;//remove this just testing the a*
 	if (player == NULL)
 	{
 		UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerChar::StaticClass(), foundCharacter);
