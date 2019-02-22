@@ -12,10 +12,10 @@
 #include "GameFramework/Actor.h"
 #include <utility>
 #include "Runtime/Core/Public/Misc/DateTime.h"
-#include "PlayerChar.h"
-#include "Enemy.h" 
+
 #include "newastar.generated.h"
 
+class AEnemy;
 USTRUCT()
 struct FASNode
 {
@@ -76,19 +76,20 @@ protected:
 	void FindClosestToSandE();
 	void FindNeighbours();
 	void FindBestNeighbour();
-	void Start();
 
+	int current;
+	bool pathfound = false;
+	int end = 0;
+	int start = 0;
+	TArray<int> neighbours;
 public:	
 	// Called every frame
 	FTimerHandle    handle;
 	virtual void Tick(float DeltaTime) override;
-	TArray<FASNode> nodes;
-	class APlayerChar * player;
-	class AEnemy * enemy;
-	int current;
-	bool pathfound = false;
+	FVector StartLocation;
+	FVector EndLocation;
+	void Find(FVector targloc, FVector startloc);
 
-	int end = 0;
-	int start = 0;
-	TArray<int> neighbours;
+	TArray<FASNode> nodes;
+	TArray<int> path;
 };

@@ -17,13 +17,14 @@ void Anewastar::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Start();
+	//Start();
 	//GetWorld()->GetTimerManager().SetTimer(handle, [this]() {	Start(); }, 100, false);
 
 }
-void Anewastar::Start()
+void Anewastar::Find(FVector targloc, FVector startloc)
 {
-
+	StartLocation = startloc;
+	EndLocation = targloc;
 	MapWorld();
 	FindClosestToSandE();
 	int loops = 1;
@@ -39,13 +40,13 @@ void Anewastar::Start()
 	int next = end;
 	for (int is = 0; is < 1000; is++)
 	{
+		path.Push(next);
 		if (next == start)
 			break;
-		//std::this_thread::sleep_for(std::chrono::milliseconds(1000)); //c++11
-		DrawDebugBox(GetWorld(), nodes[next].position, FVector(25, 25, 25), FColor(is * 5, 0, is * 3.5), false, 100, 0, 5);
+			
+			DrawDebugBox(GetWorld(), nodes[next].position, FVector(12, 12, 12), FColor(is * 5, 0, is * 3.5), false, 100, 0, 4);
+
 		next = nodes[next].LastNumber;
-
-
 	}
 }
 void Anewastar::FindBestNeighbour()
@@ -76,43 +77,43 @@ void Anewastar::FindNeighbours()
 {
 	FASNode currentN = nodes[current];
 	int f = 0;
-	if (nodes.Find(FASNode(currentN.position.X + 50, currentN.position.Z, 0), f))
+	if (nodes.Find(FASNode(currentN.position.X + 12, currentN.position.Z, 0), f))
 	{
 		if(!nodes[f].isClosed)
 		{
 			nodes[f].isClosed = true;
 			neighbours.Add(f);
-		//	DrawDebugBox(GetWorld(), nodes[f].position, FVector(50, 50, 50), FColor(f,f * 1.5,0), false, 100, 0, 5);
+		//	DrawDebugBox(GetWorld(), nodes[f].position, FVector(12, 12, 12), FColor(f,f * 1.5,0), false, 100, 0, 5);
 		}
 	}
-	if (nodes.Find(FASNode(currentN.position.X - 50, currentN.position.Z, 0), f))
+	if (nodes.Find(FASNode(currentN.position.X - 12, currentN.position.Z, 0), f))
 	{
 		if (!nodes[f].isClosed)
 		{
 			nodes[f].isClosed = true;
 			neighbours.Add(f);
-			//DrawDebugBox(GetWorld(), nodes[f].position, FVector(50, 50, 50), FColor(f, f * 1.5, 0), false, 100, 0, 5);
+			//DrawDebugBox(GetWorld(), nodes[f].position, FVector(12, 12, 12), FColor(f, f * 1.5, 0), false, 100, 0, 5);
 
 		}
 		
 	}
-	if (nodes.Find(FASNode(currentN.position.X , currentN.position.Z + 50, 0), f))
+	if (nodes.Find(FASNode(currentN.position.X , currentN.position.Z + 12, 0), f))
 	{
 		if (!nodes[f].isClosed)
 		{
 			nodes[f].isClosed = true;
 			neighbours.Add(f);
-	//	DrawDebugBox(GetWorld(), nodes[f].position, FVector(50, 50, 50), FColor(f, f * 1.5, 0), false, 100, 0, 5);
+	//	DrawDebugBox(GetWorld(), nodes[f].position, FVector(12, 12, 12), FColor(f, f * 1.5, 0), false, 100, 0, 5);
 		}
 		
 	}
-	if (nodes.Find(FASNode(currentN.position.X,  currentN.position.Z - 50, 0), f))
+	if (nodes.Find(FASNode(currentN.position.X,  currentN.position.Z - 12, 0), f))
 	{
 		if (!nodes[f].isClosed)
 		{
 			nodes[f].isClosed = true;
 			neighbours.Add(f);
-			//DrawDebugBox(GetWorld(), nodes[f].position, FVector(50, 50, 50), FColor(f, f * 1.5, 0), false, 100, 0, 5);
+			//DrawDebugBox(GetWorld(), nodes[f].position, FVector(12, 12, 12), FColor(f, f * 1.5, 0), false, 100, 0, 5);
 		}
 		
 	}
@@ -120,29 +121,14 @@ void Anewastar::FindNeighbours()
 }
 void Anewastar::FindClosestToSandE()
 {
-	TArray<AActor*> foundCharacter;
-
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerChar::StaticClass(), foundCharacter);
-	for (AActor* protag : foundCharacter)
-	{
-		player = Cast<APlayerChar>(protag);
-	}
-	foundCharacter.Empty();
-
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AEnemy::StaticClass(), foundCharacter);
-	for (AActor* protag : foundCharacter)
-	{
-		enemy = Cast<AEnemy>(protag);
-	}
-	
 	int FDistance = 99999;
 	
 	for (FASNode node : nodes)
 	{
-		if (FVector::Distance(node.position, player->GetActorLocation()) < FDistance)
+		if (FVector::Distance(node.position, StartLocation) < FDistance)
 		{
 			start = node.MyNumber;
-			FDistance = FVector::Distance(node.position, player->GetActorLocation());
+			FDistance = FVector::Distance(node.position, StartLocation);
 		}
 	}
 
@@ -150,30 +136,30 @@ void Anewastar::FindClosestToSandE()
 
 	for (FASNode node : nodes)
 	{
-		if (FVector::Distance(node.position, enemy->GetActorLocation()) < EDistance)
+		if (FVector::Distance(node.position, EndLocation) < EDistance)
 		{
 			end = node.MyNumber;
-			EDistance = FVector::Distance(node.position, enemy->GetActorLocation());
+			EDistance = FVector::Distance(node.position, EndLocation);
 		}
 	}
 
 	current = start;
 	nodes[start].start = true;
 	nodes[end].end = true;
-	DrawDebugBox(GetWorld(), nodes[start].position, FVector(50, 50, 50), FColor::Orange, false, 100, 0, 5);
-	DrawDebugBox(GetWorld(), nodes[end].position, FVector(50, 50, 50), FColor::Orange, false, 100, 0, 5);
+	DrawDebugBox(GetWorld(), nodes[start].position, FVector(12, 12, 12), FColor::Green, false, 100, 0, 5);
+	DrawDebugBox(GetWorld(), nodes[end].position, FVector(12, 12, 12), FColor::Orange, false, 100, 0, 5);
 }
 void Anewastar::MapWorld()
 {
 	int loop = 0;
 
-	for (int i = 0; i < 50; i++)
+	for (int i = 0; i < 200; i++)
 	{
-		for (int f = 0; f < 25; f++)
+		for (int f = 0; f < 100; f++)
 		{
 			TArray<FHitResult> OutHits;
-			FVector SweepStart = FVector(i * 50, 0, -f * 50);
-			FCollisionShape MyColCube = FCollisionShape::MakeBox(FVector(50, 50, 50));
+			FVector SweepStart = FVector(i * 12, 0, -f * 12);
+			FCollisionShape MyColCube = FCollisionShape::MakeBox(FVector(12, 12, 12));
 			bool isHit = GetWorld()->SweepMultiByChannel(OutHits, SweepStart, SweepStart, FQuat::Identity, ECC_WorldStatic, MyColCube);
 			bool gothit = false;
 			bool gothit2 = false;
@@ -199,20 +185,20 @@ void Anewastar::MapWorld()
 			if (gothit && !gothit2)
 			{
 
-				nodes.Add(FASNode(i * 50, -f * 50, loop));
+				nodes.Add(FASNode(i * 12, -f * 12, loop));
 				loop++;
-				//DrawDebugBox(GetWorld(), SweepStart, FVector(50, 50, 50), FColor::Orange, false, 100, 0, 1);
+				//DrawDebugBox(GetWorld(), SweepStart, FVector(12, 12, 12), FColor::Orange, false, 100, 0, 1);
 				continue;
 			}
 			else if (!gothit && gothit2)
 			{
-				//DrawDebugBox(GetWorld(), SweepStart, FVector(50, 50, 50), FColor::Purple, false, 100, 0, 1);
+				//	DrawDebugBox(GetWorld(), SweepStart, FVector(12, 12, 12), FColor::Purple, false, 100, 0, 2);
 				continue;
 
 			}
 			else if (gothit2)
 			{
-				//	DrawDebugBox(GetWorld(), SweepStart, FVector(50, 50, 50), FColor::Blue, false, 100, 0, 1);
+				//	DrawDebugBox(GetWorld(), SweepStart, FVector(12, 12, 12), FColor::Blue, false, 100, 0, 2);
 				continue;
 			}
 

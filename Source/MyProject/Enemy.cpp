@@ -17,6 +17,8 @@ AEnemy::AEnemy(const FObjectInitializer& PCIP) : Super(PCIP)
 	defaultsprite = PCIP.CreateDefaultSubobject<UPaperSpriteComponent>(this, TEXT("default sprite"));
 	defaultsprite->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Art/Gen/player_Sprite.player_Sprite'")).Object);
 	defaultsprite->SetupAttachment(RootComponent);
+	defaultsprite->SetCollisionProfileName(TEXT("OverlapAll"));
+	//RootComponent->SetCollisionProfileName(TEXT("OverlapAll"));
 
 }
 
@@ -24,11 +26,6 @@ AEnemy::AEnemy(const FObjectInitializer& PCIP) : Super(PCIP)
 void AEnemy::BeginPlay()
 {
 	Super::BeginPlay();
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerChar::StaticClass(), foundCharacter);
-	for (AActor* protag : foundCharacter)
-	{
-		player = Cast<APlayerChar>(protag);
-	}
 }
 
 void AEnemy::Hit()
@@ -45,7 +42,7 @@ void AEnemy::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	if (dead )
 		return;
-	return;//remove this just testing the a*
+	//return;//remove this just testing the a*
 	if (player == NULL)
 	{
 		UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerChar::StaticClass(), foundCharacter);
@@ -53,6 +50,25 @@ void AEnemy::Tick(float DeltaTime)
 		{
 			player = Cast<APlayerChar>(protag);
 		}
+
+		return;
+	}
+	if (pathfinder == NULL)
+	{
+		bool isfalse = false;
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), Anewastar::StaticClass(), foundCharacter);
+		for (AActor* protag : foundCharacter)
+		{
+			isfalse = true;
+		}
+		if (isfalse)
+		{
+			FActorSpawnParameters SpawnInfo;
+			SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+			pathfinder = GetWorld()->SpawnActor<Anewastar>(FVector(1, 1, 1), FRotator(1, 1, 1), SpawnInfo);;
+			pathfinder->Find(player->GetActorLocation(), this->GetActorLocation());
+		}
+		//DrawDebugSphere(GetWorld(), this->GetActorLocation(), 70, 70, FColor::Red, true, 2, 0, 10);
 		return;
 	}
 	if (player->dead)
@@ -82,28 +98,42 @@ void AEnemy::Tick(float DeltaTime)
 			}
 		}
 	}
-	FVector location = player->GetActorLocation();
-	if (location.X > this->GetActorLocation().X + 4)
+
+	if (pathfinder->path.Num() > minus)
 	{
-		defaultsprite->AddLocalOffset(FVector(3, 0, 0), true, NULL, ETeleportType::None);
+		
+		if (FVector::Distance(pathfinder->nodes[pathfinder->path[pathfinder->path.Num() - minus]].position, this->GetActorLocation()) < 4)
+			minus++;
+
+		FVector location = pathfinder->nodes[pathfinder->path[pathfinder->path.Num() - minus]].position;//pathfinder->nodes[pathfinder->path[pathfinder->path.Num() - minus]].position;//next node replace
+	
+		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString::Printf(TEXT("looping %i,  %f"), minus, location.X));
+		
+		if (location.X >= this->GetActorLocation().X )
+		{
+			defaultsprite->AddLocalOffset(FVector(3, 0, 0), false, NULL, ETeleportType::None);
+		}
+
+		if (location.X <= this->GetActorLocation().X )
+		{
+			defaultsprite->AddLocalOffset(FVector(-3, 0, 0), false, NULL, ETeleportType::None);
+		}
+
+		if (location.Z >= this->GetActorLocation().Z )
+		{
+			defaultsprite->AddLocalOffset(FVector(0, 0, 3), false, NULL, ETeleportType::None);
+		}
+
+		if (location.Z <= this->GetActorLocation().Z )
+		{
+			defaultsprite->AddLocalOffset(FVector(0, 0, -3), false, NULL, ETeleportType::None);
+		}
+		
+	
+		if (location.X < this->GetActorLocation().X + 4 && location.X > this->GetActorLocation().X - 4 && location.Z < this->GetActorLocation().Z + 4 && location.Z > this->GetActorLocation().Z - 4)
+		{
+			minus++;
+		}
 	}
-
-	if (location.X < this->GetActorLocation().X - 4)
-	{
-		defaultsprite->AddLocalOffset(FVector(-3, 0, 0), true, NULL, ETeleportType::None);
-	}
-
-	if (location.Z > this->GetActorLocation().Z + 4)
-	{
-		defaultsprite->AddLocalOffset(FVector(0, 0, 3), true, NULL, ETeleportType::None);
-	}
-
-	if (location.Z < this->GetActorLocation().Z - 4)
-	{
-		defaultsprite->AddLocalOffset(FVector(0, 0, -3), true, NULL, ETeleportType::None);
-	}
-
-
-
 }
 

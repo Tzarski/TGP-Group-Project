@@ -8,6 +8,7 @@
 #include "../Plugins/2D/Paper2D/Source/Paper2D/Classes/PaperSpriteComponent.h"
 #include "GameFramework/Actor.h"
 #include "PlayerChar.h"
+#include "newastar.h"
 #include "Enemy.generated.h"
 
 
@@ -25,8 +26,9 @@ protected:
 	virtual void BeginPlay() override;
 	TArray<AActor*> foundCharacter;
 	class APlayerChar * player;
+	class Anewastar * pathfinder;
 	bool dead = false;
-
+	int minus = 1;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
