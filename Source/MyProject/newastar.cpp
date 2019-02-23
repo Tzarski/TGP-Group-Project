@@ -44,7 +44,7 @@ void Anewastar::Find(FVector targloc, FVector startloc)
 		if (next == start)
 			break;
 			
-			DrawDebugBox(GetWorld(), nodes[next].position, FVector(12, 12, 12), FColor(is * 5, 0, is * 3.5), false, 100, 0, 4);
+			//DrawDebugBox(GetWorld(), nodes[next].position, FVector(12, 12, 12), FColor(is * 5, 0, is * 3.5), false, 1, 0, 4);
 
 		next = nodes[next].LastNumber;
 	}
@@ -146,8 +146,8 @@ void Anewastar::FindClosestToSandE()
 	current = start;
 	nodes[start].start = true;
 	nodes[end].end = true;
-	DrawDebugBox(GetWorld(), nodes[start].position, FVector(12, 12, 12), FColor::Green, false, 100, 0, 5);
-	DrawDebugBox(GetWorld(), nodes[end].position, FVector(12, 12, 12), FColor::Orange, false, 100, 0, 5);
+	//DrawDebugBox(GetWorld(), nodes[start].position, FVector(12, 12, 12), FColor::Green, false, 100, 0, 5);
+	//DrawDebugBox(GetWorld(), nodes[end].position, FVector(12, 12, 12), FColor::Orange, false, 100, 0, 5);
 }
 void Anewastar::MapWorld()
 {

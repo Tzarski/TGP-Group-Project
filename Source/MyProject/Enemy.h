@@ -34,5 +34,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	void Hit();
 	bool moved;
+	int ticks = 0;
 	class UPaperSpriteComponent* defaultsprite;
 };

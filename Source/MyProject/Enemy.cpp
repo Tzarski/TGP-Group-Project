@@ -53,24 +53,22 @@ void AEnemy::Tick(float DeltaTime)
 
 		return;
 	}
+	ticks++;
+	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString::Printf(TEXT("looping %i, "), ticks));
+	if (pathfinder != NULL && ticks > 10)
+	{
+		pathfinder->Reset();
+	
+	}
 	if (pathfinder == NULL)
 	{
-		bool isfalse = false;
-		UGameplayStatics::GetAllActorsOfClass(GetWorld(), Anewastar::StaticClass(), foundCharacter);
-		for (AActor* protag : foundCharacter)
-		{
-			isfalse = true;
-		}
-		if (isfalse)
-		{
-			FActorSpawnParameters SpawnInfo;
-			SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-			pathfinder = GetWorld()->SpawnActor<Anewastar>(FVector(1, 1, 1), FRotator(1, 1, 1), SpawnInfo);;
-			pathfinder->Find(player->GetActorLocation(), this->GetActorLocation());
-		}
-		//DrawDebugSphere(GetWorld(), this->GetActorLocation(), 70, 70, FColor::Red, true, 2, 0, 10);
-		return;
+		FActorSpawnParameters SpawnInfo;
+		SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		pathfinder = GetWorld()->SpawnActor<Anewastar>(FVector(1, 1, 1), FRotator(1, 1, 1), SpawnInfo);;
+		pathfinder->Find(player->GetActorLocation(), this->GetActorLocation());
 	}
+		
+	
 	if (player->dead)
 		return;
 	//DrawDebugSphere(GetWorld(), this->GetActorLocation(), 70, 70, FColor::Red, true, 2, 0, 10);
@@ -107,7 +105,7 @@ void AEnemy::Tick(float DeltaTime)
 
 		FVector location = pathfinder->nodes[pathfinder->path[pathfinder->path.Num() - minus]].position;//pathfinder->nodes[pathfinder->path[pathfinder->path.Num() - minus]].position;//next node replace
 	
-		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString::Printf(TEXT("looping %i,  %f"), minus, location.X));
+		//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString::Printf(TEXT("looping %i,  %f"), minus, location.X));
 		
 		if (location.X >= this->GetActorLocation().X )
 		{
