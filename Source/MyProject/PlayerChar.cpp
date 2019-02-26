@@ -5,8 +5,10 @@
 #include "Runtime/Core/Public/Containers/UnrealString.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "SpawnRoom.h"
+#include "Classes/Particles/ParticleSystem.h"
 #include "Enemy.h"
 #include "Runtime/Engine/Classes/GameFramework/Actor.h"
+
 // Sets default values
 APlayerChar::APlayerChar(const FObjectInitializer& PCIP) : Super(PCIP)
 {
@@ -15,6 +17,7 @@ APlayerChar::APlayerChar(const FObjectInitializer& PCIP) : Super(PCIP)
 	defaultsprite = PCIP.CreateDefaultSubobject<UPaperSpriteComponent>(this, TEXT("default sprite"));
 	defaultsprite->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Art/Gen/player_Sprite.player_Sprite'")).Object);
 
+	particle = ConstructorHelpers::FObjectFinder<UParticleSystem>(TEXT("blood'/Game/Blood_attack.Blood_attack'")).Object;
 	
 
 	
@@ -52,7 +55,8 @@ void APlayerChar::TakeDamage()
 	if (defaultsprite->GetSpriteColor() == FLinearColor(255, 0, 0, 1))
 		return;
 
-	defaultsprite->SetSpriteColor(FLinearColor(255, 0, 0, 1));
+	UGameplayStatics::SpawnEmitterAttached(particle, defaultsprite->GetAttachmentRoot(), NAME_None, FVector(0.0f, 0.1f, -20.0f), FRotator(0.0f, 0.0f, 0.0f), EAttachLocation::Type::SnapToTarget, true);
+	defaultsprite->SetSpriteColor(FLinearColor(255, 0, 0, 1));	
 
 	GlobalVars->health--;
 	GetWorld()->GetTimerManager().SetTimer(handle1, [this]() {	defaultsprite->SetSpriteColor(FLinearColor(255, 255, 255, 1));}, 2, false);

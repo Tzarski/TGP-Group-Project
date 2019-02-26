@@ -39,8 +39,13 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	class UPaperSpriteComponent* defaultsprite;
 	class UPaperFlipbookComponent* defaultflipbook;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Spawn Points")
 		AGlobals* GlobalVars;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Blood_particle")
+	class UParticleSystem* particle;
+
 	void TakeDamage();
 	void moveupdown(float dir);
 	void moveleftright(float dir);
