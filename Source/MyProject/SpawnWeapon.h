@@ -2,22 +2,19 @@
 
 #pragma once
 
+#include "Runtime/Core/Public/Misc/FileHelper.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include <EngineGlobals.h>
-#include <Runtime/Engine/Classes/Engine/Engine.h>
-#include "../Plugins/2D/Paper2D/Source/Paper2D/Classes/PaperSprite.h"
-#include "../Plugins/2D/Paper2D/Source/Paper2D/Classes/PaperSpriteComponent.h"
-#include "Weapon.generated.h"
+#include "SpawnWeapon.generated.h"
 
 UCLASS()
-class MYPROJECT_API AWeapon : public AActor
+class MYPROJECT_API ASpawnWeapon : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AWeapon(const FObjectInitializer& PCIP);
+	ASpawnWeapon();
 
 protected:
 	// Called when the game starts or when spawned
@@ -26,7 +23,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	bool LoadFromFile(FString weaponName);
+	void SpawnWeapon();
 
-	class UPaperSpriteComponent* WeaponComponent;
-
+	FString SavedWeapon = "";
 };

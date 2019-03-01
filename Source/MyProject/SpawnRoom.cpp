@@ -7,6 +7,7 @@
 #include "Trap.h"
 #include "Enemy.h"
 #include "PlayerChar.h"
+
 // Sets default values
 ASpawnRoom::ASpawnRoom()
 {
