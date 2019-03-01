@@ -21,10 +21,17 @@ protected:
 
 public:	
 	// Called every frame
+	int maxhealth = 3;
 	virtual void Tick(float DeltaTime) override;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Spawn Points")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "player health")
 	int health = 2;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Spawn Points")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Game paused")
 	bool paused;
+
+	//UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "player health")
+		void Heal(int amount);
+	//UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "player health")
+		void Damage(int amount);
+
 	
 };

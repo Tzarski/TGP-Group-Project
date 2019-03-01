@@ -11,6 +11,17 @@ AGlobals::AGlobals()
 
 }
 
+void AGlobals::Damage(int amount)
+{
+	health -= amount; 
+
+}
+void AGlobals::Heal(int amount)
+{
+	health += amount; 
+	if (health > maxhealth) health = maxhealth; 
+}
+
 // Called when the game starts or when spawned
 void AGlobals::BeginPlay()
 {

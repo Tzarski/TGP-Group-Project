@@ -58,7 +58,7 @@ void APlayerChar::TakeDamage()
 	UGameplayStatics::SpawnEmitterAttached(particle, defaultsprite->GetAttachmentRoot(), NAME_None, FVector(0.0f, 0.1f, -20.0f), FRotator(0.0f, 0.0f, 0.0f), EAttachLocation::Type::SnapToTarget, true);
 	defaultsprite->SetSpriteColor(FLinearColor(255, 0, 0, 1));	
 
-	GlobalVars->health--;
+	GlobalVars->Damage(1);
 	GetWorld()->GetTimerManager().SetTimer(handle1, [this]() {	defaultsprite->SetSpriteColor(FLinearColor(255, 255, 255, 1));}, 2, false);
 	
 	
