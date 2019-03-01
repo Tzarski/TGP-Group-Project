@@ -7,6 +7,8 @@
 #include "Trap.h"
 #include "Enemy.h"
 #include "PlayerChar.h"
+#include "Components/BoxComponent.h"
+
 // Sets default values
 ASpawnRoom::ASpawnRoom()
 {
@@ -122,6 +124,15 @@ void ASpawnRoom::SpawnLayers(int dir)
 			AEnemy* two = GetWorld()->SpawnActor<AEnemy>(FVector(columb * 100, -10, -row * 100), FRotator(0, 0, 0), SpawnInfo);
 			Spawnedworld.Add(one);
 			Spawnedworld.Add(two);
+			columb++;
+			continue;
+		}
+		if (layer.spawn == 'o')
+		{	
+			AFloor* one = GetWorld()->SpawnActor<AFloor>(FVector(columb * 100, 1, -row * 100), FRotator(0, 0, 0), SpawnInfo);
+			one->SetActorHiddenInGame(true);
+
+			Spawnedworld.Add(one);
 			columb++;
 			continue;
 		}
