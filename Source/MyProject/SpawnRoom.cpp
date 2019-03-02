@@ -8,6 +8,7 @@
 #include "Enemy.h"
 #include "PlayerChar.h"
 #include "Components/BoxComponent.h"
+#include "HealthPickup.h"
 
 // Sets default values
 ASpawnRoom::ASpawnRoom()
@@ -136,6 +137,16 @@ void ASpawnRoom::SpawnLayers(int dir)
 			columb++;
 			continue;
 		}
+		if (layer.spawn == 'h')
+		{
+			AFloor* one = GetWorld()->SpawnActor<AFloor>(FVector(columb * 100, 1, -row * 100), FRotator(0, 0, 0), SpawnInfo);
+			AHealthPickup* two = GetWorld()->SpawnActor<AHealthPickup>(FVector(columb * 100, 0.95f, -row * 100), FRotator(0, 0, 0), SpawnInfo);
+			Spawnedworld.Add(one);
+			Spawnedworld.Add(two);
+			columb++;
+			continue;
+		}
+
 		if (layer.spawn == '1')
 		{
 			ARoof* one = GetWorld()->SpawnActor<ARoof>(FVector(columb * 100, 1, -row * 100), FRotator(0, 0, 0), SpawnInfo);
