@@ -26,17 +26,27 @@ void ASpawnWeapon::Tick(float DeltaTime)
 
 }
 
-bool ASpawnWeapon::LoadFromFile(FString weaponName)
+bool ASpawnWeapon::LoadFromFile(FString weapon)
 {
 	FString RelativePath = FPaths::GameContentDir();
-	FString LoadFilePath = RelativePath + "Weapons/" + weaponName;
+	FString LoadFilePath = RelativePath + "Weapons/" + weapon;
 
 	FFileHelper::LoadFileToString(SavedWeapon, *LoadFilePath);
+
+	if (!SavedWeapon.IsEmpty())
+	{
+		for (int i = 0; i < sizeof(SavedWeapon); i++)
+		{
+			
+		}
+	}
+
 
 	return false;
 }
 
 void ASpawnWeapon::SpawnWeapon()
 {
+
 }
 

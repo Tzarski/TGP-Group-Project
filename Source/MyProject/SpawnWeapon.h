@@ -4,8 +4,29 @@
 
 #include "Runtime/Core/Public/Misc/FileHelper.h"
 #include "CoreMinimal.h"
+#include <fstream>
 #include "GameFramework/Actor.h"
 #include "SpawnWeapon.generated.h"
+
+USTRUCT()
+struct WeaponData
+{
+public:
+	GENERATED_USTRUCT_BODY()
+
+	//UPROPERTY(EditDefaultsOnly, Category = Name)
+	FString WeaponName;
+
+	//UPROPERTY(EditDefaultsOnly, Category = Attack Damage)
+	int AttackDamage;
+
+	//UPROPERTY(EditDefaultsOnly, Category = Attack Speed)
+	float AttackSpeed;
+
+	//UPROPERTY(EditDefaultsOnly, Category = Cost)
+	int Price;
+}
+
 
 UCLASS()
 class MYPROJECT_API ASpawnWeapon : public AActor
@@ -27,4 +48,6 @@ public:
 	void SpawnWeapon();
 
 	FString SavedWeapon = "";
+
+	WeaponData weaponData;
 };
