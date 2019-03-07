@@ -9,7 +9,7 @@
 #include "SpawnWeapon.generated.h"
 
 USTRUCT()
-struct WeaponData
+struct FWeaponData
 {
 public:
 	GENERATED_USTRUCT_BODY()
@@ -25,7 +25,7 @@ public:
 
 	//UPROPERTY(EditDefaultsOnly, Category = Cost)
 	int Price;
-}
+};
 
 
 UCLASS()
@@ -49,5 +49,5 @@ public:
 
 	FString SavedWeapon = "";
 
-	WeaponData weaponData;
+	FWeaponData weaponData;
 };
