@@ -102,7 +102,7 @@ void AEnemy::Tick(float DeltaTime)
 		
 		if (FVector::Distance(pathfinder->nodes[pathfinder->path[pathfinder->path.Num() - minus]].position, this->GetActorLocation()) < 4)
 			minus++;
-
+	
 		FVector location = pathfinder->nodes[pathfinder->path[pathfinder->path.Num() - minus]].position;//pathfinder->nodes[pathfinder->path[pathfinder->path.Num() - minus]].position;//next node replace
 	
 		//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString::Printf(TEXT("looping %i,  %f"), minus, location.X));

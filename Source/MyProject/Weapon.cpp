@@ -12,7 +12,7 @@ AWeapon::AWeapon(const FObjectInitializer& PCIP) : Super(PCIP)
 
 	WeaponComponent = PCIP.CreateDefaultSubobject<UPaperSpriteComponent>(this, TEXT("weapon"));
 	WeaponComponent->SetupAttachment(RootComponent);
-	WeaponComponent->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Art/Weapons/'")).Object);
+	WeaponComponent->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Art/Weapons/swordanim.uasset'")).Object);
 }
 
 // Called when the game starts or when spawned

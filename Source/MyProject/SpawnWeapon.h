@@ -14,16 +14,16 @@ struct FWeaponData
 public:
 	GENERATED_USTRUCT_BODY()
 
-	//UPROPERTY(EditDefaultsOnly, Category = Name)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Name")
 	FString WeaponName;
 
-	//UPROPERTY(EditDefaultsOnly, Category = Attack Damage)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Attack Damage")
 	int AttackDamage;
 
-	//UPROPERTY(EditDefaultsOnly, Category = Attack Speed)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Attack Speed")
 	float AttackSpeed;
 
-	//UPROPERTY(EditDefaultsOnly, Category = Cost)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Cost")
 	int Price;
 };
 
@@ -45,9 +45,11 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	bool LoadFromFile(FString weaponName);
-	void SpawnWeapon();
+	void SpawnWeapon(int id);
 
 	FString SavedWeapon = "";
+
+	TArray<AWeapon> Weapons;
 
 	FWeaponData weaponData;
 };

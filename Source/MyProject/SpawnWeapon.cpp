@@ -2,7 +2,7 @@
 
 #include "SpawnWeapon.h"
 #include "Weapon.h"
-
+#include "Enemy.h"
 
 // Sets default values
 ASpawnWeapon::ASpawnWeapon()
@@ -16,6 +16,7 @@ ASpawnWeapon::ASpawnWeapon()
 void ASpawnWeapon::BeginPlay()
 {
 	Super::BeginPlay();
+	LoadFromFile("1.txt");
 	
 }
 
@@ -29,24 +30,38 @@ void ASpawnWeapon::Tick(float DeltaTime)
 bool ASpawnWeapon::LoadFromFile(FString weapon)
 {
 	FString RelativePath = FPaths::GameContentDir();
-	FString LoadFilePath = RelativePath + "Weapons/" + weapon;
+	FString LoadFilePath = RelativePath + "Items/Weapons " + weapon;
 
 	FFileHelper::LoadFileToString(SavedWeapon, *LoadFilePath);
 
 	if (!SavedWeapon.IsEmpty())
 	{
-		for (int i = 0; i < sizeof(SavedWeapon); i++)
-		{
-			
-		}
+		weaponData.WeaponName = SavedWeapon.Left(10);
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT(weaponData.WeaponName));
+		FString tempName;
+		FString tempAttack;
+		UE_LOG(LogTemp, Display, TEXT("Weapon name %s"), *weaponData.WeaponName);
+		SavedWeapon.Split(TEXT(","), &tempName, &tempAttack, ESearchCase::CaseSensitive, ESearchDir::FromStart);
+		//weaponData.WeaponName = tempName;
+		//.Split(SavedWeapon, 0, 10, ESearchCase::CaseSensitive, ESearchDir::FromStart);
 	}
 
 
 	return false;
 }
 
-void ASpawnWeapon::SpawnWeapon()
+void ASpawnWeapon::SpawnWeapon(int id)
 {
+	FActorSpawnParameters spawnInfo;
+	spawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+	AEnemy* tempEnemy;
+
+	if (id == 1)
+	{
+		Weapons[0] = GetWorld()->SpawnActor<AWeapon>(FVector(tempEnemy->GetActorLocation()), FRotator(0, 0, 0), spawnInfo);
+
+	}
 
 }
 
