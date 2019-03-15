@@ -40,7 +40,7 @@ bool ASpawnWeapon::LoadFromFile(FString weapon)
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT(weaponData.WeaponName));
 		FString tempName;
 		FString tempAttack;
-		UE_LOG(LogTemp, Display, TEXT("Weapon name %s"), *weaponData.WeaponName);
+		UE_LOG(LogTemp, Display, TEXT("Weapon name %s"), *SavedWeapon);
 		SavedWeapon.Split(TEXT(","), &tempName, &tempAttack, ESearchCase::CaseSensitive, ESearchDir::FromStart);
 		//weaponData.WeaponName = tempName;
 		//.Split(SavedWeapon, 0, 10, ESearchCase::CaseSensitive, ESearchDir::FromStart);

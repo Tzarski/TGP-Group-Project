@@ -1,17 +1,19 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "Runtime/Core/Public/Misc/FileHelper.h"
 #include "CoreMinimal.h"
 #include <fstream>
 #include "GameFramework/Actor.h"
+#include <EngineGlobals.h>
+#include <Runtime/Engine/Classes/Engine/Engine.h>
 #include "SpawnWeapon.generated.h"
 
 USTRUCT()
 struct FWeaponData
 {
-	GENERATED_BODY()
+	GENERATED_USTRUCT_BODY()
+
 public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Name")
@@ -25,6 +27,7 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Cost")
 	int Price;
+
 };
 
 
@@ -49,7 +52,7 @@ public:
 
 	FString SavedWeapon = "";
 
-	TArray<AWeapon> Weapons;
+	TArray<AWeapon*> Weapons;
 
 	FWeaponData weaponData;
 };
