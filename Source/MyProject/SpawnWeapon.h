@@ -11,8 +11,8 @@
 USTRUCT()
 struct FWeaponData
 {
+	GENERATED_BODY()
 public:
-	GENERATED_USTRUCT_BODY()
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Name")
 	FString WeaponName;
