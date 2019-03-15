@@ -1,3 +1,4 @@
+
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Floor.h"
@@ -12,7 +13,7 @@ AFloor::AFloor(const FObjectInitializer& PCIP) : Super(PCIP)
 	BallComponent = PCIP.CreateDefaultSubobject<UPaperSpriteComponent>(this, TEXT("ball"));
 	//BallComponent->AttatchTo(GetDefaultAttachComponent());
 	BallComponent->SetupAttachment(RootComponent);
-	BallComponent->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Art/Gen/asd_Sprite.asd_Sprite'")).Object);
+	BallComponent->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Art/Gen/tile1_Sprite.tile1_Sprite'")).Object);
 
 }
 
