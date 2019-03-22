@@ -4,8 +4,8 @@
 #include "Weapon.h"
 #include "Enemy.h"
 
-// Sets default values
-ASpawnWeapon::ASpawnWeapon()
+
+ASpawnWeapon::ASpawnWeapon() 
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -36,12 +36,13 @@ bool ASpawnWeapon::LoadFromFile(FString weapon)
 
 	if (!SavedWeapon.IsEmpty())
 	{
-		weaponData.WeaponName = SavedWeapon.Left(10);
-		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT(weaponData.WeaponName));
+		GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Yellow, TEXT("Text Loaded"));
+		//weaponData.WeaponName = SavedWeapon.Left(10);
+		GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Yellow, TEXT("LSavedWeapon"));
 		FString tempName;
 		FString tempAttack;
 		UE_LOG(LogTemp, Display, TEXT("Weapon name %s"), *SavedWeapon);
-		SavedWeapon.Split(TEXT(","), &tempName, &tempAttack, ESearchCase::CaseSensitive, ESearchDir::FromStart);
+		//SavedWeapon.Split(TEXT(","), &tempName, &tempAttack, ESearchCase::CaseSensitive, ESearchDir::FromStart);
 		//weaponData.WeaponName = tempName;
 		//.Split(SavedWeapon, 0, 10, ESearchCase::CaseSensitive, ESearchDir::FromStart);
 	}
@@ -50,17 +51,15 @@ bool ASpawnWeapon::LoadFromFile(FString weapon)
 	return false;
 }
 
-void ASpawnWeapon::SpawnWeapon(int id)
+void ASpawnWeapon::SpawnWeapon(FVector position, int id)
 {
+	spawnLoc = position;
 	FActorSpawnParameters spawnInfo;
 	spawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
-	AEnemy* tempEnemy;
-
 	if (id == 1)
 	{
-		Weapons[0] = GetWorld()->SpawnActor<AWeapon>(FVector(tempEnemy->GetActorLocation()), FRotator(0, 0, 0), spawnInfo);
-
+		Weapons[0] = GetWorld()->SpawnActor<AWeapon>(spawnLoc, FRotator(0, 0, 0), spawnInfo);
 	}
 
 }

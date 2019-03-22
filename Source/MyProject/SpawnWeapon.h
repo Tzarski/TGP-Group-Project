@@ -9,27 +9,26 @@
 #include <Runtime/Engine/Classes/Engine/Engine.h>
 #include "SpawnWeapon.generated.h"
 
+
 USTRUCT()
 struct FWeaponData
 {
-	GENERATED_USTRUCT_BODY()
+	GENERATED_BODY()
 
-public:
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Name")
+	FWeaponData()
+	{
+
+	}
+
 	FString WeaponName;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Attack Damage")
 	int AttackDamage;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Attack Speed")
 	float AttackSpeed;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Cost")
 	int Price;
 
 };
 
+class AWeapon;
 
 UCLASS()
 class MYPROJECT_API ASpawnWeapon : public AActor
@@ -39,7 +38,8 @@ class MYPROJECT_API ASpawnWeapon : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ASpawnWeapon();
-
+	
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -48,9 +48,10 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	bool LoadFromFile(FString weaponName);
-	void SpawnWeapon(int id);
+	void SpawnWeapon(FVector position, int id);
 
 	FString SavedWeapon = "";
+	FVector spawnLoc;
 
 	TArray<AWeapon*> Weapons;
 

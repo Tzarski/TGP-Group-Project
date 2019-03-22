@@ -9,6 +9,7 @@
 #include "GameFramework/Actor.h"
 #include "PlayerChar.h"
 #include "newastar.h"
+#include "SpawnWeapon.h"
 #include "Enemy.generated.h"
 
 
@@ -29,6 +30,7 @@ protected:
 	class Anewastar * pathfinder;
 	bool dead = false;
 	int minus = 1;
+	class ASpawnWeapon* weapon;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

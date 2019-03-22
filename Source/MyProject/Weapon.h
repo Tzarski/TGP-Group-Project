@@ -18,7 +18,7 @@ class MYPROJECT_API AWeapon : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AWeapon(const FObjectInitializer& PCIP);
-
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

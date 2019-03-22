@@ -9,6 +9,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "UObject/UnrealType.h"
 
+
+
 // Sets default values
 AEnemy::AEnemy(const FObjectInitializer& PCIP) : Super(PCIP)
 {
@@ -34,6 +36,11 @@ void AEnemy::Hit()
 	FTimerHandle    handle;
 	defaultsprite->SetSpriteColor(FLinearColor(1, 0.1, 0.1, 1));
 	GetWorld()->GetTimerManager().SetTimer(handle, [this]() {	this->Destroy(); }, 1, false);
+
+	if (dead)
+	{
+		weapon->SpawnWeapon(GetActorLocation(), 1);
+	}
 }
 
 // Called every frame
