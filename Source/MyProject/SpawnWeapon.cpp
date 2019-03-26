@@ -9,7 +9,7 @@ ASpawnWeapon::ASpawnWeapon()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	spawnLoc = FVector(0.0f, 0.0f, 0.0f);
 }
 
 // Called when the game starts or when spawned
@@ -34,8 +34,8 @@ bool ASpawnWeapon::LoadFromFile(FString weapon)
 
 	FFileHelper::LoadFileToString(SavedWeapon, *LoadFilePath);
 
-	if (!SavedWeapon.IsEmpty())
-	{
+	//if (!SavedWeapon.IsEmpty())
+	//{
 		GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Yellow, TEXT("Text Loaded"));
 		//weaponData.WeaponName = SavedWeapon.Left(10);
 		GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Yellow, TEXT("LSavedWeapon"));
@@ -45,7 +45,7 @@ bool ASpawnWeapon::LoadFromFile(FString weapon)
 		//SavedWeapon.Split(TEXT(","), &tempName, &tempAttack, ESearchCase::CaseSensitive, ESearchDir::FromStart);
 		//weaponData.WeaponName = tempName;
 		//.Split(SavedWeapon, 0, 10, ESearchCase::CaseSensitive, ESearchDir::FromStart);
-	}
+	//}
 
 
 	return false;
