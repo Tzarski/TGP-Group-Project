@@ -37,7 +37,7 @@ class MYPROJECT_API ASpawnWeapon : public AActor
 	
 public:	
 	// Sets default values for this actor's properties
-	ASpawnWeapon();
+	ASpawnWeapon(const FObjectInitializer& PCIP);
 	
 	
 protected:
@@ -51,9 +51,8 @@ public:
 	void SpawnWeapon(FVector position, int id);
 
 	FString SavedWeapon = "";
-	//FVector spawnLoc;
-
-	//AWeapon* Weapons;
+	class UPaperSpriteComponent* TempComp1;
+	AWeapon* weapons;
 
 	FWeaponData weaponData;
 };

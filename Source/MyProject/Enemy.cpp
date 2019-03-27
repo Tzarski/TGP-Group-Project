@@ -33,11 +33,17 @@ void AEnemy::BeginPlay()
 
 void AEnemy::Hit()
 {
+	if (dead)
+		return;
 	dead = true;
 	FTimerHandle    handle;
 	defaultsprite->SetSpriteColor(FLinearColor(1, 0.1, 0.1, 1));
 	GetWorld()->GetTimerManager().SetTimer(handle, [this]() {	this->Destroy(); }, 1, false);
-	weapon->SpawnWeapon(this->GetActorLocation(), 1);
+
+	FActorSpawnParameters spawnInfo;
+	spawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	weapon = GetWorld()->SpawnActor<ASpawnWeapon>(GetActorLocation(), FRotator(0, 0, 0), spawnInfo);
+	weapon->SpawnWeapon(this->GetActorLocation(), 2);
 }
 
 // Called every frame

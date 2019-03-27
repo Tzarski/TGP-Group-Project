@@ -18,6 +18,7 @@ class MYPROJECT_API AWeapon : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AWeapon(const FObjectInitializer& PCIP);
+	void SetWeaponID(int ID) { weaponID = ID; }
 	
 protected:
 	// Called when the game starts or when spawned
@@ -26,7 +27,9 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
+	void SetWeaponSprite(int i);
 	class UPaperSpriteComponent* WeaponComponent;
-
+	class UPaperSpriteComponent* TempComp1;
+	class UPaperSpriteComponent* TempComp2;
+	int weaponID;
 };

@@ -5,11 +5,12 @@
 #include "Enemy.h"
 
 
-ASpawnWeapon::ASpawnWeapon() 
+ASpawnWeapon::ASpawnWeapon(const FObjectInitializer& PCIP) : Super(PCIP)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	//spawnLoc = FVector(0.0f, 0.0f, 0.0f);
+
+	TempComp1 = PCIP.CreateDefaultSubobject<UPaperSpriteComponent>(this, TEXT("TempComp1"));
 }
 
 // Called when the game starts or when spawned
@@ -56,11 +57,9 @@ void ASpawnWeapon::SpawnWeapon(FVector position, int id)
 	//spawnLoc = position;
 	FActorSpawnParameters spawnInfo;
 	spawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	
-	if (id == 1)
-	{
-		AWeapon* weapons = GetWorld()->SpawnActor<AWeapon>(position, FRotator(0, 0, 0), spawnInfo);
-	}
+	weapons = GetWorld()->SpawnActor<AWeapon>(GetActorLocation(), FRotator(0, 0, 0), spawnInfo);
+	weapons->SetWeaponSprite(id);
 
 }
+
 
