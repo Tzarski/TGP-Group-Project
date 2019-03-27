@@ -9,7 +9,7 @@ ASpawnWeapon::ASpawnWeapon()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	spawnLoc = FVector(0.0f, 0.0f, 0.0f);
+	//spawnLoc = FVector(0.0f, 0.0f, 0.0f);
 }
 
 // Called when the game starts or when spawned
@@ -53,13 +53,14 @@ bool ASpawnWeapon::LoadFromFile(FString weapon)
 
 void ASpawnWeapon::SpawnWeapon(FVector position, int id)
 {
-	spawnLoc = position;
+	//spawnLoc = position;
 	FActorSpawnParameters spawnInfo;
 	spawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	
 
 	if (id == 1)
 	{
-		Weapons[0] = GetWorld()->SpawnActor<AWeapon>(spawnLoc, FRotator(0, 0, 0), spawnInfo);
+		AWeapon* weapons = GetWorld()->SpawnActor<AWeapon>(position, FRotator(0, 0, 0), spawnInfo);
 	}
 
 }

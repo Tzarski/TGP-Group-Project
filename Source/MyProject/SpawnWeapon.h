@@ -51,9 +51,9 @@ public:
 	void SpawnWeapon(FVector position, int id);
 
 	FString SavedWeapon = "";
-	FVector spawnLoc;
+	//FVector spawnLoc;
 
-	TArray<AWeapon*> Weapons;
+	//AWeapon* Weapons;
 
 	FWeaponData weaponData;
 };
