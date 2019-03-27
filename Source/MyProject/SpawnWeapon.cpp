@@ -57,7 +57,6 @@ void ASpawnWeapon::SpawnWeapon(FVector position, int id)
 	FActorSpawnParameters spawnInfo;
 	spawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	
-
 	if (id == 1)
 	{
 		AWeapon* weapons = GetWorld()->SpawnActor<AWeapon>(position, FRotator(0, 0, 0), spawnInfo);
