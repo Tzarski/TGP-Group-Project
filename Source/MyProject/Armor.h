@@ -8,17 +8,18 @@
 #include <Runtime/Engine/Classes/Engine/Engine.h>
 #include "../Plugins/2D/Paper2D/Source/Paper2D/Classes/PaperSprite.h"
 #include "../Plugins/2D/Paper2D/Source/Paper2D/Classes/PaperSpriteComponent.h"
-#include "Weapon.generated.h"
+#include "Armor.generated.h"
 
 UCLASS()
-class MYPROJECT_API AWeapon : public AActor
+class MYPROJECT_API AArmor : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AWeapon(const FObjectInitializer& PCIP);
-	
+	AArmor(const FObjectInitializer& PCIP);
+	void SetArmorID(int id);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -26,9 +27,9 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	void SetWeaponSprite(int i);
 
-	class UPaperSpriteComponent* WeaponComponent;
+	class UPaperSpriteComponent* ArmorComponent;
 	class UPaperSpriteComponent* TempComp1;
 	class UPaperSpriteComponent* TempComp2;
+	
 };

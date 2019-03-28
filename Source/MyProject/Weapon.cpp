@@ -17,16 +17,6 @@ AWeapon::AWeapon(const FObjectInitializer& PCIP) : Super(PCIP)
 	TempComp1->SetVisibility(false, false);
 	TempComp2->SetVisibility(false, false);
 
-	
-	
-	/*if (weaponID == 1)
-	{
-		WeaponComponent->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Items/Weapons/sword1_Sprite.sword1_Sprite'")).Object);
-	}
-	if (weaponID == 2)
-	{
-		WeaponComponent->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Items/Weapons/sword2_Sprite.sword2_Sprite'")).Object);
-	}*/
 }
 
 // Called when the game starts or when spawned
@@ -35,6 +25,7 @@ void AWeapon::BeginPlay()
 	Super::BeginPlay();
 	
 }
+
 void AWeapon::SetWeaponSprite(int i)
 {
 	switch (i)
@@ -47,8 +38,6 @@ void AWeapon::SetWeaponSprite(int i)
 		break;
 
 	}
-	
-	
 }
 
 // Called every frame

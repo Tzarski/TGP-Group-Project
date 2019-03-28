@@ -1,45 +1,39 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-#pragma once
 
+#pragma once
 #include "Runtime/Core/Public/Misc/FileHelper.h"
 #include "CoreMinimal.h"
-#include <fstream>
 #include "GameFramework/Actor.h"
 #include <EngineGlobals.h>
 #include <Runtime/Engine/Classes/Engine/Engine.h>
-#include "SpawnWeapon.generated.h"
-
+#include "SpawnArmor.generated.h"
 
 USTRUCT()
-struct FWeaponData
+struct FArmorData
 {
 	GENERATED_BODY()
 
 
-	FWeaponData()
+	FArmorData()
 	{
 
 	}
 
-	FString WeaponName;
-	int AttackDamage;
-	float AttackSpeed;
+	FString ArmorName;
+	int Defence;
 	int Price;
 
 };
 
-class AWeapon;
-
 UCLASS()
-class MYPROJECT_API ASpawnWeapon : public AActor
+class MYPROJECT_API ASpawnArmor : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ASpawnWeapon();
-	
-	
+	ASpawnArmor();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -47,12 +41,11 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	bool LoadFromFile(FString weapon);
-	void SpawnWeapon(FVector position, int id);
 
-	FString SavedWeapon = "";
-	//class UPaperSpriteComponent* TempComp1;
-	AWeapon* weapons;
-
-	FWeaponData weaponData;
+	bool LoadFromFile(FString armor);
+	void SpawnArmor(FVector position, int id);
+	
+	AArmor* armor;
+	FString SavedArmor = "";
+	FArmorData armorData;
 };
