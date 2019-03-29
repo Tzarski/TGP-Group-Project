@@ -1,11 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
-#include "SpawnArmor.h"
-#include "Armor.h"
+#include "SpawnOtherItems.h"
+#include "OtherItems.h"
 
 // Sets default values
-ASpawnArmor::ASpawnArmor(const FObjectInitializer& PCIP) : Super(PCIP)
+ASpawnOtherItems::ASpawnOtherItems(const FObjectInitializer& PCIP) : Super(PCIP)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -13,27 +12,27 @@ ASpawnArmor::ASpawnArmor(const FObjectInitializer& PCIP) : Super(PCIP)
 }
 
 // Called when the game starts or when spawned
-void ASpawnArmor::BeginPlay()
+void ASpawnOtherItems::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
 // Called every frame
-void ASpawnArmor::Tick(float DeltaTime)
+void ASpawnOtherItems::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
-bool ASpawnArmor::LoadFromFile(FString armor)
+bool ASpawnOtherItems::LoadFromFile(FString item)
 {
 	FString RelativePath = FPaths::GameContentDir();
-	FString LoadFilePath = RelativePath + "Items/Weapons " + armor;
+	FString LoadFilePath = RelativePath + "Items/Weapons " + item;
 
-	FFileHelper::LoadFileToString(SavedArmor, *LoadFilePath);
+	FFileHelper::LoadFileToString(SavedItem, *LoadFilePath);
 
-	if (SavedArmor != "")
+	if (SavedItem != "")
 	{
 		return true;
 		//to be added the text file attributes
@@ -42,11 +41,11 @@ bool ASpawnArmor::LoadFromFile(FString armor)
 	return false;
 }
 
-void ASpawnArmor::SpawnArmor(FVector position, int id)
+void ASpawnOtherItems::SpawnOtherItem(FVector position, int id)
 {
 	FActorSpawnParameters spawnInfo;
 	spawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	armor = GetWorld()->SpawnActor<AArmor>(GetActorLocation(), FRotator(0, 0, 0), spawnInfo);
-	armor->SetArmorID(id);
+	otherItems = GetWorld()->SpawnActor<AOtherItems>(GetActorLocation(), FRotator(0, 0, 0), spawnInfo);
+	otherItems->SetItemID(id);
 }
 

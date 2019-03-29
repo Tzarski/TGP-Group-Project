@@ -9,7 +9,9 @@
 #include "GameFramework/Actor.h"
 #include "PlayerChar.h"
 #include "newastar.h"
-#include "SpawnWeapon.h"
+#include "ItemsManager.h"
+#include "GenericPlatformMath.h"
+#include "Runtime/Core/Public/Math/UnrealMathUtility.h"
 #include "Enemy.generated.h"
 
 
@@ -30,7 +32,11 @@ protected:
 	class Anewastar * pathfinder;
 	bool dead = false;
 	int minus = 1;
-	class ASpawnWeapon* weapon;
+	class AItemsManager* itemsManager;
+
+	int randomID = FMath::FRandRange(1,2);
+	int randomKey = FMath::FRandRange(1, 15);
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

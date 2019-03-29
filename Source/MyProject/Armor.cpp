@@ -11,6 +11,7 @@ AArmor::AArmor(const FObjectInitializer& PCIP) : Super(PCIP)
 
 	ArmorComponent = PCIP.CreateDefaultSubobject<UPaperSpriteComponent>(this, TEXT("armor"));
 	ArmorComponent->SetupAttachment(RootComponent);
+
 	TempComp1 = PCIP.CreateDefaultSubobject<UPaperSpriteComponent>(this, TEXT("TempComp1"));
 	TempComp1->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Items/Armor/armor1_Sprite.armor1_Sprite'")).Object);
 

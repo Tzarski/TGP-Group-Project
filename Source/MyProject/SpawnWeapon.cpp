@@ -3,12 +3,12 @@
 #include "SpawnWeapon.h"
 #include "Weapon.h"
 
-ASpawnWeapon::ASpawnWeapon()
+ASpawnWeapon::ASpawnWeapon(const FObjectInitializer& PCIP) : Super(PCIP)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	//TempComp1 = PCIP.CreateDefaultSubobject<UPaperSpriteComponent>(this, TEXT("TempComp1"));
+	TempComp1 = PCIP.CreateDefaultSubobject<UPaperSpriteComponent>(this, TEXT("TempComp1"));
 }
 
 // Called when the game starts or when spawned

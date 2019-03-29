@@ -1,45 +1,40 @@
 // Fill out your copyright notice in the Description page of Project Settings.
+
 #pragma once
 
-#include "Runtime/Core/Public/Misc/FileHelper.h"
 #include "CoreMinimal.h"
-#include <fstream>
 #include "GameFramework/Actor.h"
+#include "Runtime/Core/Public/Misc/FileHelper.h"
 #include <EngineGlobals.h>
 #include <Runtime/Engine/Classes/Engine/Engine.h>
-#include "SpawnWeapon.generated.h"
+#include "SpawnOtherItems.generated.h"
 
+class AOtherItems;
 
 USTRUCT()
-struct FWeaponData
+struct FItemData
 {
 	GENERATED_BODY()
 
 
-	FWeaponData()
+	FItemData()
 	{
 
 	}
 
-	FString WeaponName;
-	int AttackDamage;
-	float AttackSpeed;
 	int Price;
 
 };
 
-class AWeapon;
-
 UCLASS()
-class MYPROJECT_API ASpawnWeapon : public AActor
+class MYPROJECT_API ASpawnOtherItems : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ASpawnWeapon(const FObjectInitializer& PCIP);
-	
-	
+	ASpawnOtherItems(const FObjectInitializer& PCIP);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -47,12 +42,13 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	bool LoadFromFile(FString weapon);
-	void SpawnWeapon(FVector position, int id);
 
-	FString SavedWeapon = "";
+	bool LoadFromFile(FString item);
+	void SpawnOtherItem(FVector position, int id);
+
+	AOtherItems* otherItems;
+	FString SavedItem = "";
+	FItemData itemData;
 	class UPaperSpriteComponent* TempComp1;
-	AWeapon* weapons;
-
-	FWeaponData weaponData;
+	
 };

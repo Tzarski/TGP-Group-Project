@@ -8,6 +8,8 @@
 #include <Runtime/Engine/Classes/Engine/Engine.h>
 #include "SpawnArmor.generated.h"
 
+class AArmor;
+
 USTRUCT()
 struct FArmorData
 {
@@ -32,7 +34,7 @@ class MYPROJECT_API ASpawnArmor : public AActor
 	
 public:	
 	// Sets default values for this actor's properties
-	ASpawnArmor();
+	ASpawnArmor(const FObjectInitializer& PCIP);
 
 protected:
 	// Called when the game starts or when spawned
@@ -48,4 +50,5 @@ public:
 	AArmor* armor;
 	FString SavedArmor = "";
 	FArmorData armorData;
+	class UPaperSpriteComponent* TempComp1;
 };

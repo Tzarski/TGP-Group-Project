@@ -42,8 +42,9 @@ void AEnemy::Hit()
 
 	FActorSpawnParameters spawnInfo;
 	spawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	weapon = GetWorld()->SpawnActor<ASpawnWeapon>(GetActorLocation(), FRotator(0, 0, 0), spawnInfo);
-	weapon->SpawnWeapon(this->GetActorLocation(), 2);
+
+	itemsManager = GetWorld()->SpawnActor<AItemsManager>(GetActorLocation(), FRotator(0, 0, 0), spawnInfo);
+	itemsManager->SpawnItems(this->GetActorLocation(), randomID, randomKey);
 }
 
 // Called every frame
