@@ -4,11 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Runtime/Core/Public/Misc/FileHelper.h"
+#include <EngineGlobals.h>
+#include <Runtime/Engine/Classes/Engine/Engine.h>
 #include "ItemsManager.generated.h"
-
-class ASpawnWeapon;
-class ASpawnArmor;
-class ASpawnOtherItems;
 
 UCLASS()
 class MYPROJECT_API AItemsManager : public AActor
@@ -29,7 +28,7 @@ public:
 
 	void SpawnItems(FVector position, int id, int key);
 
-	ASpawnWeapon* spawnWeapon;
-	ASpawnArmor* spawnArmor;
-	ASpawnOtherItems* spawnOtherItems;
+	class ASpawnWeapon* spawnWeapon;
+	class ASpawnArmor* spawnArmor;
+	class ASpawnOtherItems* spawnOtherItems;
 };

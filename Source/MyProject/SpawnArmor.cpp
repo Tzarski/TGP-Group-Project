@@ -2,21 +2,28 @@
 
 
 #include "SpawnArmor.h"
+#include "Kismet/GameplayStatics.h"
 #include "Armor.h"
 
 // Sets default values
-ASpawnArmor::ASpawnArmor(const FObjectInitializer& PCIP) : Super(PCIP)
+ASpawnArmor::ASpawnArmor()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	TempComp1 = PCIP.CreateDefaultSubobject<UPaperSpriteComponent>(this, TEXT("TempComp1"));
+
 }
 
 // Called when the game starts or when spawned
 void ASpawnArmor::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	TArray<AActor*> foundCharacter;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AGlobals::StaticClass(), foundCharacter);
+	for (AActor* protag : foundCharacter)
+	{
+		GlobVars = Cast<AGlobals>(protag);
+	}
 }
 
 // Called every frame
@@ -46,7 +53,8 @@ void ASpawnArmor::SpawnArmor(FVector position, int id)
 {
 	FActorSpawnParameters spawnInfo;
 	spawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	armor = GetWorld()->SpawnActor<AArmor>(GetActorLocation(), FRotator(0, 0, 0), spawnInfo);
+	armor = GetWorld()->SpawnActor<AArmor>(position, FRotator(0, 0, 0), spawnInfo);
 	armor->SetArmorID(id);
+	GlobVars->ExtraToClear.Add(armor);
 }
 

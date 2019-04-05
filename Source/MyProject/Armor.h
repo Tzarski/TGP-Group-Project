@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include <EngineGlobals.h>
+
 #include <Runtime/Engine/Classes/Engine/Engine.h>
 #include "../Plugins/2D/Paper2D/Source/Paper2D/Classes/PaperSprite.h"
 #include "../Plugins/2D/Paper2D/Source/Paper2D/Classes/PaperSpriteComponent.h"

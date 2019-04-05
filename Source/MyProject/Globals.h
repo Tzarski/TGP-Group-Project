@@ -26,5 +26,7 @@ public:
 	int health = 2;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Spawn Points")
 	bool paused;
+
+	TArray<AActor*> ExtraToClear;
 	
 };

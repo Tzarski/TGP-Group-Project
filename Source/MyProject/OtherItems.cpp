@@ -32,6 +32,8 @@ void AOtherItems::SetItemID(int id)
 	case 2:
 		ItemComponent->SetSprite(TempComp2->GetSprite());
 		break;
+	default:
+		break;
 
 	}
 }

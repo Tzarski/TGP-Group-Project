@@ -34,13 +34,14 @@ void AWeapon::SetWeaponSprite(int i)
 {
 	switch (i)
 	{
-	case 1:
-		WeaponComponent->SetSprite(TempComp1->GetSprite());
-		break;
-	case 2:
-		WeaponComponent->SetSprite(TempComp2->GetSprite());
-		break;
-
+		case 1:
+			WeaponComponent->SetSprite(TempComp1->GetSprite());
+			break;
+		case 2:
+			WeaponComponent->SetSprite(TempComp2->GetSprite());
+			break;
+		default:
+			break;
 	}
 }
 

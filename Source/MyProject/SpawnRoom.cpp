@@ -14,6 +14,8 @@ ASpawnRoom::ASpawnRoom()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	
+	
 }
 
 void ASpawnRoom::SpawnLayers(int dir)
@@ -183,11 +185,16 @@ void ASpawnRoom::SpawnRoom(int i)
 {
 	if (i == -1 && CurrentRoom == 0)
 		return;
-
+	if(GlobVars->ExtraToClear.Num() > 0)
+	{
+		for (int j = 0; j < GlobVars->ExtraToClear.Num(); j++)
+		{
+			GetWorld()->DestroyActor(GlobVars->ExtraToClear[j]);
+		}
+	}
 	for (int j = 0; j < Spawnedworld.Num(); j++)
 	{
 		GetWorld()->DestroyActor(Spawnedworld[j]);
-
 	}
 	Spawnedworld.Empty();
 	if (i >= 0 && CurrentRoom >= 4)
@@ -269,6 +276,15 @@ bool ASpawnRoom::LoadRoomFromFile(FString RoomName)
 void ASpawnRoom::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (GlobVars == NULL) {
+		TArray<AActor*> foundCharacter;
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AGlobals::StaticClass(), foundCharacter);
+		for (AActor* protag : foundCharacter)
+		{
+			GlobVars = Cast<AGlobals>(protag);
+		}
+	}
 
 }
 

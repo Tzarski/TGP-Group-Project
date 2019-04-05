@@ -10,14 +10,6 @@ AItemsManager::AItemsManager()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	FActorSpawnParameters spawnInfo;
-	spawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-
-	spawnWeapon = GetWorld()->SpawnActor<ASpawnWeapon>(GetActorLocation(), FRotator(0, 0, 0), spawnInfo);
-	spawnArmor = GetWorld()->SpawnActor<ASpawnArmor>(GetActorLocation(), FRotator(0, 0, 0), spawnInfo);
-	spawnOtherItems = GetWorld()->SpawnActor<ASpawnOtherItems>(GetActorLocation(), FRotator(0, 0, 0), spawnInfo);
-
-
 }
 
 // Called when the game starts or when spawned
@@ -36,27 +28,24 @@ void AItemsManager::Tick(float DeltaTime)
 
 void AItemsManager::SpawnItems(FVector position, int id, int key)
 {
-	if (key == 4, 5, 15)
+	FActorSpawnParameters spawnInfo;
+	spawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+	if (key <= 10)
 	{
+		spawnWeapon = GetWorld()->SpawnActor<ASpawnWeapon>(this->GetActorLocation(), FRotator(0, 0, 0), spawnInfo);
 		spawnWeapon->SpawnWeapon(position, id);
 	}
-
-	if (key == 12, 3, 5)
+	else if (key <= 20 && key > 10)
 	{
+		spawnArmor = GetWorld()->SpawnActor<ASpawnArmor>(this->GetActorLocation(), FRotator(0, 0, 0), spawnInfo);
 		spawnArmor->SpawnArmor(position, id);
 	}
-
-	if (key == 1,2,6,7,8,9,10,11,13,14)
+	else if (key <= 80 && key >20)
 	{
+		spawnOtherItems = GetWorld()->SpawnActor<ASpawnOtherItems>(this->GetActorLocation(), FRotator(0, 0, 0), spawnInfo);
 		spawnOtherItems->SpawnOtherItem(position, id);
 	}
-
-
-	//switch (key)
-	//{	
-
-	//	default:
-	//		break;
-	//}
+	else return;
 }
 

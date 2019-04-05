@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include <EngineGlobals.h>
+#include "Globals.h"
 #include <Runtime/Engine/Classes/Engine/Engine.h>
 #include "SpawnArmor.generated.h"
 
@@ -34,7 +35,7 @@ class MYPROJECT_API ASpawnArmor : public AActor
 	
 public:	
 	// Sets default values for this actor's properties
-	ASpawnArmor(const FObjectInitializer& PCIP);
+	ASpawnArmor();
 
 protected:
 	// Called when the game starts or when spawned
@@ -46,9 +47,9 @@ public:
 
 	bool LoadFromFile(FString armor);
 	void SpawnArmor(FVector position, int id);
-	
+	AGlobals* GlobVars;
 	AArmor* armor;
 	FString SavedArmor = "";
 	FArmorData armorData;
-	class UPaperSpriteComponent* TempComp1;
+
 };

@@ -8,6 +8,7 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Kismet/GameplayStatics.h"
 #include "UObject/UnrealType.h"
+#include "ItemsManager.h"
 
 
 
@@ -46,7 +47,7 @@ void AEnemy::Hit()
 	itemsManager = GetWorld()->SpawnActor<AItemsManager>(GetActorLocation(), FRotator(0, 0, 0), spawnInfo);
 	itemsManager->SpawnItems(this->GetActorLocation(), randomID, randomKey);
 }
-
+ 
 // Called every frame
 void AEnemy::Tick(float DeltaTime)
 {

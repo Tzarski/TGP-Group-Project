@@ -6,7 +6,8 @@
 #include <Runtime/Engine/Classes/Engine/Engine.h>
 #include "Runtime/Core/Public/Misc/Paths.h"
 #include "GameFramework/Actor.h"
-
+#include "Globals.h"
+#include "Kismet/GameplayStatics.h"
 #include "Runtime/Core/Public/Misc/FileHelper.h"
 #include "SpawnRoom.generated.h"
 
@@ -56,6 +57,7 @@ public:
 	void SpawnRoom(int i);
 	void PrintTwoInt(int i, int b);
 
+	AGlobals* GlobVars;
 	FString SavedName = "";
 	TArray<int> CurrentLevels;
 	TArray<AActor*> Spawnedworld;

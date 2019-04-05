@@ -9,7 +9,6 @@
 #include "GameFramework/Actor.h"
 #include "PlayerChar.h"
 #include "newastar.h"
-#include "ItemsManager.h"
 #include "GenericPlatformMath.h"
 #include "Runtime/Core/Public/Math/UnrealMathUtility.h"
 #include "Enemy.generated.h"
@@ -32,10 +31,11 @@ protected:
 	class Anewastar * pathfinder;
 	bool dead = false;
 	int minus = 1;
+
 	class AItemsManager* itemsManager;
 
-	int randomID = FMath::FRandRange(1,2);
-	int randomKey = FMath::FRandRange(1, 15);
+	int randomID = FMath::FRandRange(1,3);
+	int randomKey = FMath::FRandRange(0, 100);
 
 public:	
 	// Called every frame

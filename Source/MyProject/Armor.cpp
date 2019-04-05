@@ -32,6 +32,8 @@ void AArmor::SetArmorID(int id)
 	case 2:
 		ArmorComponent->SetSprite(TempComp2->GetSprite());
 		break;
+	default:
+		break;
 
 	}
 }

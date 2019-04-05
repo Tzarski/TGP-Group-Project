@@ -6,6 +6,7 @@
 #include <fstream>
 #include "GameFramework/Actor.h"
 #include <EngineGlobals.h>
+#include "Globals.h"
 #include <Runtime/Engine/Classes/Engine/Engine.h>
 #include "SpawnWeapon.generated.h"
 
@@ -37,7 +38,7 @@ class MYPROJECT_API ASpawnWeapon : public AActor
 	
 public:	
 	// Sets default values for this actor's properties
-	ASpawnWeapon(const FObjectInitializer& PCIP);
+	ASpawnWeapon();
 	
 	
 protected:
@@ -50,8 +51,9 @@ public:
 	bool LoadFromFile(FString weapon);
 	void SpawnWeapon(FVector position, int id);
 
+	AGlobals* GlobVars;
 	FString SavedWeapon = "";
-	class UPaperSpriteComponent* TempComp1;
+
 	AWeapon* weapons;
 
 	FWeaponData weaponData;
