@@ -9,6 +9,7 @@
 #include "Enemy.h"
 #include "Runtime/Engine/Classes/GameFramework/Actor.h"
 
+
 // Sets default values
 APlayerChar::APlayerChar(const FObjectInitializer& PCIP) : Super(PCIP)
 {
@@ -18,7 +19,6 @@ APlayerChar::APlayerChar(const FObjectInitializer& PCIP) : Super(PCIP)
 	defaultsprite->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Art/Gen/character_Sprite_4.character_Sprite_4'")).Object);
 
 	particle = ConstructorHelpers::FObjectFinder<UParticleSystem>(TEXT("blood'/Game/Blood_attack.Blood_attack'")).Object;
-	
 
 	
 	defaultflipbook = PCIP.CreateDefaultSubobject<UPaperFlipbookComponent>(this, TEXT("sword flip"));

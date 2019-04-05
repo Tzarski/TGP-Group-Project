@@ -9,18 +9,21 @@
 #include "PlayerChar.h"
 #include "Components/BoxComponent.h"
 #include "HealthPickup.h"
+#include "Sound.h"
 
 // Sets default values
 ASpawnRoom::ASpawnRoom()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	sound = CreateDefaultSubobject<USound>(TEXT("Audio"));
+	ConstructorHelpers::FObjectFinder<USoundBase> train(TEXT("'/Game/Audio/Cargo_train.Cargo_train'"));
+	sound->SetSound(train.Object);
 }
 
 void ASpawnRoom::SpawnLayers(int dir)
 {
-	
+	sound->LoopSound(false, 3);
 	int row = 0;
 	int columb = 1;
 	FActorSpawnParameters SpawnInfo;
