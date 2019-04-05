@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Enemy_Base.h"
+#include "Enemy_Splitter.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/BoxComponent.h"
@@ -10,25 +10,21 @@
 #include "UObject/UnrealType.h"
 
 // Sets default values
-AEnemy_Base::AEnemy_Base(const FObjectInitializer& PCIP)
+AEnemy_Splitter::AEnemy_Splitter(const FObjectInitializer& PCIP) : Super(PCIP)
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-	enemySprite = PCIP.CreateDefaultSubobject<UPaperSpriteComponent>(this, TEXT("default sprite"));
-	enemySprite->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Art/Gen/player_Sprite.player_Sprite'")).Object);
-	enemySprite->SetupAttachment(RootComponent);
-	enemySprite->SetCollisionProfileName(TEXT("OverlapAll"));
+	//enemySprite = PCIP.CreateDefaultSubobject<UPaperSpriteComponent>(this, TEXT("default sprite"));
+	//enemySprite->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Art/Gen/player_Sprite.player_Sprite'")).Object);
 }
 
 // Called when the game starts or when spawned
-void AEnemy_Base::BeginPlay()
+void AEnemy_Splitter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 // Called every frame
-void AEnemy_Base::Tick(float DeltaTime)
+void AEnemy_Splitter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	if (dead)
@@ -49,15 +45,15 @@ void AEnemy_Base::Tick(float DeltaTime)
 	Pathfinder();
 	/*if (_pPathfinder != NULL && ticks > 10)
 	{
-		_pPathfinder->Reset();
+	_pPathfinder->Reset();
 
 	}
 	if (_pPathfinder == NULL)
 	{
-		FActorSpawnParameters SpawnInfo;
-		SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		_pPathfinder = GetWorld()->SpawnActor<Anewastar>(FVector(1, 1, 1), FRotator(1, 1, 1), SpawnInfo);;
-		_pPathfinder->Find(_pPlayer->GetActorLocation(), this->GetActorLocation());
+	FActorSpawnParameters SpawnInfo;
+	SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	_pPathfinder = GetWorld()->SpawnActor<Anewastar>(FVector(1, 1, 1), FRotator(1, 1, 1), SpawnInfo);;
+	_pPathfinder->Find(_pPlayer->GetActorLocation(), this->GetActorLocation());
 	}*/
 
 
@@ -128,7 +124,7 @@ void AEnemy_Base::Tick(float DeltaTime)
 	//}
 }
 
-void AEnemy_Base::Hit()
+void AEnemy_Splitter::Hit()
 {
 	TArray<FHitResult> OutHits;
 	FVector SweepStart = this->GetActorLocation();
@@ -155,12 +151,12 @@ void AEnemy_Base::Hit()
 	}
 }
 
-//void AEnemy_Base::Attack()
+//void AEnemy_Splitter::Attack()
 //{
 //	// Transfer attack stuff.
 //}
 
-void AEnemy_Base::Pathfinder()
+void AEnemy_Splitter::Pathfinder()
 {
 	if (_pPathfinder != NULL && ticks > 10)
 	{
@@ -212,4 +208,5 @@ void AEnemy_Base::Pathfinder()
 		}
 	}
 }
+
 
