@@ -8,7 +8,7 @@
 #include "Classes/Particles/ParticleSystem.h"
 #include "Enemy.h"
 #include "Runtime/Engine/Classes/GameFramework/Actor.h"
-
+#include "Sound.h"
 
 // Sets default values
 APlayerChar::APlayerChar(const FObjectInitializer& PCIP) : Super(PCIP)
@@ -19,6 +19,9 @@ APlayerChar::APlayerChar(const FObjectInitializer& PCIP) : Super(PCIP)
 	defaultsprite->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Art/Gen/character_Sprite_4.character_Sprite_4'")).Object);
 
 	particle = ConstructorHelpers::FObjectFinder<UParticleSystem>(TEXT("blood'/Game/Blood_attack.Blood_attack'")).Object;
+	swordSoundEffect = CreateDefaultSubobject<USound>(TEXT("SwordSound"));
+	swordSoundEffect->SetSound(ConstructorHelpers::FObjectFinder<USoundBase>(TEXT("swordsoundeffect'/Game/Audio/Sword_swing.Sword_swing'")).Object);
+	swordSoundEffect->LowerVolume(8.0f);
 
 	
 	defaultflipbook = PCIP.CreateDefaultSubobject<UPaperFlipbookComponent>(this, TEXT("sword flip"));
@@ -234,7 +237,7 @@ void APlayerChar::Attack(float dir)
 		defaultflipbook->Activate();
 		defaultflipbook->Play();
 		GetWorld()->GetTimerManager().SetTimer(handle, [this]() {	attacking = false; defaultflipbook->Deactivate(); defaultflipbook->Stop(); 	defaultflipbook->SetSpriteColor(FLinearColor(0, 0, 0, 0)); }, 0.1, false);
-
+		swordSoundEffect->PlaySound();
 	}
 
 

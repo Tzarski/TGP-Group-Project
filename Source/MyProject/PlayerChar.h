@@ -39,6 +39,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	class UPaperSpriteComponent* defaultsprite;
 	class UPaperFlipbookComponent* defaultflipbook;
+	class USound* swordSoundEffect;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Spawn Points")
 		AGlobals* GlobalVars;

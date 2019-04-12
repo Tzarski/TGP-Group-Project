@@ -61,3 +61,8 @@ void USound::SetSound(USoundBase* soundSelected)
 {
 	soundPlay->SetSound(soundSelected);
 }
+
+void USound::LowerVolume(float lower)
+{
+	soundPlay->SetVolumeMultiplier(1.0f/lower);
+}

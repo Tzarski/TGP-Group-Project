@@ -60,5 +60,5 @@ public:
 	TArray<int> CurrentLevels;
 	TArray<AActor*> Spawnedworld;
 	TArray<FmyLayer> MyLayers;
-	class USound* sound;
+	class USound* sound, *backgroundMusic;
 };

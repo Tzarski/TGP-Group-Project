@@ -16,14 +16,16 @@ ASpawnRoom::ASpawnRoom()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	sound = CreateDefaultSubobject<USound>(TEXT("Audio"));
-	ConstructorHelpers::FObjectFinder<USoundBase> train(TEXT("'/Game/Audio/Cargo_train.Cargo_train'"));
+	sound = CreateDefaultSubobject<USound>(TEXT("TrainSound"));
+	backgroundMusic = CreateDefaultSubobject<USound>(TEXT("BackgroundMusic"));
+	ConstructorHelpers::FObjectFinder<USoundBase> train(TEXT("'/Game/Audio/train_moving_slow.train_moving_slow'"));
+	ConstructorHelpers::FObjectFinder<USoundBase> music(TEXT("'/Game/Audio/Start_music.Start_music'"));
 	sound->SetSound(train.Object);
+	backgroundMusic->SetSound(music.Object);
 }
 
 void ASpawnRoom::SpawnLayers(int dir)
-{
-	sound->LoopSound(false, 3);
+{	
 	int row = 0;
 	int columb = 1;
 	FActorSpawnParameters SpawnInfo;
@@ -193,6 +195,10 @@ void ASpawnRoom::BeginPlay()
 	LoadRoomFromFile("room1.txt");
 	SortLayers();
 	SpawnLayers(1);
+	sound->LowerVolume(2.0f);
+	backgroundMusic->LowerVolume(1.75f);
+	sound->LoopSound(true, 1);	
+	backgroundMusic->LoopSound(true, 1);
 }
 
 

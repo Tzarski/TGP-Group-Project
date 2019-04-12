@@ -21,6 +21,7 @@ public:
 
 	void LoopSound(bool unlimited, int timesToPlay);
 	void StopSound();
+	void LowerVolume(float lower);
 	void SetSound(USoundBase* soundSelected);
 
 private:
