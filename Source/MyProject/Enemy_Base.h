@@ -34,9 +34,10 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	virtual void Hit();
-	//virtual void Attack();
-	int _health, _range, _damage, _speed;
 	virtual void Pathfinder();
+	//virtual void Attack();
+
+	int _health, _range, _damage, _speed;
 	bool moved;
 	int ticks = 0;
 	class UPaperSpriteComponent* enemySprite;

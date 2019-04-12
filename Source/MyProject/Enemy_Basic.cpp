@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Enemy_Splitter.h"
+#include "Enemy_Basic.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/BoxComponent.h"
@@ -10,33 +10,33 @@
 #include "UObject/UnrealType.h"
 
 // Sets default values
-AEnemy_Splitter::AEnemy_Splitter(const FObjectInitializer& PCIP) : Super(PCIP)
+AEnemy_Basic::AEnemy_Basic(const FObjectInitializer& PCIP) : Super(PCIP)
 {
 	enemySprite = PCIP.CreateDefaultSubobject<UPaperSpriteComponent>(this, TEXT("default sprite"));
 	enemySprite->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Art/Gen/player_Sprite.player_Sprite'")).Object);
 	enemySprite->SetupAttachment(RootComponent);
 	enemySprite->SetCollisionProfileName(TEXT("OverlapAll"));
 
-	_health = 15;
+	_health = 10;
 	_speed = 0; //Placeholder
 	_range = 0; //Placeholder
 	_damage = 0; //Placeholder
 }
 
 // Called when the game starts or when spawned
-void AEnemy_Splitter::BeginPlay()
+void AEnemy_Basic::BeginPlay()
 {
 	Super::BeginPlay();
 
 }
 
 // Called every frame
-void AEnemy_Splitter::Tick(float DeltaTime)
+void AEnemy_Basic::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	if (dead)
 		return;
-	//return;//remove this just testing the a*
+
 	if (_pPlayer == NULL)
 	{
 		UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerChar::StaticClass(), _foundCharacter);
@@ -52,14 +52,13 @@ void AEnemy_Splitter::Tick(float DeltaTime)
 	Pathfinder();
 
 	if (_pPlayer->dead)
-	{
-		// Spawn sub-enemies
 		return;
-	}
-		
+
+	Hit();
+
 }
 
-void AEnemy_Splitter::Hit()
+void AEnemy_Basic::Hit()
 {
 	TArray<FHitResult> OutHits;
 	FVector SweepStart = this->GetActorLocation();
@@ -86,7 +85,7 @@ void AEnemy_Splitter::Hit()
 	}
 }
 
-void AEnemy_Splitter::Pathfinder()
+void AEnemy_Basic::Pathfinder()
 {
 	if (_pPathfinder != NULL && ticks > 10)
 	{
@@ -140,8 +139,10 @@ void AEnemy_Splitter::Pathfinder()
 }
 
 
-//void AEnemy_Splitter::Attack()
+//void AEnemy_Basic::Attack()
 //{
 //	// Transfer attack stuff.
 //}
+
+
 

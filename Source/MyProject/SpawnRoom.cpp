@@ -6,6 +6,8 @@
 #include "Door.h"
 #include "Trap.h"
 #include "Enemy.h"
+#include "Enemy_Basic.h"
+#include "Enemy_Splitter.h"
 #include "PlayerChar.h"
 #include "Components/BoxComponent.h"
 #include "HealthPickup.h"
@@ -127,7 +129,7 @@ void ASpawnRoom::SpawnLayers(int dir)
 		if (layer.spawn == 'e')
 		{
 			AFloor* one = GetWorld()->SpawnActor<AFloor>(FVector(columb * 100, 1, -row * 100), FRotator(0, 0, 0), SpawnInfo);
-			AEnemy* two = GetWorld()->SpawnActor<AEnemy>(FVector(columb * 100, -10, -row * 100), FRotator(0, 0, 0), SpawnInfo);
+			AEnemy_Basic* two = GetWorld()->SpawnActor<AEnemy_Basic>(FVector(columb * 100, -10, -row * 100), FRotator(0, 0, 0), SpawnInfo);
 			Spawnedworld.Add(one);
 			Spawnedworld.Add(two);
 			columb++;
