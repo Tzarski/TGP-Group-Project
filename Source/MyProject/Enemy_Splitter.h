@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Enemy_Base.h"
 #include <EngineGlobals.h>
 #include <Runtime/Engine/Classes/Engine/Engine.h>
 #include "../Plugins/2D/Paper2D/Source/Paper2D/Classes/PaperSprite.h"
@@ -10,16 +11,16 @@
 #include "GameFramework/Actor.h"
 #include "PlayerChar.h"
 #include "newastar.h"
-#include "Enemy_Base.generated.h"
+#include "Enemy_Splitter.generated.h"
 
 UCLASS()
-class MYPROJECT_API AEnemy_Base : public AActor
+class MYPROJECT_API AEnemy_Splitter : public AEnemy_Base
 {
 	GENERATED_BODY()
 	
-public:	
+public:
 	// Sets default values for this actor's properties
-	AEnemy_Base(const FObjectInitializer& PCIP);
+	AEnemy_Splitter(const FObjectInitializer& PCIP);
 
 protected:
 	// Called when the game starts or when spawned
@@ -30,13 +31,13 @@ protected:
 	bool dead = false;
 	int minus = 1;
 
-public:	
+public:
 	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-	virtual void Hit();
+	void Tick(float DeltaTime) override;
+	void Hit();
 	//virtual void Attack();
 	int _health, _range, _damage, _speed;
-	virtual void Pathfinder();
+	void Pathfinder();
 	bool moved;
 	int ticks = 0;
 	class UPaperSpriteComponent* enemySprite;
