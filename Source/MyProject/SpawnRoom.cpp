@@ -216,6 +216,7 @@ void ASpawnRoom::SpawnRoom(int i)
 
 	for (int j = 0; j < Spawnedworld.Num(); j++)
 	{
+		if(Spawnedworld[j]->IsValidLowLevel())
 		GetWorld()->DestroyActor(Spawnedworld[j]);
 
 	}

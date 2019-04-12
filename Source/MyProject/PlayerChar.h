@@ -54,4 +54,5 @@ public:
 	bool attacking;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Spawn Points")
 		bool dead;
+
 };
