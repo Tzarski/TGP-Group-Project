@@ -2,6 +2,10 @@
 
 #include "SpawnWeapon.h"
 #include "Kismet/GameplayStatics.h"
+#include "StringConv.h"
+#include "UnrealString.h"
+#include "NameTypes.h"
+#include "cstring"
 #include "Weapon.h"
 
 ASpawnWeapon::ASpawnWeapon()
@@ -14,8 +18,6 @@ ASpawnWeapon::ASpawnWeapon()
 void ASpawnWeapon::BeginPlay()
 {
 	Super::BeginPlay();
-
-	LoadFromFile("1.txt");
 	
 	TArray<AActor*> foundCharacter;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AGlobals::StaticClass(), foundCharacter);
@@ -35,24 +37,27 @@ void ASpawnWeapon::Tick(float DeltaTime)
 bool ASpawnWeapon::LoadFromFile(FString weapon)
 {
 	FString RelativePath = FPaths::GameContentDir();
-	FString LoadFilePath = RelativePath + "Items/Weapons " + weapon;
+	FString LoadFilePath = RelativePath + "Items/Weapons/ " + weapon;
 
 	FFileHelper::LoadFileToString(SavedWeapon, *LoadFilePath);
 
 	if (SavedWeapon != "")
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Yellow, TEXT("Text Loaded"));
-		//weaponData.WeaponName = SavedWeapon.Left(10);
-		//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Yellow, TEXT("LSavedWeapon"));
-		FString tempName;
-		FString tempAttack;
-		UE_LOG(LogTemp, Display, TEXT("Weapon name %s"), *SavedWeapon);
-		//SavedWeapon.Split(TEXT(","), &tempName, &tempAttack, ESearchCase::CaseSensitive, ESearchDir::FromStart);
-		//weaponData.WeaponName = tempName;
-		//.Split(SavedWeapon, 0, 10, ESearchCase::CaseSensitive, ESearchDir::FromStart);
+		GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Yellow, TEXT("Text File Loaded"));
+
+		for (int i = 0; i < SavedWeapon.Len(); i++)
+		{
+			if (SavedWeapon[i] == '/')
+			{
+				weaponData.WeaponName = "" + SavedWeapon[0];
+				weaponData.AttackDamage = FCString::Atoi(&SavedWeapon[1]);
+				weaponData.AttackSpeed = FCString::Atof(&SavedWeapon[2]);
+				weaponData.Price = FCString::Atoi(&SavedWeapon[3]);
+			}
+		}
+
 		return true;
 	}
-
 
 	return false;
 }
@@ -63,6 +68,7 @@ void ASpawnWeapon::SpawnWeapon(FVector position, int id)
 	spawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	weapons = GetWorld()->SpawnActor<AWeapon>(position, FRotator(0, 0, 0), spawnInfo);
 	weapons->SetWeaponSprite(id);
+	LoadFromFile( id + ".txt");
 
 	GlobVars->ExtraToClear.Add(weapons);
 }

@@ -34,14 +34,22 @@ void ASpawnOtherItems::Tick(float DeltaTime)
 bool ASpawnOtherItems::LoadFromFile(FString item)
 {
 	FString RelativePath = FPaths::GameContentDir();
-	FString LoadFilePath = RelativePath + "Items/Weapons " + item;
+	FString LoadFilePath = RelativePath + "Items/OtherItems/" + item;
 
 	FFileHelper::LoadFileToString(SavedItem, *LoadFilePath);
 
 	if (SavedItem != "")
 	{
+		for (int i = 0; i < SavedItem.Len(); i++)
+		{
+			if (SavedItem[i] == '/')
+			{
+				itemData.name = "" + SavedItem[0];
+				itemData.Price = FCString::Atoi(&SavedItem[1]);
+			}
+		}
+
 		return true;
-		//to be added the text file attributes
 	}
 
 	return false;
@@ -53,6 +61,8 @@ void ASpawnOtherItems::SpawnOtherItem(FVector position, int id)
 	spawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	otherItems = GetWorld()->SpawnActor<AOtherItems>(position, FRotator(0, 0, 0), spawnInfo);
 	otherItems->SetItemID(id);
+	LoadFromFile(id + ".txt");
+
 	GlobVars->ExtraToClear.Add(otherItems);
 
 }

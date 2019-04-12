@@ -23,6 +23,7 @@ struct FItemData
 
 	}
 
+	FString name;
 	int Price;
 
 };

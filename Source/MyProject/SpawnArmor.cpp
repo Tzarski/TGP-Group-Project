@@ -36,14 +36,23 @@ void ASpawnArmor::Tick(float DeltaTime)
 bool ASpawnArmor::LoadFromFile(FString armor)
 {
 	FString RelativePath = FPaths::GameContentDir();
-	FString LoadFilePath = RelativePath + "Items/Weapons " + armor;
+	FString LoadFilePath = RelativePath + "Items/Armor/ " + armor;
 
 	FFileHelper::LoadFileToString(SavedArmor, *LoadFilePath);
 
 	if (SavedArmor != "")
 	{
+		for (int i = 0; i < SavedArmor.Len(); i++)
+		{
+			if (SavedArmor[i] == '/')
+			{
+				armorData.ArmorName = "" + SavedArmor[0];
+				armorData.Defence = FCString::Atoi(&SavedArmor[1]);
+				armorData.Price = FCString::Atoi(&SavedArmor[2]);
+			}
+		}
+
 		return true;
-		//to be added the text file attributes
 	}
 
 	return false;
@@ -55,6 +64,8 @@ void ASpawnArmor::SpawnArmor(FVector position, int id)
 	spawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	armor = GetWorld()->SpawnActor<AArmor>(position, FRotator(0, 0, 0), spawnInfo);
 	armor->SetArmorID(id);
+	LoadFromFile(id + ".txt");
+
 	GlobVars->ExtraToClear.Add(armor);
 }
 

@@ -253,6 +253,8 @@ void ASpawnRoom::SortLayers()
 			continue;
 		}
 		MyLayers.Add(FmyLayer(layerID, SavedName[i]));
+
+
 	 }
 }
 bool ASpawnRoom::LoadRoomFromFile(FString RoomName)
