@@ -10,10 +10,10 @@
 #include "UObject/UnrealType.h"
 
 // Sets default values
-AEnemy_Splitter::AEnemy_Splitter(const FObjectInitializer& PCIP) : Super(PCIP)
+AEnemy_Splitter::AEnemy_Splitter() 
 {
-	enemySprite = PCIP.CreateDefaultSubobject<UPaperSpriteComponent>(this, TEXT("default sprite"));
-	enemySprite->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Art/Gen/player_Sprite.player_Sprite'")).Object);
+	enemySprite = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("default sprite"));
+	enemySprite->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Art/Gen/Splitter/Splittter_Sprite_0.Splittter_Sprite_0'")).Object);
 	enemySprite->SetupAttachment(RootComponent);
 	enemySprite->SetCollisionProfileName(TEXT("OverlapAll"));
 
@@ -23,121 +23,14 @@ AEnemy_Splitter::AEnemy_Splitter(const FObjectInitializer& PCIP) : Super(PCIP)
 	_damage = 0; //Placeholder
 }
 
-// Called when the game starts or when spawned
-void AEnemy_Splitter::BeginPlay()
+void AEnemy_Splitter::Damaged()
 {
-	Super::BeginPlay();
-
+	dead = true;
+	FTimerHandle    handle;
+	enemySprite->SetSpriteColor(FLinearColor(1, 0.1, 0.1, 1));
+	GetWorld()->GetTimerManager().SetTimer(handle, [this]() {	this->Destroy(); }, 1, false);
 }
 
-// Called every frame
-void AEnemy_Splitter::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	if (dead)
-		return;
-	//return;//remove this just testing the a*
-	if (_pPlayer == NULL)
-	{
-		UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerChar::StaticClass(), _foundCharacter);
-		for (AActor* protag : _foundCharacter)
-		{
-			_pPlayer = Cast<APlayerChar>(protag);
-		}
-
-		return;
-	}
-	ticks++;
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString::Printf(TEXT("Looping %i, "), ticks));
-	Pathfinder();
-
-	if (_pPlayer->dead)
-	{
-		// Spawn sub-enemies
-		return;
-	}
-		
-}
-
-void AEnemy_Splitter::Hit()
-{
-	TArray<FHitResult> OutHits;
-	FVector SweepStart = this->GetActorLocation();
-	FVector SweepEnd = this->GetActorLocation();
-	FCollisionShape MyColSphere = FCollisionShape::MakeSphere(70.0f);
-
-	bool isHit = GetWorld()->SweepMultiByChannel(OutHits, SweepStart, SweepEnd, FQuat::Identity, ECC_WorldStatic, MyColSphere);
-	bool cantmove = false;
-
-	if (isHit)
-	{
-		for (auto& Hit : OutHits)
-		{
-			if (GEngine)
-			{
-				if (Hit.Actor->GetName().Contains("player", ESearchCase::IgnoreCase, ESearchDir::FromStart))
-				{
-					Cast<APlayerChar>(Hit.Actor)->TakeDamage();
-
-					return;
-				}
-			}
-		}
-	}
-}
-
-void AEnemy_Splitter::Pathfinder()
-{
-	if (_pPathfinder != NULL && ticks > 10)
-	{
-		_pPathfinder->Reset();
-
-	}
-	if (_pPathfinder == NULL)
-	{
-		FActorSpawnParameters SpawnInfo;
-		SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		_pPathfinder = GetWorld()->SpawnActor<Anewastar>(FVector(1, 1, 1), FRotator(1, 1, 1), SpawnInfo);;
-		_pPathfinder->Find(_pPlayer->GetActorLocation(), this->GetActorLocation());
-	}
-
-	if (_pPathfinder->path.Num() > minus)
-	{
-
-		if (FVector::Distance(_pPathfinder->nodes[_pPathfinder->path[_pPathfinder->path.Num() - minus]].position, this->GetActorLocation()) < 4)
-			minus++;
-
-		FVector location = _pPathfinder->nodes[_pPathfinder->path[_pPathfinder->path.Num() - minus]].position;//Pathfinder->nodes[Pathfinder->path[Pathfinder->path.Num() - minus]].position;//next node replace
-
-																											  //GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString::Printf(TEXT("looping %i,  %f"), minus, location.X));
-
-		if (location.X >= this->GetActorLocation().X)
-		{
-			enemySprite->AddLocalOffset(FVector(3, 0, 0), false, NULL, ETeleportType::None);
-		}
-
-		if (location.X <= this->GetActorLocation().X)
-		{
-			enemySprite->AddLocalOffset(FVector(-3, 0, 0), false, NULL, ETeleportType::None);
-		}
-
-		if (location.Z >= this->GetActorLocation().Z)
-		{
-			enemySprite->AddLocalOffset(FVector(0, 0, 3), false, NULL, ETeleportType::None);
-		}
-
-		if (location.Z <= this->GetActorLocation().Z)
-		{
-			enemySprite->AddLocalOffset(FVector(0, 0, -3), false, NULL, ETeleportType::None);
-		}
-
-
-		if (location.X < this->GetActorLocation().X + 4 && location.X > this->GetActorLocation().X - 4 && location.Z < this->GetActorLocation().Z + 4 && location.Z > this->GetActorLocation().Z - 4)
-		{
-			minus++;
-		}
-	}
-}
 
 
 //void AEnemy_Splitter::Attack()

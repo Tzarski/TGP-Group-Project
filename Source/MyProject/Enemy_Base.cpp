@@ -10,7 +10,7 @@
 #include "UObject/UnrealType.h"
 
 // Sets default values
-AEnemy_Base::AEnemy_Base(const FObjectInitializer& PCIP)
+AEnemy_Base::AEnemy_Base()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -86,42 +86,6 @@ void AEnemy_Base::Tick(float DeltaTime)
 	//}
 	Hit();
 
-	//if (_pPathfinder->path.Num() > minus)
-	//{
-
-	//	if (FVector::Distance(_pPathfinder->nodes[_pPathfinder->path[_pPathfinder->path.Num() - minus]].position, this->GetActorLocation()) < 4)
-	//		minus++;
-
-	//	FVector location = _pPathfinder->nodes[_pPathfinder->path[_pPathfinder->path.Num() - minus]].position;//Pathfinder->nodes[Pathfinder->path[Pathfinder->path.Num() - minus]].position;//next node replace
-
-	//																									//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString::Printf(TEXT("looping %i,  %f"), minus, location.X));
-
-	//	if (location.X >= this->GetActorLocation().X)
-	//	{
-	//		enemySprite->AddLocalOffset(FVector(3, 0, 0), false, NULL, ETeleportType::None);
-	//	}
-
-	//	if (location.X <= this->GetActorLocation().X)
-	//	{
-	//		enemySprite->AddLocalOffset(FVector(-3, 0, 0), false, NULL, ETeleportType::None);
-	//	}
-
-	//	if (location.Z >= this->GetActorLocation().Z)
-	//	{
-	//		enemySprite->AddLocalOffset(FVector(0, 0, 3), false, NULL, ETeleportType::None);
-	//	}
-
-	//	if (location.Z <= this->GetActorLocation().Z)
-	//	{
-	//		enemySprite->AddLocalOffset(FVector(0, 0, -3), false, NULL, ETeleportType::None);
-	//	}
-
-
-	//	if (location.X < this->GetActorLocation().X + 4 && location.X > this->GetActorLocation().X - 4 && location.Z < this->GetActorLocation().Z + 4 && location.Z > this->GetActorLocation().Z - 4)
-	//	{
-	//		minus++;
-	//	}
-	//}
 }
 
 void AEnemy_Base::Hit()

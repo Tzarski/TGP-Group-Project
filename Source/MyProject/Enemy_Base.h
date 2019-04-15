@@ -19,7 +19,7 @@ class MYPROJECT_API AEnemy_Base : public AActor
 	
 public:	
 	// Sets default values for this actor's properties
-	AEnemy_Base(const FObjectInitializer& PCIP);
+	AEnemy_Base();
 
 protected:
 	// Called when the game starts or when spawned

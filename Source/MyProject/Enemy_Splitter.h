@@ -20,27 +20,16 @@ class MYPROJECT_API AEnemy_Splitter : public AEnemy_Base
 	
 public:
 	// Sets default values for this actor's properties
-	AEnemy_Splitter(const FObjectInitializer& PCIP);
+	AEnemy_Splitter();
 
 protected:
 	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-	TArray<AActor*> _foundCharacter;
-	class APlayerChar * _pPlayer;
-	class Anewastar * _pPathfinder;
-	bool dead = false;
-	int minus = 1;
+	
 
 public:
 	// Called every frame
-	void Tick(float DeltaTime) override;
-	void Hit();
-	void Pathfinder();
+	void Damaged();
 	//virtual void Attack();
 
-	int _health, _range, _damage, _speed;
-	bool moved;
-	int ticks = 0;
-	
-	class UPaperSpriteComponent* enemySprite;
+
 };

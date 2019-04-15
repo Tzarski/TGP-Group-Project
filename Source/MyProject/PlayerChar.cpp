@@ -6,7 +6,9 @@
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "SpawnRoom.h"
 #include "Classes/Particles/ParticleSystem.h"
-#include "Enemy.h"
+#include "Enemy_Ghost.h"
+#include "Enemy_Splitter.h"
+#include "Enemy_Basic.h"
 #include "Runtime/Engine/Classes/GameFramework/Actor.h"
 #include "Sound.h"
 
@@ -16,7 +18,7 @@ APlayerChar::APlayerChar(const FObjectInitializer& PCIP) : Super(PCIP)
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	defaultsprite = PCIP.CreateDefaultSubobject<UPaperSpriteComponent>(this, TEXT("default sprite"));
-	defaultsprite->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Art/Gen/character_Sprite_4.character_Sprite_4'")).Object);
+	defaultsprite->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Art/Gen/Character/character_Sprite_4.character_Sprite_4'")).Object);
 
 	particle = ConstructorHelpers::FObjectFinder<UParticleSystem>(TEXT("blood'/Game/Blood_attack.Blood_attack'")).Object;
 	swordSoundEffect = CreateDefaultSubobject<USound>(TEXT("SwordSound"));
@@ -93,9 +95,27 @@ void APlayerChar::Tick(float DeltaTime)
 		{
 			if (GEngine)
 			{
-				if (Hit.Actor->GetName().Contains("Enemy", ESearchCase::IgnoreCase, ESearchDir::FromStart))
+				if (Hit.Actor->GetName().Contains("Ghost", ESearchCase::IgnoreCase, ESearchDir::FromStart))
 				{
-					Cast<AEnemy>(Hit.Actor)->Hit();
+					Cast<AEnemy_Ghost>(Hit.Actor)->Damaged();
+					DrawDebugSphere(GetWorld(), SweepStart, 20, 5, FColor::Green, true, -1, 0, 10);
+					return;
+				}
+				/*else if (Hit.Actor->GetName().Contains("Child", ESearchCase::IgnoreCase, ESearchDir::FromStart))
+				{
+					Cast<AEnemy_Splitter_Child>(Hit.Actor)->Hit();
+					DrawDebugSphere(GetWorld(), SweepStart, 20, 5, FColor::Green, true, -1, 0, 10);
+					return;
+				}*/
+				else if (Hit.Actor->GetName().Contains("Splitter", ESearchCase::IgnoreCase, ESearchDir::FromStart))
+				{
+					Cast<AEnemy_Splitter>(Hit.Actor)->Damaged();
+					DrawDebugSphere(GetWorld(), SweepStart, 20, 5, FColor::Green, true, -1, 0, 10);
+					return;
+				}
+				else if (Hit.Actor->GetName().Contains("Basic", ESearchCase::IgnoreCase, ESearchDir::FromStart))
+				{
+					Cast<AEnemy_Basic>(Hit.Actor)->Damaged();
 					DrawDebugSphere(GetWorld(), SweepStart, 20, 5, FColor::Green, true, -1, 0, 10);
 					return;
 				}
