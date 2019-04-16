@@ -18,8 +18,12 @@ class MYPROJECT_API AEnemy_Ghost : public AEnemy_Base
 
 protected:
 	//virtual void Tick(float DeltaTime) override;
+	float randomX = 0.0f, randomZ = 0.0f, changeSprite = 1;
+	bool attacking = false;
 
 public:
 	void Damaged();
-	
+	void Move();
+	void LoadPaperSprites();
+	void SetSprites();
 };

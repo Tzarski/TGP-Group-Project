@@ -35,10 +35,13 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void Hit();
 	virtual void Pathfinder();
+	virtual void Move();
+	virtual void SetSprites();
 	//virtual void Attack();
 
-	int _health, _range, _damage, _speed;
-	bool moved;
-	int ticks = 0;
+	float _health, _range, _damage, _speed;
+	bool moved, block;
+	int ticks = 0, spriteSelected;
 	class UPaperSpriteComponent* enemySprite;
+	UPaperSprite* papersprite[12];
 };

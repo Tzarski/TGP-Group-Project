@@ -43,6 +43,8 @@ void AEnemy_Base::Tick(float DeltaTime)
 	ticks++;
 	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString::Printf(TEXT("Looping %i, "), ticks));
 	Pathfinder();
+	Move();
+	SetSprites();
 	/*if (_pPathfinder != NULL && ticks > 10)
 	{
 		_pPathfinder->Reset();
@@ -96,7 +98,7 @@ void AEnemy_Base::Hit()
 	FCollisionShape MyColSphere = FCollisionShape::MakeSphere(70.0f);
 
 	bool isHit = GetWorld()->SweepMultiByChannel(OutHits, SweepStart, SweepEnd, FQuat::Identity, ECC_WorldStatic, MyColSphere);
-	bool cantmove = false;
+	block = false;
 
 	if (isHit)
 	{
@@ -108,6 +110,11 @@ void AEnemy_Base::Hit()
 				{
 					Cast<APlayerChar>(Hit.Actor)->TakeDamage();
 
+					return;
+				}
+				if (Hit.Actor->GetName().Contains("roof", ESearchCase::IgnoreCase, ESearchDir::FromStart))
+				{
+					block = true;
 					return;
 				}
 			}
@@ -135,6 +142,11 @@ void AEnemy_Base::Pathfinder()
 		_pPathfinder->Find(_pPlayer->GetActorLocation(), this->GetActorLocation());
 	}
 
+	
+}
+
+void AEnemy_Base::Move()
+{
 	if (_pPathfinder->path.Num() > minus)
 	{
 
@@ -173,3 +185,6 @@ void AEnemy_Base::Pathfinder()
 	}
 }
 
+void AEnemy_Base::SetSprites()
+{
+}
