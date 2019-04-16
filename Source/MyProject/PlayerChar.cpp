@@ -9,6 +9,7 @@
 #include "Enemy_Ghost.h"
 #include "Enemy_Splitter.h"
 #include "Enemy_Basic.h"
+#include "Enemy_Mage.h"
 #include "Runtime/Engine/Classes/GameFramework/Actor.h"
 #include "Sound.h"
 
@@ -24,6 +25,10 @@ APlayerChar::APlayerChar(const FObjectInitializer& PCIP) : Super(PCIP)
 	swordSoundEffect = CreateDefaultSubobject<USound>(TEXT("SwordSound"));
 	swordSoundEffect->SetSound(ConstructorHelpers::FObjectFinder<USoundBase>(TEXT("swordsoundeffect'/Game/Audio/Sword_swing.Sword_swing'")).Object);
 	swordSoundEffect->LowerVolume(8.0f);
+
+	playerSoundEffect = CreateDefaultSubobject<USound>(TEXT("PlayerSound"));
+	playerSoundEffect->SetSound(ConstructorHelpers::FObjectFinder<USoundBase>(TEXT("playerSoundEffect'/Game/Audio/Hurt.Hurt'")).Object);
+	playerSoundEffect->LowerVolume(4.0f);
 
 	
 	defaultflipbook = PCIP.CreateDefaultSubobject<UPaperFlipbookComponent>(this, TEXT("sword flip"));
@@ -63,8 +68,9 @@ void APlayerChar::TakeDamage()
 	UGameplayStatics::SpawnEmitterAttached(particle, defaultsprite->GetAttachmentRoot(), NAME_None, FVector(0.0f, 0.1f, -20.0f), FRotator(0.0f, 0.0f, 0.0f), EAttachLocation::Type::SnapToTarget, true);
 	defaultsprite->SetSpriteColor(FLinearColor(255, 0, 0, 1));	
 
-	GlobalVars->Damage(1);
+	GlobalVars->Damage(1);	
 	GetWorld()->GetTimerManager().SetTimer(handle1, [this]() {	defaultsprite->SetSpriteColor(FLinearColor(255, 255, 255, 1));}, 2, false);
+	playerSoundEffect->PlaySound();
 	
 	
 
@@ -119,6 +125,13 @@ void APlayerChar::Tick(float DeltaTime)
 					DrawDebugSphere(GetWorld(), SweepStart, 20, 5, FColor::Green, true, -1, 0, 10);
 					return;
 				}
+				else if (Hit.Actor->GetName().Contains("Mage", ESearchCase::IgnoreCase, ESearchDir::FromStart))
+				{
+					Cast<AEnemy_Mage>(Hit.Actor)->Damaged();
+					DrawDebugSphere(GetWorld(), SweepStart, 20, 5, FColor::Green, true, -1, 0, 10);
+					return;
+				}
+
 			}
 		}
 	}

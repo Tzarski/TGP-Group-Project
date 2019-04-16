@@ -10,7 +10,9 @@
 #include "GameFramework/Actor.h"
 #include "PlayerChar.h"
 #include "newastar.h"
+#include "Sound.h"
 #include "Enemy_Base.generated.h"
+
 
 UCLASS()
 class MYPROJECT_API AEnemy_Base : public AActor
@@ -40,8 +42,9 @@ public:
 	//virtual void Attack();
 
 	float _health, _range, _damage, _speed;
-	bool moved, block;
+	bool moved, block, attacking;
 	int ticks = 0, spriteSelected;
 	class UPaperSpriteComponent* enemySprite;
+	USound* soundEffect, *loopSoundEffect;
 	UPaperSprite* papersprite[12];
 };

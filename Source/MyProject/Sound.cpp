@@ -15,6 +15,7 @@ USound::USound()
 
 	soundPlay = CreateDefaultSubobject<UAudioComponent>(TEXT("Audio_Settings"));
 	soundPlay->bAutoActivate = false;
+	soundPlay->bStopWhenOwnerDestroyed = false;
 
 	// ...
 }

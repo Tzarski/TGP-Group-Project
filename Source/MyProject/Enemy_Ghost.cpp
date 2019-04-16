@@ -1,13 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Enemy_Ghost.h"
-#include "Components/InputComponent.h"
-#include "GameFramework/CharacterMovementComponent.h"
-#include "Components/BoxComponent.h"
-#include "Components/StaticMeshComponent.h"
-#include "UObject/ConstructorHelpers.h"
-#include "Kismet/GameplayStatics.h"
-#include "UObject/UnrealType.h"
+
 
 AEnemy_Ghost::AEnemy_Ghost()
 {
@@ -15,6 +9,7 @@ AEnemy_Ghost::AEnemy_Ghost()
 	LoadPaperSprites();
 	enemySprite->SetSprite(papersprite[0]);	
 	enemySprite->SetupAttachment(RootComponent);
+	enemySprite->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
 	enemySprite->SetCollisionProfileName(TEXT("OverlapAll"));
 
 	dead = false;
@@ -47,9 +42,8 @@ void AEnemy_Ghost::Move()
 	if (sqrtf(FVector::DistSquared(_pPlayer->GetActorLocation(), this->GetActorLocation())) < 500.0f)
 	{
 		FVector approaching = (_pPlayer->GetActorLocation() - this->GetActorLocation());
-		FRotator Rotation = FRotationMatrix::MakeFromY(approaching).Rotator();
-		const FRotator PitchRotation(Rotation.Pitch, Rotation.Yaw, Rotation.Roll);
-		const FVector Direction = FRotationMatrix(PitchRotation).GetUnitAxis(EAxis::Y);
+		FRotator Rotation = FRotationMatrix::MakeFromY(approaching).Rotator();		
+		const FVector Direction = FRotationMatrix(Rotation).GetUnitAxis(EAxis::Y);
 		this->AddActorWorldOffset(Direction * _speed);
 		randomX = Direction.X;
 		randomZ = Direction.Z;

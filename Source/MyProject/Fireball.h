@@ -4,22 +4,24 @@
 
 #include "CoreMinimal.h"
 #include "Enemy_Base.h"
-#include "Enemy_Mage.generated.h"
+#include "Fireball.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MYPROJECT_API AEnemy_Mage : public AEnemy_Base
+class MYPROJECT_API AFireball : public AEnemy_Base
 {
 	GENERATED_BODY()
 
-	AEnemy_Mage();
+		AFireball();
 protected:
-	FActorSpawnParameters SpawnInfo;
+	FVector Direction;
+	int timer;
+
 public:
-	void LoadPaperSprites();
+	
+	void LoadSprites();
 	void Move();
-	void Attack();
-	void Damaged();
+	void SetSprites();
 };

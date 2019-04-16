@@ -98,7 +98,7 @@ void AEnemy_Base::Hit()
 	FCollisionShape MyColSphere = FCollisionShape::MakeSphere(70.0f);
 
 	bool isHit = GetWorld()->SweepMultiByChannel(OutHits, SweepStart, SweepEnd, FQuat::Identity, ECC_WorldStatic, MyColSphere);
-	block = false;
+	block = attacking = false;
 
 	if (isHit)
 	{
@@ -109,7 +109,7 @@ void AEnemy_Base::Hit()
 				if (Hit.Actor->GetName().Contains("player", ESearchCase::IgnoreCase, ESearchDir::FromStart))
 				{
 					Cast<APlayerChar>(Hit.Actor)->TakeDamage();
-
+					attacking = true;
 					return;
 				}
 				if (Hit.Actor->GetName().Contains("roof", ESearchCase::IgnoreCase, ESearchDir::FromStart))

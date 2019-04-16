@@ -13,6 +13,7 @@
 #include "HealthPickup.h"
 #include "Sound.h"
 #include "Enemy_Ghost.h"
+#include "Enemy_Mage.h"
 
 // Sets default values
 ASpawnRoom::ASpawnRoom()
@@ -149,6 +150,15 @@ void ASpawnRoom::SpawnLayers(int dir)
 		{
 			AFloor* one = GetWorld()->SpawnActor<AFloor>(FVector(columb * 100, 1, -row * 100), FRotator(0, 0, 0), SpawnInfo);
 			AEnemy_Splitter* two = GetWorld()->SpawnActor<AEnemy_Splitter>(FVector(columb * 100, -10, -row * 100), FRotator(0, 0, 0), SpawnInfo);
+			Spawnedworld.Add(one);
+			Spawnedworld.Add(two);
+			columb++;
+			continue;
+		}
+		if (layer.spawn == 'm')
+		{
+			AFloor* one = GetWorld()->SpawnActor<AFloor>(FVector(columb * 100, 1, -row * 100), FRotator(0, 0, 0), SpawnInfo);
+			AEnemy_Mage* two = GetWorld()->SpawnActor<AEnemy_Mage>(FVector(columb * 100, -10, -row * 100), FRotator(0, 0, 0), SpawnInfo);
 			Spawnedworld.Add(one);
 			Spawnedworld.Add(two);
 			columb++;
