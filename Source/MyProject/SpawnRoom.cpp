@@ -24,6 +24,7 @@ ASpawnRoom::ASpawnRoom()
 	backgroundMusic = CreateDefaultSubobject<USound>(TEXT("BackgroundMusic"));
 	ConstructorHelpers::FObjectFinder<USoundBase> train(TEXT("'/Game/Audio/train_moving_slow.train_moving_slow'"));
 	ConstructorHelpers::FObjectFinder<USoundBase> music(TEXT("'/Game/Audio/Start_music.Start_music'"));
+	musicBoss = ConstructorHelpers::FObjectFinder<USoundBase>(TEXT("'/Game/Audio/Boss_music.Boss_music'")).Object;
 	sound->SetSound(train.Object);
 	backgroundMusic->SetSound(music.Object);
 }
@@ -255,6 +256,10 @@ void ASpawnRoom::SpawnRoom(int i)
 	if (i >= 0 && CurrentRoom >= 4)
 	{
 		FString f = "roomend.txt";
+		backgroundMusic->StopSound();
+		backgroundMusic->SetSound(musicBoss);
+		backgroundMusic->LowerVolume(3.0f);
+		backgroundMusic->PlaySound();
 		LoadRoomFromFile(f);
 		SortLayers();
 		SpawnLayers(i);
@@ -331,6 +336,6 @@ bool ASpawnRoom::LoadRoomFromFile(FString RoomName)
 void ASpawnRoom::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	
 }
 

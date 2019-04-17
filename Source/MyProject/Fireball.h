@@ -24,4 +24,6 @@ public:
 	void LoadSprites();
 	void Move();
 	void SetSprites();
+	USoundBase* sound2;
+	class AEnemy_Mage* mageAttacking;
 };

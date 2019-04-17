@@ -10,7 +10,7 @@ AFloor::AFloor(const FObjectInitializer& PCIP) : Super(PCIP)
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	BallComponent = PCIP.CreateDefaultSubobject<UPaperSpriteComponent>(this, TEXT("ball"));
+	BallComponent = PCIP.CreateDefaultSubobject<UPaperSpriteComponent>(this, TEXT("Floor"));
 	//BallComponent->AttatchTo(GetDefaultAttachComponent());
 	BallComponent->SetupAttachment(RootComponent);
 	BallComponent->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Art/Gen/tile1_Sprite.tile1_Sprite'")).Object);

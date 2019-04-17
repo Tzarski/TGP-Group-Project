@@ -6,7 +6,7 @@
 
 AEnemy_Mage::AEnemy_Mage()
 {
-	enemySprite = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("enemySprite"));
+	enemySprite = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("MageSprite"));
 	LoadPaperSprites();
 	enemySprite->SetSprite(papersprite[0]);
 	enemySprite->SetupAttachment(RootComponent);
@@ -47,7 +47,7 @@ void AEnemy_Mage::Move()
 			FVector approaching = (_pPlayer->GetActorLocation() - this->GetActorLocation());
 			FRotator Rotation = FRotationMatrix::MakeFromY(approaching).Rotator();
 			const FVector Direction = FRotationMatrix(Rotation).GetUnitAxis(EAxis::Y);
-			this->AddActorWorldOffset(-FVector(Direction.X, 0.0f, Direction.Z)* _speed);
+			enemySprite->AddLocalOffset(-FVector(Direction.X, 0.0f, Direction.Z)* _speed);
 		}
 	}
 	if (ticks % 200 == 0)
@@ -57,4 +57,5 @@ void AEnemy_Mage::Move()
 void AEnemy_Mage::Attack()
 {
 	AFireball* fireball = GetWorld()->SpawnActor<AFireball>(this->GetActorLocation(), FRotator(0.0f, 0.0f, 0.0f), SpawnInfo);
+	fireball->mageAttacking = this;
 }

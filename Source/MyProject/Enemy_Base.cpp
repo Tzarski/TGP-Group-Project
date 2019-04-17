@@ -93,9 +93,9 @@ void AEnemy_Base::Tick(float DeltaTime)
 void AEnemy_Base::Hit()
 {
 	TArray<FHitResult> OutHits;
-	FVector SweepStart = this->GetActorLocation();
-	FVector SweepEnd = this->GetActorLocation();
-	FCollisionShape MyColSphere = FCollisionShape::MakeSphere(70.0f);
+	FVector SweepStart = GetActorLocation();
+	FVector SweepEnd = GetActorLocation();
+	FCollisionShape MyColSphere = FCollisionShape::MakeBox(FVector(enemySprite->GetSprite()->GetSourceSize().X/2, 10.0f, enemySprite->GetSprite()->GetSourceSize().Y/2));
 
 	bool isHit = GetWorld()->SweepMultiByChannel(OutHits, SweepStart, SweepEnd, FQuat::Identity, ECC_WorldStatic, MyColSphere);
 	block = attacking = false;
@@ -106,13 +106,13 @@ void AEnemy_Base::Hit()
 		{
 			if (GEngine)
 			{
-				if (Hit.Actor->GetName().Contains("player", ESearchCase::IgnoreCase, ESearchDir::FromStart))
+				if (Hit.Component->GetName().Contains("player", ESearchCase::IgnoreCase, ESearchDir::FromStart))
 				{
 					Cast<APlayerChar>(Hit.Actor)->TakeDamage();
 					attacking = true;
 					return;
 				}
-				if (Hit.Actor->GetName().Contains("roof", ESearchCase::IgnoreCase, ESearchDir::FromStart))
+				if (Hit.Component->GetName().Contains("wall", ESearchCase::IgnoreCase, ESearchDir::FromStart))
 				{
 					block = true;
 					return;

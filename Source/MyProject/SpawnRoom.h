@@ -61,4 +61,5 @@ public:
 	TArray<AActor*> Spawnedworld;
 	TArray<FmyLayer> MyLayers;
 	class USound* sound, *backgroundMusic;
+	USoundBase* musicBoss;
 };

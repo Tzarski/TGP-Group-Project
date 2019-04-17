@@ -12,7 +12,7 @@
 // Sets default values
 AEnemy_Basic::AEnemy_Basic() 
 {
-	enemySprite = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("default sprite"));
+	enemySprite = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Basic_sprite"));
 	enemySprite->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Art/Gen/Goblin/goblin_Sprite_0.goblin_Sprite_0'")).Object);
 	enemySprite->SetupAttachment(RootComponent);
 	enemySprite->SetCollisionProfileName(TEXT("OverlapAll"));

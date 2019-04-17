@@ -5,13 +5,16 @@
 
 AEnemy_Ghost::AEnemy_Ghost()
 {
-	enemySprite = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("enemySprite"));
+	enemySprite = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("GhostSprite"));
 	LoadPaperSprites();
 	enemySprite->SetSprite(papersprite[0]);	
 	enemySprite->SetupAttachment(RootComponent);
 	enemySprite->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
 	enemySprite->SetCollisionProfileName(TEXT("OverlapAll"));
 
+	soundEffect = CreateDefaultSubobject<USound>(TEXT("Ghost_dying_sound"));
+	soundEffect->SetSound(ConstructorHelpers::FObjectFinder<USoundBase>(TEXT("Mage_hurt'/Game/Audio/Ghost_dead.Ghost_dead'")).Object);
+	
 	dead = false;
 
 	_health = 5;
@@ -25,10 +28,14 @@ AEnemy_Ghost::AEnemy_Ghost()
 
 void AEnemy_Ghost::Damaged()
 {
-	dead = true;
-	FTimerHandle    handle;
-	enemySprite->SetSpriteColor(FLinearColor(1, 0.1, 0.1, 1));
-	GetWorld()->GetTimerManager().SetTimer(handle, [this]() {	this->Destroy(); }, 1, false);
+	if (dead == false)
+	{
+		dead = true;
+		soundEffect->PlaySound();
+		FTimerHandle    handle;
+		enemySprite->SetSpriteColor(FLinearColor(1, 0.1, 0.1, 1));
+		GetWorld()->GetTimerManager().SetTimer(handle, [this]() {	this->Destroy(); }, 1, false);
+	}
 }
 
 void AEnemy_Ghost::Move()
@@ -39,12 +46,12 @@ void AEnemy_Ghost::Move()
 		randomZ = 1.0f - ((rand() % 200) / 100.0f);
 	}
 
-	if (sqrtf(FVector::DistSquared(_pPlayer->GetActorLocation(), this->GetActorLocation())) < 500.0f)
+	if (sqrtf(FVector::DistSquared(_pPlayer->defaultsprite->GetComponentLocation(), enemySprite->GetComponentLocation())) < 500.0f)
 	{
 		FVector approaching = (_pPlayer->GetActorLocation() - this->GetActorLocation());
 		FRotator Rotation = FRotationMatrix::MakeFromY(approaching).Rotator();		
 		const FVector Direction = FRotationMatrix(Rotation).GetUnitAxis(EAxis::Y);
-		this->AddActorWorldOffset(Direction * _speed);
+		enemySprite->AddLocalOffset(FVector(Direction.X, 0.0f, Direction.Z) * _speed * 2);
 		randomX = Direction.X;
 		randomZ = Direction.Z;
 		attacking = true;
@@ -55,11 +62,11 @@ void AEnemy_Ghost::Move()
 		randomX = -randomX;
 		else
 		randomZ = -randomZ;
-		this->AddActorWorldOffset(FVector(randomX * _speed, 0, _speed * randomZ));
+		enemySprite->AddLocalOffset(FVector(randomX * _speed, 0, _speed * randomZ));
 	}
 	else
 	{			
-		this->AddActorWorldOffset(FVector(randomX * _speed, 0 , _speed * randomZ));
+		enemySprite->AddLocalOffset(FVector(randomX * _speed, 0 , _speed * randomZ));
 	}
 }
 

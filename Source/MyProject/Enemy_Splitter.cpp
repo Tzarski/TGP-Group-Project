@@ -12,7 +12,7 @@
 // Sets default values
 AEnemy_Splitter::AEnemy_Splitter() 
 {
-	enemySprite = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("default sprite"));
+	enemySprite = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Splitter_sprite"));
 	enemySprite->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Art/Gen/Splitter/Splittter_Sprite_0.Splittter_Sprite_0'")).Object);
 	enemySprite->SetupAttachment(RootComponent);
 	enemySprite->SetCollisionProfileName(TEXT("OverlapAll"));
