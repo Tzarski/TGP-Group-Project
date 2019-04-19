@@ -4,13 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "Enemy_Base.h"
-#include <EngineGlobals.h>
-#include <Runtime/Engine/Classes/Engine/Engine.h>
-#include "../Plugins/2D/Paper2D/Source/Paper2D/Classes/PaperSprite.h"
-#include "../Plugins/2D/Paper2D/Source/Paper2D/Classes/PaperSpriteComponent.h"
-#include "GameFramework/Actor.h"
-#include "PlayerChar.h"
-#include "newastar.h"
 #include "Enemy_Splitter.generated.h"
 
 UCLASS()
@@ -27,9 +20,8 @@ protected:
 	
 
 public:
-	// Called every frame
+	void LoadPaperSprites();
+	void Move();
+	void Attack();
 	void Damaged();
-	//virtual void Attack();
-
-
 };

@@ -9,6 +9,10 @@
 #include "Kismet/GameplayStatics.h"
 #include "UObject/UnrealType.h"
 
+//--------------------------------------------------------
+// REDUNDANT - FOR REFERENCE ONLY
+//--------------------------------------------------------
+
 // Sets default values
 AEnemy::AEnemy(const FObjectInitializer& PCIP) : Super(PCIP)
 {

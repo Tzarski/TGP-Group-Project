@@ -1,13 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Enemy_Basic.h"
-#include "Components/InputComponent.h"
-#include "GameFramework/CharacterMovementComponent.h"
-#include "Components/BoxComponent.h"
-#include "Components/StaticMeshComponent.h"
-#include "UObject/ConstructorHelpers.h"
-#include "Kismet/GameplayStatics.h"
-#include "UObject/UnrealType.h"
 
 // Sets default values
 AEnemy_Basic::AEnemy_Basic() 

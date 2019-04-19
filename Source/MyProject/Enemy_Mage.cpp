@@ -12,6 +12,7 @@ AEnemy_Mage::AEnemy_Mage()
 	enemySprite->SetupAttachment(RootComponent);
 	enemySprite->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
 	enemySprite->SetCollisionProfileName(TEXT("OverlapAll"));
+
 	soundEffect = CreateDefaultSubobject<USound>(TEXT("MageSounds"));
 	soundEffect->SetSound(ConstructorHelpers::FObjectFinder<USoundBase>(TEXT("Mage_hurt'/Game/Audio/Mage_hurt.Mage_hurt'")).Object);
 

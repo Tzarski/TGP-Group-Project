@@ -19,7 +19,7 @@ protected:
 	FActorSpawnParameters SpawnInfo;
 public:
 	void LoadPaperSprites();
+	void Damaged();
 	void Move();
 	void Attack();
-	void Damaged();
 };
