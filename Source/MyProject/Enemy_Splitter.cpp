@@ -19,6 +19,10 @@ AEnemy_Splitter::AEnemy_Splitter()
 	_speed = 0; //Placeholder
 	_range = 0; //Placeholder
 	_damage = 0; //Placeholder
+
+	srand(GGPUFrameTime);
+	randomX = 1 - ((rand() % 200) / 100.0f);
+	randomZ = randomX;
 }
 
 void AEnemy_Splitter::LoadPaperSprites()
@@ -37,9 +41,49 @@ void AEnemy_Splitter::LoadPaperSprites()
 	papersprite[11] = ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("SplitterSprite'/Game/Art/Gen/Splitter/Splitter_Sprite_11.Splitter_Sprite_11'")).Object;
 }
 
+void AEnemy_Splitter::SetSprites()
+{
+	if (FMath::Square(randomX) <= FMath::Square(randomZ) && randomZ < 0)
+	{
+		spriteSelected = 0;
+	}
+	else if (FMath::Square(randomX) >= FMath::Square(randomZ) && randomX < 0)
+	{
+		spriteSelected = 3;
+	}
+	else if (FMath::Square(randomX) <= FMath::Square(randomZ) && randomZ >= 0)
+	{
+		spriteSelected = 9;
+	}
+	else if (FMath::Square(randomX) >= FMath::Square(randomZ) && randomX >= 0)
+	{
+		spriteSelected = 6;
+	}
+
+
+	if (ticks % 10 == 0)
+	{
+		if (attacking)
+		{
+			spriteSelected = spriteSelected + 2;
+		}
+		else
+		{
+			spriteSelected = spriteSelected + changeSprite;
+			if (changeSprite == 1)
+				changeSprite--;
+			else
+				changeSprite = 1;
+		}
+		enemySprite->SetSprite(papersprite[spriteSelected]);
+		attacking = false;
+	}
+}
+
 void AEnemy_Splitter::Damaged()
 {
 	dead = true;
+	//soundEffect->PlaySound();
 	FTimerHandle    handle;
 	enemySprite->SetSpriteColor(FLinearColor(1, 0.1, 0.1, 1));
 	GetWorld()->GetTimerManager().SetTimer(handle, [this]() {	this->Destroy(); }, 1, false);
@@ -47,7 +91,34 @@ void AEnemy_Splitter::Damaged()
 
 void AEnemy_Splitter::Move()
 {
+	if (ticks % 250 == 0)
+	{
+		randomX = 1.0f - ((rand() % 200) / 100.0f);
+		randomZ = 1.0f - ((rand() % 200) / 100.0f);
+	}
 
+	if (sqrtf(FVector::DistSquared(_pPlayer->defaultsprite->GetComponentLocation(), enemySprite->GetComponentLocation())) < 500.0f)
+	{
+		FVector approaching = (_pPlayer->GetActorLocation() - this->GetActorLocation());
+		FRotator Rotation = FRotationMatrix::MakeFromY(approaching).Rotator();
+		const FVector Direction = FRotationMatrix(Rotation).GetUnitAxis(EAxis::Y);
+		enemySprite->AddLocalOffset(FVector(Direction.X, 0.0f, Direction.Z) * _speed * 2);
+		randomX = Direction.X;
+		randomZ = Direction.Z;
+		attacking = true;
+	}
+	else if (block)
+	{
+		if (rand() % 2 == 1)
+			randomX = -randomX;
+		else
+			randomZ = -randomZ;
+		enemySprite->AddLocalOffset(FVector(randomX * _speed, 0, _speed * randomZ));
+	}
+	else
+	{
+		enemySprite->AddLocalOffset(FVector(randomX * _speed, 0, _speed * randomZ));
+	}
 }
 
 void AEnemy_Splitter::Attack()

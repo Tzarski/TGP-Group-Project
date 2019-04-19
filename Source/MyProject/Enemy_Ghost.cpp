@@ -21,6 +21,7 @@ AEnemy_Ghost::AEnemy_Ghost()
 	_speed = 2; //Placeholder
 	_range = 0; //Placeholder
 	_damage = 0; //Placeholder
+
 	srand(GGPUFrameTime);
 	randomX = 1 - ((rand() % 200) / 100.0f);
 	randomZ = randomX;

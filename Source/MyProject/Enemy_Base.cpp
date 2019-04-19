@@ -42,50 +42,16 @@ void AEnemy_Base::Tick(float DeltaTime)
 	}
 	ticks++;
 	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString::Printf(TEXT("Looping %i, "), ticks));
+
 	Pathfinder();
+
 	Move();
+
 	SetSprites();
-	/*if (_pPathfinder != NULL && ticks > 10)
-	{
-		_pPathfinder->Reset();
-
-	}
-	if (_pPathfinder == NULL)
-	{
-		FActorSpawnParameters SpawnInfo;
-		SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		_pPathfinder = GetWorld()->SpawnActor<Anewastar>(FVector(1, 1, 1), FRotator(1, 1, 1), SpawnInfo);;
-		_pPathfinder->Find(_pPlayer->GetActorLocation(), this->GetActorLocation());
-	}*/
-
 
 	if (_pPlayer->dead)
 		return;
-	//DrawDebugSphere(GetWorld(), this->GetActorLocation(), 70, 70, FColor::Red, true, 2, 0, 10);
 
-	//TArray<FHitResult> OutHits;
-	//FVector SweepStart = this->GetActorLocation();
-	//FVector SweepEnd = this->GetActorLocation();
-	//FCollisionShape MyColSphere = FCollisionShape::MakeSphere(70.0f);
-
-	//bool isHit = GetWorld()->SweepMultiByChannel(OutHits, SweepStart, SweepEnd, FQuat::Identity, ECC_WorldStatic, MyColSphere);
-	//bool cantmove = false;
-
-	//if (isHit)
-	//{
-	//	for (auto& Hit : OutHits)
-	//	{
-	//		if (GEngine)
-	//		{
-	//			if (Hit.Actor->GetName().Contains("player", ESearchCase::IgnoreCase, ESearchDir::FromStart))
-	//			{
-	//				Cast<APlayerChar>(Hit.Actor)->TakeDamage();
-
-	//				return;
-	//			}
-	//		}
-	//	}
-	//}
 	Hit();
 
 }
@@ -141,8 +107,6 @@ void AEnemy_Base::Pathfinder()
 		_pPathfinder = GetWorld()->SpawnActor<Anewastar>(FVector(1, 1, 1), FRotator(1, 1, 1), SpawnInfo);;
 		_pPathfinder->Find(_pPlayer->GetActorLocation(), this->GetActorLocation());
 	}
-
-	
 }
 
 void AEnemy_Base::Move()
@@ -187,4 +151,5 @@ void AEnemy_Base::Move()
 
 void AEnemy_Base::SetSprites()
 {
+
 }

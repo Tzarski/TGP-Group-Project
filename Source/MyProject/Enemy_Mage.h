@@ -15,8 +15,10 @@ class MYPROJECT_API AEnemy_Mage : public AEnemy_Base
 	GENERATED_BODY()
 
 	AEnemy_Mage();
+
 protected:
 	FActorSpawnParameters SpawnInfo;
+
 public:
 	void LoadPaperSprites();
 	void Damaged();

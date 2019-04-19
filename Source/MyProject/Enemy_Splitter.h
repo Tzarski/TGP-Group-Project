@@ -16,11 +16,11 @@ public:
 	AEnemy_Splitter();
 
 protected:
-	// Called when the game starts or when spawned
+	float randomX = 0.0f, randomZ = 0.0f, changeSprite = 1;
 	
-
 public:
 	void LoadPaperSprites();
+	void SetSprites();
 	void Move();
 	void Attack();
 	void Damaged();
