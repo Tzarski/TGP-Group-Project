@@ -18,6 +18,10 @@ AEnemy_Tough::AEnemy_Tough()
 	_speed = 0; //Placeholder
 	_range = 0; //Placeholder
 	_damage = 0; //Placeholder
+
+	srand(GGPUFrameTime);
+	randomX = 1 - ((rand() % 200) / 100.0f);
+	randomZ = randomX;
 }
 
 void AEnemy_Tough::LoadPaperSprites()
@@ -34,6 +38,45 @@ void AEnemy_Tough::LoadPaperSprites()
 	papersprite[9] = ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("ToughSprite'/Game/Art/Gen/Ogre/Ogre_Sprite_9.Ogre_Sprite_9'")).Object;
 	papersprite[10] = ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("ToughSprite'/Game/Art/Gen/Ogre/Ogre_Sprite_10.Ogre_Sprite_10'")).Object;
 	papersprite[11] = ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("ToughSprite'/Game/Art/Gen/Ogre/Ogre_Sprite_11.Ogre_Sprite_11'")).Object;
+}
+
+void AEnemy_Tough::SetSprites()
+{
+	if (FMath::Square(randomX) <= FMath::Square(randomZ) && randomZ < 0)
+	{
+		spriteSelected = 0;
+	}
+	else if (FMath::Square(randomX) >= FMath::Square(randomZ) && randomX < 0)
+	{
+		spriteSelected = 3;
+	}
+	else if (FMath::Square(randomX) <= FMath::Square(randomZ) && randomZ >= 0)
+	{
+		spriteSelected = 9;
+	}
+	else if (FMath::Square(randomX) >= FMath::Square(randomZ) && randomX >= 0)
+	{
+		spriteSelected = 6;
+	}
+
+
+	if (ticks % 10 == 0)
+	{
+		if (attacking)
+		{
+			spriteSelected = spriteSelected + 2;
+		}
+		else
+		{
+			spriteSelected = spriteSelected + changeSprite;
+			if (changeSprite == 1)
+				changeSprite--;
+			else
+				changeSprite = 1;
+		}
+		enemySprite->SetSprite(papersprite[spriteSelected]);
+		attacking = false;
+	}
 }
 
 void AEnemy_Tough::Damaged()

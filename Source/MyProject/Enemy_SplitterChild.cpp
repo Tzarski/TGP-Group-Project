@@ -91,7 +91,34 @@ void AEnemy_SplitterChild::Damaged()
 
 void AEnemy_SplitterChild::Move()
 {
+	if (ticks % 250 == 0)
+	{
+		randomX = 1.0f - ((rand() % 200) / 100.0f);
+		randomZ = 1.0f - ((rand() % 200) / 100.0f);
+	}
 
+	if (sqrtf(FVector::DistSquared(_pPlayer->defaultsprite->GetComponentLocation(), enemySprite->GetComponentLocation())) < 500.0f)
+	{
+		FVector approaching = (_pPlayer->GetActorLocation() - this->GetActorLocation());
+		FRotator Rotation = FRotationMatrix::MakeFromY(approaching).Rotator();
+		const FVector Direction = FRotationMatrix(Rotation).GetUnitAxis(EAxis::Y);
+		enemySprite->AddLocalOffset(FVector(Direction.X, 0.0f, Direction.Z) * _speed * 2);
+		randomX = Direction.X;
+		randomZ = Direction.Z;
+		attacking = true;
+	}
+	else if (block)
+	{
+		if (rand() % 2 == 1)
+			randomX = -randomX;
+		else
+			randomZ = -randomZ;
+		enemySprite->AddLocalOffset(FVector(randomX * _speed, 0, _speed * randomZ));
+	}
+	else
+	{
+		enemySprite->AddLocalOffset(FVector(randomX * _speed, 0, _speed * randomZ));
+	}
 }
 
 void AEnemy_SplitterChild::Attack()
