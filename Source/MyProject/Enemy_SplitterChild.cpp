@@ -19,6 +19,10 @@ AEnemy_SplitterChild::AEnemy_SplitterChild()
 	_speed = 0; //Placeholder
 	_range = 0; //Placeholder
 	_damage = 0; //Placeholder
+
+	srand(GGPUFrameTime);
+	randomX = 1 - ((rand() % 200) / 100.0f);
+	randomZ = randomX;
 }
 
 void AEnemy_SplitterChild::LoadPaperSprites()
@@ -37,9 +41,49 @@ void AEnemy_SplitterChild::LoadPaperSprites()
 	papersprite[11] = ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("ChildSprite'/Game/Art/Gen/Splitter/Splitter_child_Sprite_11.Splitter_child_Sprite_11'")).Object;
 }
 
+void AEnemy_SplitterChild::SetSprites()
+{
+	if (FMath::Square(randomX) <= FMath::Square(randomZ) && randomZ < 0)
+	{
+		spriteSelected = 0;
+	}
+	else if (FMath::Square(randomX) >= FMath::Square(randomZ) && randomX < 0)
+	{
+		spriteSelected = 3;
+	}
+	else if (FMath::Square(randomX) <= FMath::Square(randomZ) && randomZ >= 0)
+	{
+		spriteSelected = 9;
+	}
+	else if (FMath::Square(randomX) >= FMath::Square(randomZ) && randomX >= 0)
+	{
+		spriteSelected = 6;
+	}
+
+
+	if (ticks % 10 == 0)
+	{
+		if (attacking)
+		{
+			spriteSelected = spriteSelected + 2;
+		}
+		else
+		{
+			spriteSelected = spriteSelected + changeSprite;
+			if (changeSprite == 1)
+				changeSprite--;
+			else
+				changeSprite = 1;
+		}
+		enemySprite->SetSprite(papersprite[spriteSelected]);
+		attacking = false;
+	}
+}
+
 void AEnemy_SplitterChild::Damaged()
 {
 	dead = true;
+	//soundEffect->PlaySound();
 	FTimerHandle    handle;
 	enemySprite->SetSpriteColor(FLinearColor(1, 0.1, 0.1, 1));
 	GetWorld()->GetTimerManager().SetTimer(handle, [this]() {	this->Destroy(); }, 1, false);

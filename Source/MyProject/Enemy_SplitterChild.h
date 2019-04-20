@@ -6,9 +6,6 @@
 #include "Enemy_Base.h"
 #include "Enemy_SplitterChild.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class MYPROJECT_API AEnemy_SplitterChild : public AEnemy_Base
 {
@@ -19,11 +16,13 @@ public:
 	AEnemy_SplitterChild();
 
 protected:
+	float randomX = 0.0f, randomZ = 0.0f, changeSprite = 1;
 	// Called when the game starts or when spawned
 
 
 public:
 	void LoadPaperSprites();
+	void SetSprites();
 	void Move();
 	void Attack();
 	void Damaged();

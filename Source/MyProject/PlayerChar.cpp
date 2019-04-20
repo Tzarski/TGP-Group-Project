@@ -8,8 +8,10 @@
 #include "Classes/Particles/ParticleSystem.h"
 #include "Enemy_Ghost.h"
 #include "Enemy_Splitter.h"
+#include "Enemy_SplitterChild.h"
 #include "Enemy_Basic.h"
 #include "Enemy_Mage.h"
+#include "Enemy_Tough.h"
 #include "Runtime/Engine/Classes/GameFramework/Actor.h"
 #include "Sound.h"
 
@@ -107,12 +109,12 @@ void APlayerChar::Tick(float DeltaTime)
 					DrawDebugSphere(GetWorld(), SweepStart, 20, 5, FColor::Green, true, -1, 0, 10);
 					return;
 				}
-				/*else if (Hit.Actor->GetName().Contains("Child", ESearchCase::IgnoreCase, ESearchDir::FromStart))
+				else if (Hit.Actor->GetName().Contains("Child", ESearchCase::IgnoreCase, ESearchDir::FromStart))
 				{
-					Cast<AEnemy_Splitter_Child>(Hit.Actor)->Hit();
+					Cast<AEnemy_SplitterChild>(Hit.Actor)->Damaged();
 					DrawDebugSphere(GetWorld(), SweepStart, 20, 5, FColor::Green, true, -1, 0, 10);
 					return;
-				}*/
+				}
 				else if (Hit.Actor->GetName().Contains("Splitter", ESearchCase::IgnoreCase, ESearchDir::FromStart))
 				{
 					Cast<AEnemy_Splitter>(Hit.Actor)->Damaged();
@@ -131,7 +133,12 @@ void APlayerChar::Tick(float DeltaTime)
 					DrawDebugSphere(GetWorld(), SweepStart, 20, 5, FColor::Green, true, -1, 0, 10);
 					return;
 				}
-
+				else if (Hit.Actor->GetName().Contains("Tough", ESearchCase::IgnoreCase, ESearchDir::FromStart))
+				{
+					Cast<AEnemy_Tough>(Hit.Actor)->Damaged();
+					DrawDebugSphere(GetWorld(), SweepStart, 20, 5, FColor::Green, true, -1, 0, 10);
+					return;
+				}
 			}
 		}
 	}

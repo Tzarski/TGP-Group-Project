@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Enemy_Base.h"
+#include "Enemy_SplitterChild.h"
 #include "Enemy_Splitter.generated.h"
 
 UCLASS()
@@ -17,6 +18,7 @@ public:
 
 protected:
 	float randomX = 0.0f, randomZ = 0.0f, changeSprite = 1;
+	FActorSpawnParameters SpawnInfo;
 	
 public:
 	void LoadPaperSprites();

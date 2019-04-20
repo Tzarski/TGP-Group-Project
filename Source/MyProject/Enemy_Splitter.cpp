@@ -15,6 +15,8 @@ AEnemy_Splitter::AEnemy_Splitter()
 	soundEffect = CreateDefaultSubobject<USound>(TEXT("Splitter_dying_sound"));
 	//soundEffect->SetSound(ConstructorHelpers::FObjectFinder<USoundBase>(TEXT("Mage_hurt'/Game/Audio/Ghost_dead.Ghost_dead'")).Object); - Find sound
 
+	SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
 	_health = 15;
 	_speed = 0; //Placeholder
 	_range = 0; //Placeholder
@@ -87,6 +89,9 @@ void AEnemy_Splitter::Damaged()
 	FTimerHandle    handle;
 	enemySprite->SetSpriteColor(FLinearColor(1, 0.1, 0.1, 1));
 	GetWorld()->GetTimerManager().SetTimer(handle, [this]() {	this->Destroy(); }, 1, false);
+	AEnemy_SplitterChild* child1 = GetWorld()->SpawnActor<AEnemy_SplitterChild>(this->GetActorLocation(), FRotator(0.0f, 0.0f, 0.0f), SpawnInfo);
+	AEnemy_SplitterChild* child2 = GetWorld()->SpawnActor<AEnemy_SplitterChild>(this->GetActorLocation(), FRotator(0.0f, 0.0f, 0.0f), SpawnInfo);
+	AEnemy_SplitterChild* child3 = GetWorld()->SpawnActor<AEnemy_SplitterChild>(this->GetActorLocation(), FRotator(0.0f, 0.0f, 0.0f), SpawnInfo);
 }
 
 void AEnemy_Splitter::Move()
