@@ -18,7 +18,7 @@ AEnemy_Splitter::AEnemy_Splitter()
 	SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
 	_health = 15;
-	_speed = 0; //Placeholder
+	_speed = 1; 
 	_range = 0; //Placeholder
 	_damage = 0; //Placeholder
 
@@ -89,9 +89,13 @@ void AEnemy_Splitter::Damaged()
 	FTimerHandle    handle;
 	enemySprite->SetSpriteColor(FLinearColor(1, 0.1, 0.1, 1));
 	GetWorld()->GetTimerManager().SetTimer(handle, [this]() {	this->Destroy(); }, 1, false);
+	Split();
+}
+
+void AEnemy_Splitter::Split()
+{
 	AEnemy_SplitterChild* child1 = GetWorld()->SpawnActor<AEnemy_SplitterChild>(this->GetActorLocation(), FRotator(0.0f, 0.0f, 0.0f), SpawnInfo);
 	AEnemy_SplitterChild* child2 = GetWorld()->SpawnActor<AEnemy_SplitterChild>(this->GetActorLocation(), FRotator(0.0f, 0.0f, 0.0f), SpawnInfo);
-	AEnemy_SplitterChild* child3 = GetWorld()->SpawnActor<AEnemy_SplitterChild>(this->GetActorLocation(), FRotator(0.0f, 0.0f, 0.0f), SpawnInfo);
 }
 
 void AEnemy_Splitter::Move()

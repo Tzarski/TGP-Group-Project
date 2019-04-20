@@ -16,7 +16,7 @@ AEnemy_SplitterChild::AEnemy_SplitterChild()
 	//soundEffect->SetSound(ConstructorHelpers::FObjectFinder<USoundBase>(TEXT("Mage_hurt'/Game/Audio/Ghost_dead.Ghost_dead'")).Object); - Find sound
 
 	_health = 15;
-	_speed = 0; //Placeholder
+	_speed = 1.25 + (rand()) / (double(RAND_MAX) + 2.0);
 	_range = 0; //Placeholder
 	_damage = 0; //Placeholder
 

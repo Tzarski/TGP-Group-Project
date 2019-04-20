@@ -15,7 +15,7 @@ AEnemy_Tough::AEnemy_Tough()
 	//soundEffect->SetSound(ConstructorHelpers::FObjectFinder<USoundBase>(TEXT("Mage_hurt'/Game/Audio/Ghost_dead.Ghost_dead'")).Object); - Find sound
 
 	_health = 15;
-	_speed = 0; //Placeholder
+	_speed = 1; 
 	_range = 0; //Placeholder
 	_damage = 0; //Placeholder
 
@@ -82,6 +82,7 @@ void AEnemy_Tough::SetSprites()
 void AEnemy_Tough::Damaged()
 {
 	dead = true;
+	//soundEffect->PlaySound();
 	FTimerHandle    handle;
 	enemySprite->SetSpriteColor(FLinearColor(1, 0.1, 0.1, 1));
 	GetWorld()->GetTimerManager().SetTimer(handle, [this]() {	this->Destroy(); }, 1, false);

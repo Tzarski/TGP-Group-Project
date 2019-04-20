@@ -26,4 +26,5 @@ public:
 	void Move();
 	void Attack();
 	void Damaged();
+	void Split();
 };
