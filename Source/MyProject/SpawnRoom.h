@@ -6,7 +6,7 @@
 #include <Runtime/Engine/Classes/Engine/Engine.h>
 #include "Runtime/Core/Public/Misc/Paths.h"
 #include "GameFramework/Actor.h"
-
+#include "globals.h"
 #include "Runtime/Core/Public/Misc/FileHelper.h"
 #include "SpawnRoom.generated.h"
 
@@ -64,4 +64,8 @@ public:
 	USoundBase* musicBoss;
 	class UPaperSpriteComponent* FloorSprite;
 	class UPaperSpriteComponent* FloorSpriteBroken;
+	AGlobals* globals;
+	TArray<AActor*> _foundCharacter;
+
+
 };

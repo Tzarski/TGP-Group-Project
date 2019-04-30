@@ -57,7 +57,7 @@ void AEnemy_Mage::Move()
 			enemySprite->AddLocalOffset(-FVector(Direction.X, 0.0f, Direction.Z)* _speed);
 		}
 	}
-	if (ticks % 200 == 0)
+	if (ticks % 125 == 0)
 		Attack();
 	
 }
