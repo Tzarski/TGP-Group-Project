@@ -93,12 +93,26 @@ void AEnemy_Splitter::Damaged()
 	enemySprite->SetSpriteColor(FLinearColor(1, 0.1, 0.1, 1));
 	GetWorld()->GetTimerManager().SetTimer(handle, [this]() {	this->Destroy(); }, 1, false);
 	Split();
+
+	FActorSpawnParameters spawnInfo;
+	spawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+	itemsManager = GetWorld()->SpawnActor<AItemsManager>(GetActorLocation(), FRotator(0, 0, 0), spawnInfo);
+	itemsManager->SpawnItems(this->GetActorLocation(), randomID, randomKey);
 }
 
 void AEnemy_Splitter::Split()
 {
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AGlobals::StaticClass(), _foundCharacter);
+	for (AActor* protag : _foundCharacter)
+	{
+		globals = Cast<AGlobals>(protag);
+	}
+
 	AEnemy_SplitterChild* child1 = GetWorld()->SpawnActor<AEnemy_SplitterChild>(this->GetActorLocation(), FRotator(0.0f, 0.0f, 0.0f), SpawnInfo);
+	globals->ExtraToClear.Push(child1);
 	AEnemy_SplitterChild* child2 = GetWorld()->SpawnActor<AEnemy_SplitterChild>(this->GetActorLocation(), FRotator(0.0f, 0.0f, 0.0f), SpawnInfo);
+	globals->ExtraToClear.Push(child2);
 }
 
 void AEnemy_Splitter::Move()

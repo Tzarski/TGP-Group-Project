@@ -23,6 +23,8 @@ AEnemy_SplitterChild::AEnemy_SplitterChild()
 	srand(GGPUFrameTime);
 	randomX = 1 - ((rand() % 200) / 100.0f);
 	randomZ = randomX;
+
+	
 }
 
 void AEnemy_SplitterChild::LoadPaperSprites()
