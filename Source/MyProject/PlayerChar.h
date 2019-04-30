@@ -27,6 +27,8 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	float randomX = 0.0f, randomZ = 0.0f;
+	//float changeSprite = 0;
 
 public:	
 	// Called every frame
@@ -34,10 +36,12 @@ public:
 
 	// Called to bind functionality to input
 	int direction;//1 = left// 2 = right//3 = up// 4 = down
+	//int spriteSelected;
 	FTimerHandle    handle;
 	FTimerHandle    handle1;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	class UPaperSpriteComponent* defaultsprite;
+	UPaperSprite* papersprite[6];
 	class UPaperFlipbookComponent* defaultflipbook;
 	class USound* swordSoundEffect, *playerSoundEffect;
 
@@ -52,6 +56,8 @@ public:
 	void moveleftright(float dir);
 	void Attack(float dir);
 	bool attacking;
+	void LoadPaperSprites();
+	//void SetSprites();
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Spawn Points")
 		bool dead;
 
