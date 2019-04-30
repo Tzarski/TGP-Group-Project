@@ -63,4 +63,5 @@ public:
 	class USound* sound, *backgroundMusic;
 	USoundBase* musicBoss;
 	class UPaperSpriteComponent* FloorSprite;
+	class UPaperSpriteComponent* FloorSpriteBroken;
 };

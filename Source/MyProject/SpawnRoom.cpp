@@ -29,6 +29,8 @@ ASpawnRoom::ASpawnRoom(const FObjectInitializer& PCIP) : Super(PCIP)
 	backgroundMusic->SetSound(music.Object);
 	FloorSprite = PCIP.CreateDefaultSubobject<UPaperSpriteComponent>(this, TEXT("Floor"));
 	FloorSprite->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Art/Gen/tile1_Sprite.tile1_Sprite'")).Object);
+	FloorSpriteBroken = PCIP.CreateDefaultSubobject<UPaperSpriteComponent>(this, TEXT("FloorBroken"));
+	FloorSpriteBroken->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Art/Gen/tile1_Sprite.tile1_Sprite'")).Object);
 }
 
 void ASpawnRoom::SpawnLayers(int dir)
@@ -73,6 +75,14 @@ void ASpawnRoom::SpawnLayers(int dir)
 			AFloor* one = GetWorld()->SpawnActor<AFloor>(FVector(columb * 100, 1, -row * 100), FRotator(0, 0, 0), SpawnInfo);
 			Spawnedworld.Add(one);
 			one->SetSprite(FloorSprite);
+			columb++;
+			continue;
+		}
+		if (layer.spawn == 'b')
+		{
+			ARoof* one = GetWorld()->SpawnActor<ARoof>(FVector(columb * 100, 0, -row * 100), FRotator(0, 0, 0), SpawnInfo);
+			Spawnedworld.Add(one);
+			one->setSprite(2);
 			columb++;
 			continue;
 		}

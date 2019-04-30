@@ -29,6 +29,7 @@ public:
 	void setSprite(int i);
 	class UPaperSpriteComponent* defaultsprite;
 	class UPaperSpriteComponent* sprite1;
+	class UPaperSpriteComponent* sprite2;
 
 	UStaticMeshComponent* mesh;
 	UMaterialInterface* wallmaterial;

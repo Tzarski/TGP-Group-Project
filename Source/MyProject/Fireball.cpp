@@ -52,7 +52,7 @@ void AFireball::Move()
 	else					
 		attacking = true;
 	
-	if (block || mageAttacking->IsActorBeingDestroyed())
+	if (mageAttacking->IsActorBeingDestroyed())
 	{	
 		dead = true;
 		this->Destroy();
