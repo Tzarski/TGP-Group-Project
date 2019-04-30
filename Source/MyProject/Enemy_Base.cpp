@@ -22,8 +22,11 @@ void AEnemy_Base::BeginPlay()
 	Super::BeginPlay();
 	
 }
+//
+//
 
-// Called every frame
+//
+// Called // frame
 void AEnemy_Base::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -61,7 +64,7 @@ void AEnemy_Base::Hit()
 	TArray<FHitResult> OutHits;
 	FVector SweepStart = GetActorLocation();
 	FVector SweepEnd = GetActorLocation();
-	FCollisionShape MyColSphere = FCollisionShape::MakeBox(FVector(enemySprite->GetSprite()->GetSourceSize().X/2, 10.0f, enemySprite->GetSprite()->GetSourceSize().Y/2));
+	FCollisionShape MyColSphere = FCollisionShape::MakeBox(FVector(32, 10.0f, 32));
 
 	bool isHit = GetWorld()->SweepMultiByChannel(OutHits, SweepStart, SweepEnd, FQuat::Identity, ECC_WorldStatic, MyColSphere);
 	block = attacking = false;
