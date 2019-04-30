@@ -20,8 +20,12 @@ APlayerChar::APlayerChar(const FObjectInitializer& PCIP) : Super(PCIP)
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	defaultsprite = PCIP.CreateDefaultSubobject<UPaperSpriteComponent>(this, TEXT("player sprite"));
-	defaultsprite->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Art/Gen/Character/character_Sprite_4.character_Sprite_4'")).Object);
+	defaultsprite = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("PlayerSprite"));
+	LoadPaperSprites();
+	defaultsprite->SetSprite(papersprite[1]);
+	defaultsprite->SetupAttachment(RootComponent);
+	defaultsprite->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
+	defaultsprite->SetCollisionProfileName(TEXT("OverlapAll"));
 
 	particle = ConstructorHelpers::FObjectFinder<UParticleSystem>(TEXT("blood'/Game/Blood_attack.Blood_attack'")).Object;
 	swordSoundEffect = CreateDefaultSubobject<USound>(TEXT("SwordSound"));
@@ -81,6 +85,7 @@ void APlayerChar::TakeDamage()
 void APlayerChar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	//SetSprites();
 	if(GetWorld()->GetTimerManager().GetTimerElapsed(handle1) > 2)
 		GetWorld()->GetTimerManager().ClearTimer(handle1);
 	if(GetWorld()->GetTimerManager().GetTimerElapsed(handle) > 3)
@@ -153,11 +158,17 @@ void APlayerChar::moveupdown(float dir)
 	if (dir == 0)
 		return;
 	if (dir > 0)
+	{
 		direction = 3;
-	//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("up")));
+		defaultsprite->SetSprite(papersprite[5]);
+		//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("up")));
+	}
 	else
+	{
 		direction = 4;
-	//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("down")));
+		defaultsprite->SetSprite(papersprite[0]);
+		//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("down")));
+	}
 	if (!attacking)
 	{
 		defaultflipbook->SetRelativeRotation(FRotator(90 * dir, 0, 0), false, NULL, ETeleportType::None);
@@ -210,12 +221,14 @@ void APlayerChar::moveleftright(float dir)
 		if (dir > 0)
 		{
 			direction = 1;
+			defaultsprite->SetSprite(papersprite[2]);
 			//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("left" )));
 		defaultflipbook->SetRelativeRotation(FRotator(0 , 0, 0), false, NULL, ETeleportType::None);
 		}
 		else
 		{
 			direction = 2; 
+			defaultsprite->SetSprite(papersprite[4]);
 			//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("right")));
 		defaultflipbook->SetRelativeRotation(FRotator(180, 0, 0), false, NULL, ETeleportType::None);
 		}
@@ -282,6 +295,23 @@ void APlayerChar::Attack(float dir)
 
 
 }
+
+void APlayerChar::LoadPaperSprites()
+{
+	papersprite[0] = ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("defaultsprite'/Game/Art/Gen/character/character_Sprite_0.character_Sprite_0'")).Object;
+	papersprite[1] = ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("defaultsprite'/Game/Art/Gen/character/character_Sprite_1.character_Sprite_1'")).Object;
+	papersprite[2] = ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("defaultsprite'/Game/Art/Gen/character/character_Sprite_2.character_Sprite_2'")).Object;
+	papersprite[3] = ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("defaultsprite'/Game/Art/Gen/character/character_Sprite_3.character_Sprite_3'")).Object;
+	papersprite[4] = ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("defaultsprite'/Game/Art/Gen/character/character_Sprite_4.character_Sprite_4'")).Object;
+	papersprite[5] = ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("defaultsprite'/Game/Art/Gen/character/character_Sprite_5.character_Sprite_5'")).Object;
+	papersprite[6] = ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("defaultsprite'/Game/Art/Gen/character/character_Sprite_6.character_Sprite_6'")).Object;
+}
+
+//void APlayerChar::SetSprites()
+//{
+//	
+//}
+
 // Called to bind functionality to input
 void APlayerChar::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
