@@ -7,7 +7,7 @@
 // Sets default values
 Anewastar::Anewastar()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 }
@@ -33,7 +33,7 @@ void Anewastar::Find(FVector targloc, FVector startloc)
 		if (loops > 1000)
 			break;
 		loops++;
-	
+
 		FindNeighbours();
 		FindBestNeighbour();
 	}
@@ -43,8 +43,8 @@ void Anewastar::Find(FVector targloc, FVector startloc)
 		path.Push(next);
 		if (next == start)
 			break;
-			
-			//DrawDebugBox(GetWorld(), nodes[next].position, FVector(12, 12, 12), FColor(is * 5, 0, is * 3.5), false, 1, 0, 4);
+
+		//DrawDebugBox(GetWorld(), nodes[next].position, FVector(12, 12, 12), FColor(is * 5, 0, is * 3.5), false, 1, 0, 4);
 
 		next = nodes[next].LastNumber;
 	}
@@ -58,7 +58,7 @@ void Anewastar::FindBestNeighbour()
 		float DistToC = FVector::Dist(nodes[current].position, nodes[i].position);
 		float DistToE = FVector::Dist(nodes[end].position, nodes[i].position);
 		float DistToS = FVector::Dist(nodes[start].position, nodes[i].position);
-		if (DistToC + DistToE  <= bestDist)
+		if (DistToC + DistToE <= bestDist)
 		{
 			bestDist = DistToC + DistToE;
 			bestN = i;
@@ -79,11 +79,11 @@ void Anewastar::FindNeighbours()
 	int f = 0;
 	if (nodes.Find(FASNode(currentN.position.X + 12, currentN.position.Z, 0), f))
 	{
-		if(!nodes[f].isClosed)
+		if (!nodes[f].isClosed)
 		{
 			nodes[f].isClosed = true;
 			neighbours.Add(f);
-		//	DrawDebugBox(GetWorld(), nodes[f].position, FVector(12, 12, 12), FColor(f,f * 1.5,0), false, 100, 0, 5);
+			//	DrawDebugBox(GetWorld(), nodes[f].position, FVector(12, 12, 12), FColor(f,f * 1.5,0), false, 100, 0, 5);
 		}
 	}
 	if (nodes.Find(FASNode(currentN.position.X - 12, currentN.position.Z, 0), f))
@@ -95,19 +95,19 @@ void Anewastar::FindNeighbours()
 			//DrawDebugBox(GetWorld(), nodes[f].position, FVector(12, 12, 12), FColor(f, f * 1.5, 0), false, 100, 0, 5);
 
 		}
-		
+
 	}
-	if (nodes.Find(FASNode(currentN.position.X , currentN.position.Z + 12, 0), f))
+	if (nodes.Find(FASNode(currentN.position.X, currentN.position.Z + 12, 0), f))
 	{
 		if (!nodes[f].isClosed)
 		{
 			nodes[f].isClosed = true;
 			neighbours.Add(f);
-	//	DrawDebugBox(GetWorld(), nodes[f].position, FVector(12, 12, 12), FColor(f, f * 1.5, 0), false, 100, 0, 5);
+			//	DrawDebugBox(GetWorld(), nodes[f].position, FVector(12, 12, 12), FColor(f, f * 1.5, 0), false, 100, 0, 5);
 		}
-		
+
 	}
-	if (nodes.Find(FASNode(currentN.position.X,  currentN.position.Z - 12, 0), f))
+	if (nodes.Find(FASNode(currentN.position.X, currentN.position.Z - 12, 0), f))
 	{
 		if (!nodes[f].isClosed)
 		{
@@ -115,14 +115,14 @@ void Anewastar::FindNeighbours()
 			neighbours.Add(f);
 			//DrawDebugBox(GetWorld(), nodes[f].position, FVector(12, 12, 12), FColor(f, f * 1.5, 0), false, 100, 0, 5);
 		}
-		
+
 	}
 
 }
 void Anewastar::FindClosestToSandE()
 {
 	int FDistance = 99999;
-	
+
 	for (FASNode node : nodes)
 	{
 		if (FVector::Distance(node.position, StartLocation) < FDistance)
@@ -212,4 +212,3 @@ void Anewastar::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-
