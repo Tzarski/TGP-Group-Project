@@ -8,6 +8,9 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Kismet/GameplayStatics.h"
 #include "UObject/UnrealType.h"
+#include "ItemsManager.h"
+
+
 
 //--------------------------------------------------------
 // REDUNDANT - FOR REFERENCE ONLY
@@ -30,22 +33,32 @@ AEnemy::AEnemy(const FObjectInitializer& PCIP) : Super(PCIP)
 void AEnemy::BeginPlay()
 {
 	Super::BeginPlay();
+
 }
 
 void AEnemy::Hit()
 {
+	if (dead)
+		return;
 	dead = true;
 	FTimerHandle    handle;
 	defaultsprite->SetSpriteColor(FLinearColor(1, 0.1, 0.1, 1));
 	GetWorld()->GetTimerManager().SetTimer(handle, [this]() {	this->Destroy(); }, 1, false);
-}
 
+	FActorSpawnParameters spawnInfo;
+	spawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+	itemsManager = GetWorld()->SpawnActor<AItemsManager>(GetActorLocation(), FRotator(0, 0, 0), spawnInfo);
+	itemsManager->SpawnItems(this->GetActorLocation(), randomID, randomKey);
+}
+ 
 // Called every frame
 void AEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	if (dead )
 		return;
+
 	//return;//remove this just testing the a*
 	if (player == NULL)
 	{
@@ -102,7 +115,7 @@ void AEnemy::Tick(float DeltaTime)
 		
 		if (FVector::Distance(pathfinder->nodes[pathfinder->path[pathfinder->path.Num() - minus]].position, this->GetActorLocation()) < 4)
 			minus++;
-
+	
 		FVector location = pathfinder->nodes[pathfinder->path[pathfinder->path.Num() - minus]].position;//pathfinder->nodes[pathfinder->path[pathfinder->path.Num() - minus]].position;//next node replace
 	
 		//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString::Printf(TEXT("looping %i,  %f"), minus, location.X));

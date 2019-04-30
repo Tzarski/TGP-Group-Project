@@ -4,16 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Globals.generated.h"
+#include "Runtime/Core/Public/Misc/FileHelper.h"
+#include <EngineGlobals.h>
+#include <Runtime/Engine/Classes/Engine/Engine.h>
+#include "ItemsManager.generated.h"
 
 UCLASS()
-class MYPROJECT_API AGlobals : public AActor
+class MYPROJECT_API AItemsManager : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AGlobals();
+	AItemsManager();
 
 protected:
 	// Called when the game starts or when spawned
@@ -22,11 +25,10 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Spawn Points")
-	int health = 2;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Spawn Points")
-	bool paused;
 
-	TArray<AActor*> ExtraToClear;
-	
+	void SpawnItems(FVector position, int id, int key);
+
+	class ASpawnWeapon* spawnWeapon;
+	class ASpawnArmor* spawnArmor;
+	class ASpawnOtherItems* spawnOtherItems;
 };
