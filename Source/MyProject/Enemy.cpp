@@ -110,41 +110,27 @@ void AEnemy::Tick(float DeltaTime)
 		}
 	}
 
-	if (pathfinder->path.Num() > minus)
+	FVector location = player->GetActorLocation();
+
+	if (location.X >= this->GetActorLocation().X)
 	{
-		
-		if (FVector::Distance(pathfinder->nodes[pathfinder->path[pathfinder->path.Num() - minus]].position, this->GetActorLocation()) < 4)
-			minus++;
-	
-		FVector location = pathfinder->nodes[pathfinder->path[pathfinder->path.Num() - minus]].position;//pathfinder->nodes[pathfinder->path[pathfinder->path.Num() - minus]].position;//next node replace
-	
-		//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString::Printf(TEXT("looping %i,  %f"), minus, location.X));
-		
-		if (location.X >= this->GetActorLocation().X )
-		{
-			defaultsprite->AddLocalOffset(FVector(3, 0, 0), false, NULL, ETeleportType::None);
-		}
-
-		if (location.X <= this->GetActorLocation().X )
-		{
-			defaultsprite->AddLocalOffset(FVector(-3, 0, 0), false, NULL, ETeleportType::None);
-		}
-
-		if (location.Z >= this->GetActorLocation().Z )
-		{
-			defaultsprite->AddLocalOffset(FVector(0, 0, 3), false, NULL, ETeleportType::None);
-		}
-
-		if (location.Z <= this->GetActorLocation().Z )
-		{
-			defaultsprite->AddLocalOffset(FVector(0, 0, -3), false, NULL, ETeleportType::None);
-		}
-		
-	
-		if (location.X < this->GetActorLocation().X + 4 && location.X > this->GetActorLocation().X - 4 && location.Z < this->GetActorLocation().Z + 4 && location.Z > this->GetActorLocation().Z - 4)
-		{
-			minus++;
-		}
+		defaultsprite->AddLocalOffset(FVector(3, 0, 0), true, NULL, ETeleportType::None);
 	}
+
+	if (location.X <= this->GetActorLocation().X)
+	{
+		defaultsprite->AddLocalOffset(FVector(-3, 0, 0), true, NULL, ETeleportType::None);
+	}
+
+	if (location.Z >= this->GetActorLocation().Z)
+	{
+		defaultsprite->AddLocalOffset(FVector(0, 0, 3), true, NULL, ETeleportType::None);
+	}
+
+	if (location.Z <= this->GetActorLocation().Z)
+	{
+		defaultsprite->AddLocalOffset(FVector(0, 0, -3), true, NULL, ETeleportType::None);
+	}
+
 }
 

@@ -13,6 +13,7 @@
 #include "HealthPickup.h"
 #include "Sound.h"
 #include "Enemy_Ghost.h"
+#include "Runtime/Core/Public/Math/RandomStream.h"
 #include "Enemy_Mage.h"
 
 // Sets default values
@@ -35,6 +36,7 @@ ASpawnRoom::ASpawnRoom(const FObjectInitializer& PCIP) : Super(PCIP)
 
 void ASpawnRoom::SpawnLayers(int dir)
 {
+	SetActorHiddenInGame(true);
 	int row = 0;
 	int columb = 1;
 	FActorSpawnParameters SpawnInfo;
@@ -311,13 +313,13 @@ void ASpawnRoom::SpawnRoom(int i)
 	}
 	if (CurrentRoom >= CurrentLevels.Num())
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("currentroom > currentlvls.num"));
-
-
-		int room = FMath::FRandRange(2, 5);
+		
+		FRandomStream rand;
+		rand.GenerateNewSeed();
+		int room = rand.RandRange(2, 10);//FMath::FRandRange(2, 10);
 		CurrentLevels.Add(room);
 		FString f = "room" + FString::FromInt(room) + ".txt";
-
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, f);
 		PrintTwoInt(i, room);
 		LoadRoomFromFile(f);
 		SortLayers();

@@ -106,37 +106,37 @@ void APlayerChar::Tick(float DeltaTime)
 				if (Hit.Actor->GetName().Contains("Ghost", ESearchCase::IgnoreCase, ESearchDir::FromStart))
 				{
 					Cast<AEnemy_Ghost>(Hit.Actor)->Damaged();
-					DrawDebugSphere(GetWorld(), SweepStart, 20, 5, FColor::Green, true, -1, 0, 10);
+					//DrawDebugSphere(GetWorld(), SweepStart, 20, 5, FColor::Green, true, -1, 0, 10);
 					return;
 				}
 				else if (Hit.Actor->GetName().Contains("Child", ESearchCase::IgnoreCase, ESearchDir::FromStart))
 				{
 					Cast<AEnemy_SplitterChild>(Hit.Actor)->Damaged();
-					DrawDebugSphere(GetWorld(), SweepStart, 20, 5, FColor::Green, true, -1, 0, 10);
+					//DrawDebugSphere(GetWorld(), SweepStart, 20, 5, FColor::Green, true, -1, 0, 10);
 					return;
 				}
 				else if (Hit.Actor->GetName().Contains("Splitter", ESearchCase::IgnoreCase, ESearchDir::FromStart))
 				{
 					Cast<AEnemy_Splitter>(Hit.Actor)->Damaged();
-					DrawDebugSphere(GetWorld(), SweepStart, 20, 5, FColor::Green, true, -1, 0, 10);
+					//DrawDebugSphere(GetWorld(), SweepStart, 20, 5, FColor::Green, true, -1, 0, 10);
 					return;
 				}
 				else if (Hit.Actor->GetName().Contains("Basic", ESearchCase::IgnoreCase, ESearchDir::FromStart))
 				{
 					Cast<AEnemy_Basic>(Hit.Actor)->Damaged();
-					DrawDebugSphere(GetWorld(), SweepStart, 20, 5, FColor::Green, true, -1, 0, 10);
+					//DrawDebugSphere(GetWorld(), SweepStart, 20, 5, FColor::Green, true, -1, 0, 10);
 					return;
 				}
 				else if (Hit.Actor->GetName().Contains("Mage", ESearchCase::IgnoreCase, ESearchDir::FromStart))
 				{
 					Cast<AEnemy_Mage>(Hit.Actor)->Damaged();
-					DrawDebugSphere(GetWorld(), SweepStart, 20, 5, FColor::Green, true, -1, 0, 10);
+					//DrawDebugSphere(GetWorld(), SweepStart, 20, 5, FColor::Green, true, -1, 0, 10);
 					return;
 				}
 				else if (Hit.Actor->GetName().Contains("Tough", ESearchCase::IgnoreCase, ESearchDir::FromStart))
 				{
 					Cast<AEnemy_Tough>(Hit.Actor)->Damaged();
-					DrawDebugSphere(GetWorld(), SweepStart, 20, 5, FColor::Green, true, -1, 0, 10);
+					//DrawDebugSphere(GetWorld(), SweepStart, 20, 5, FColor::Green, true, -1, 0, 10);
 					return;
 				}
 			}
