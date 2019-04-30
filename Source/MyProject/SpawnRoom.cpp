@@ -250,6 +250,12 @@ void ASpawnRoom::BeginPlay()
 	backgroundMusic->LowerVolume(1.75f);
 	sound->LoopSound(true, 1);
 	backgroundMusic->LoopSound(true, 1);
+
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AGlobals::StaticClass(), _foundCharacter);
+	for (AActor* protag : _foundCharacter)
+	{
+		globals = Cast<AGlobals>(protag);
+	}
 }
 
 
@@ -264,7 +270,12 @@ void ASpawnRoom::SpawnRoom(int i)
 {
 	if (i == -1 && CurrentRoom == 0)
 		return;
-
+	for (int j = 0; j < globals->ExtraToClear.Num(); j++)
+	{
+		if (globals->ExtraToClear[j]->IsValidLowLevel())
+			GetWorld()->DestroyActor(globals->ExtraToClear[j]);
+	}
+	globals->ExtraToClear.Empty();
 	for (int j = 0; j < Spawnedworld.Num(); j++)
 	{
 		if (Spawnedworld[j]->IsValidLowLevel())

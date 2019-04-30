@@ -11,6 +11,7 @@
 #include "PlayerChar.h"
 #include "newastar.h"
 #include "Sound.h"
+#include "ItemsManager.h"
 #include "Enemy_Base.generated.h"
 
 
@@ -31,6 +32,11 @@ protected:
 	class Anewastar * _pPathfinder;
 	bool dead = false;
 	int minus = 1;
+
+	class AItemsManager* itemsManager;
+
+	int randomID = FMath::FRandRange(1, 3);
+	int randomKey = FMath::FRandRange(0, 100);
 
 public:	
 	// Called every frame

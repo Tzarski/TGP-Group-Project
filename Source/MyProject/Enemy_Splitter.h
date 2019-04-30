@@ -21,6 +21,8 @@ protected:
 	FActorSpawnParameters SpawnInfo;
 	
 public:
+	TArray<AActor*> _foundCharacter;
+	AGlobals* globals;
 	void LoadPaperSprites();
 	void SetSprites();
 	void Move();

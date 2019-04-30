@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Enemy_Base.h"
+#include "Globals.h"
 #include "Enemy_SplitterChild.generated.h"
 
 UCLASS()
