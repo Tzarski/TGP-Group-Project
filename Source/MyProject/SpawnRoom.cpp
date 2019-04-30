@@ -16,7 +16,7 @@
 #include "Enemy_Mage.h"
 
 // Sets default values
-ASpawnRoom::ASpawnRoom()
+ASpawnRoom::ASpawnRoom(const FObjectInitializer& PCIP) : Super(PCIP)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -27,6 +27,8 @@ ASpawnRoom::ASpawnRoom()
 	musicBoss = ConstructorHelpers::FObjectFinder<USoundBase>(TEXT("'/Game/Audio/Boss_music.Boss_music'")).Object;
 	sound->SetSound(train.Object);
 	backgroundMusic->SetSound(music.Object);
+	FloorSprite = PCIP.CreateDefaultSubobject<UPaperSpriteComponent>(this, TEXT("Floor"));
+	FloorSprite->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Art/Gen/tile1_Sprite.tile1_Sprite'")).Object);
 }
 
 void ASpawnRoom::SpawnLayers(int dir)
@@ -69,6 +71,7 @@ void ASpawnRoom::SpawnLayers(int dir)
 		{
 		AFloor* one = GetWorld()->SpawnActor<AFloor>(FVector(columb * 100, 1, -row * 100), FRotator(0, 0, 0), SpawnInfo);
 		Spawnedworld.Add(one);
+		one->SetSprite(FloorSprite);
 		columb++;
 		continue;
 		}
@@ -168,7 +171,7 @@ void ASpawnRoom::SpawnLayers(int dir)
 		if (layer.spawn == 'o')
 		{	
 			AFloor* one = GetWorld()->SpawnActor<AFloor>(FVector(columb * 100, 1, -row * 100), FRotator(0, 0, 0), SpawnInfo);
-			one->SetActorHiddenInGame(true);
+			//one->SetActorHiddenInGame(true);
 
 			Spawnedworld.Add(one);
 			columb++;

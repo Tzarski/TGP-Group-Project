@@ -41,9 +41,9 @@ void AEnemy_Base::Tick(float DeltaTime)
 		return;
 	}
 	ticks++;
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString::Printf(TEXT("Looping %i, "), ticks));
+	//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString::Printf(TEXT("Looping %i, "), ticks));
 
-	Pathfinder();
+	//Pathfinder();
 
 	Move();
 
@@ -95,58 +95,36 @@ void AEnemy_Base::Hit()
 
 void AEnemy_Base::Pathfinder()
 {
-	if (_pPathfinder != NULL && ticks > 10)
-	{
-		_pPathfinder->Reset();
-
-	}
-	if (_pPathfinder == NULL)
-	{
-		FActorSpawnParameters SpawnInfo;
-		SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		_pPathfinder = GetWorld()->SpawnActor<Anewastar>(FVector(1, 1, 1), FRotator(1, 1, 1), SpawnInfo);;
-		_pPathfinder->Find(_pPlayer->GetActorLocation(), this->GetActorLocation());
-	}
+	
 }
 
 void AEnemy_Base::Move()
 {
-	if (_pPathfinder->path.Num() > minus)
-	{
+	
 
-		if (FVector::Distance(_pPathfinder->nodes[_pPathfinder->path[_pPathfinder->path.Num() - minus]].position, this->GetActorLocation()) < 4)
-			minus++;
-
-		FVector location = _pPathfinder->nodes[_pPathfinder->path[_pPathfinder->path.Num() - minus]].position;//Pathfinder->nodes[Pathfinder->path[Pathfinder->path.Num() - minus]].position;//next node replace
-
-																											  //GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString::Printf(TEXT("looping %i,  %f"), minus, location.X));
+		FVector location = _pPlayer->GetActorLocation(); 
 
 		if (location.X >= this->GetActorLocation().X)
 		{
-			enemySprite->AddLocalOffset(FVector(3, 0, 0), false, NULL, ETeleportType::None);
+			enemySprite->AddLocalOffset(FVector(3, 0, 0), true, NULL, ETeleportType::None);
 		}
 
 		if (location.X <= this->GetActorLocation().X)
 		{
-			enemySprite->AddLocalOffset(FVector(-3, 0, 0), false, NULL, ETeleportType::None);
+			enemySprite->AddLocalOffset(FVector(-3, 0, 0), true, NULL, ETeleportType::None);
 		}
 
 		if (location.Z >= this->GetActorLocation().Z)
 		{
-			enemySprite->AddLocalOffset(FVector(0, 0, 3), false, NULL, ETeleportType::None);
+			enemySprite->AddLocalOffset(FVector(0, 0, 3), true, NULL, ETeleportType::None);
 		}
 
 		if (location.Z <= this->GetActorLocation().Z)
 		{
-			enemySprite->AddLocalOffset(FVector(0, 0, -3), false, NULL, ETeleportType::None);
+			enemySprite->AddLocalOffset(FVector(0, 0, -3), true, NULL, ETeleportType::None);
 		}
 
 
-		if (location.X < this->GetActorLocation().X + 4 && location.X > this->GetActorLocation().X - 4 && location.Z < this->GetActorLocation().Z + 4 && location.Z > this->GetActorLocation().Z - 4)
-		{
-			minus++;
-		}
-	}
 }
 
 void AEnemy_Base::SetSprites()

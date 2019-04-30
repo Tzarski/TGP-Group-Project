@@ -18,10 +18,16 @@ AEnemy_Basic::AEnemy_Basic()
 
 void AEnemy_Basic::Damaged()
 {
+	if (dead == true)
+		return;
 	dead = true;
 	FTimerHandle    handle;
 	enemySprite->SetSpriteColor(FLinearColor(1, 0.1, 0.1, 1));
 	GetWorld()->GetTimerManager().SetTimer(handle, [this]() {	this->Destroy(); }, 1, false);
+}
+void AEnemy_Basic::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
 }
 
 //void AEnemy_Basic::Attack()

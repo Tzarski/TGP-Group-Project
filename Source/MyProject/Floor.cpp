@@ -13,10 +13,14 @@ AFloor::AFloor(const FObjectInitializer& PCIP) : Super(PCIP)
 	BallComponent = PCIP.CreateDefaultSubobject<UPaperSpriteComponent>(this, TEXT("Floor"));
 	//BallComponent->AttatchTo(GetDefaultAttachComponent());
 	BallComponent->SetupAttachment(RootComponent);
-	BallComponent->SetSprite(ConstructorHelpers::FObjectFinder<UPaperSprite>(TEXT("PaperSprite'/Game/Art/Gen/tile1_Sprite.tile1_Sprite'")).Object);
+
 
 }
 
+void AFloor::SetSprite(UPaperSpriteComponent* floor)
+{
+	BallComponent->SetSprite(floor->GetSprite());
+}
 // Called when the game starts or when spawned
 void AFloor::BeginPlay()
 {

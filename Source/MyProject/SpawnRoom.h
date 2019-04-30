@@ -40,7 +40,7 @@ class MYPROJECT_API ASpawnRoom : public AActor
 	
 public:	
 	// Sets default values for this actor's properties
-	ASpawnRoom();
+	ASpawnRoom(const FObjectInitializer& PCIP);
 
 protected:
 	// Called when the game starts or when spawned
@@ -62,4 +62,5 @@ public:
 	TArray<FmyLayer> MyLayers;
 	class USound* sound, *backgroundMusic;
 	USoundBase* musicBoss;
+	class UPaperSpriteComponent* FloorSprite;
 };

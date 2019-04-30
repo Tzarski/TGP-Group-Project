@@ -27,5 +27,5 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	//UPROPERTY(VisibleAnywhere, CPF_BlueprintReadOnly,Catagory = paper)
 	class UPaperSpriteComponent* BallComponent;
-	
+	void SetSprite(UPaperSpriteComponent* floor);
 };

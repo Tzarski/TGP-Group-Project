@@ -58,13 +58,9 @@ void AEnemy::Tick(float DeltaTime)
 		return;
 	}
 	ticks++;
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString::Printf(TEXT("looping %i, "), ticks));
-	if (pathfinder != NULL && ticks > 10)
-	{
-		pathfinder->Reset();
+	//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString::Printf(TEXT("looping %i, "), ticks));
 	
-	}
-	if (pathfinder == NULL)
+	if (pathfinder == NULL || ticks > 30)
 	{
 		FActorSpawnParameters SpawnInfo;
 		SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;

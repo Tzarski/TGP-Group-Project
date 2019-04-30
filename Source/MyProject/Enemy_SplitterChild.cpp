@@ -82,6 +82,8 @@ void AEnemy_SplitterChild::SetSprites()
 
 void AEnemy_SplitterChild::Damaged()
 {
+	if (dead == true)
+		return;
 	dead = true;
 	//soundEffect->PlaySound();
 	FTimerHandle    handle;

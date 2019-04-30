@@ -81,6 +81,8 @@ void AEnemy_Tough::SetSprites()
 
 void AEnemy_Tough::Damaged()
 {
+	if (dead == true)
+		return;
 	dead = true;
 	//soundEffect->PlaySound();
 	FTimerHandle    handle;
